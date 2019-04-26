@@ -29,11 +29,11 @@ public class MenuScreen implements Screen {
         stage = new Stage();
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         startButton = new TextButton("Play",skin,"default");
-        startButton.setWidth(128);
+        startButton.setWidth(200);
         startButton.setHeight(64);
 
         exitButton = new TextButton("Exit",skin,"default");
-        exitButton.setWidth(128);
+        exitButton.setWidth(200);
         exitButton.setHeight(64);
 
         startButton.setPosition(Gdx.graphics.getWidth() / 2 - startButton.getWidth() / 2,
