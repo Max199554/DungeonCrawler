@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class Player {
+
     Vector2 position;
     Sprite sprite;
     Texture texture;
@@ -25,6 +26,7 @@ public class Player {
     boolean isFacingRight = true;
     public float playerSpeed = Constant.PLAYER_SPEED;
     public Player(Vector2 position){
+
         this.position = position;
         Init();
     }
@@ -54,6 +56,7 @@ public class Player {
         if(Gdx.input.isKeyJustPressed(Input.Keys.J)){
             attacking = true;
             ApplyDamage();
+
         }
         else{
             attacking = false;
@@ -109,6 +112,7 @@ public class Player {
         for (Enemy e: enemiesToAttack) {
             if(attackBox.overlaps(e.selfCollider) && attacking == true){
                 e.TakeDamage(2);
+                MyGdxGame.gameScreen.ScreenShake(5);
                 System.out.println("damage");
                 if(isFacingRight == true){
                     e.position.x += 2;

@@ -44,8 +44,8 @@ public class GameScreen implements Screen {
         batch.begin();
 
         player.render(delta, batch);
-        camera.position.x = MathUtils.lerp(camera.position.x, player.position.x, delta);
-        camera.position.y = MathUtils.lerp(camera.position.y, player.position.y, delta);
+        camera.position.x = MathUtils.lerp(camera.position.x, player.position.x, delta * 5);
+        camera.position.y = MathUtils.lerp(camera.position.y, player.position.y, delta * 5);
         camera.update();
         //System.out.println(player.position);
         batch.setProjectionMatrix(camera.combined);
