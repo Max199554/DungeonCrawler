@@ -1,9 +1,11 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 
 public class GameScreen implements Screen {
@@ -11,15 +13,16 @@ public class GameScreen implements Screen {
     Player player;
     DelayedRemovalArray<Enemy> enemies;
     SpriteBatch batch;
-    int enemyAmount;
+    int enemyAmount = 4;
     public GameScreen(MyGdxGame game){
         this.game = game;
     }
     @Override
     public void show() {
         enemies = new DelayedRemovalArray<Enemy>();
-        enemies.add(new Enemy(100, 100));
-        enemies.add(new Enemy(150,230));
+        for(int i = 0; i < enemyAmount; i++){
+            enemies.add(new Enemy(MathUtils.random(600), MathUtils.random(400)));
+        }
         batch = new SpriteBatch();
         player = new Player(200, 200);
         for (Enemy e:
@@ -31,7 +34,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(.4f,.5f,1,1);
+        Gdx.gl.glClearColor(.8f,.8f,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         player.render(delta, batch);
@@ -42,7 +45,6 @@ public class GameScreen implements Screen {
             }
         }
         player.ApplyDamage(enemies);
-
         batch.end();
     }
 

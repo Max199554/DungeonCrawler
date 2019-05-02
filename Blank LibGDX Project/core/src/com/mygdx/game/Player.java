@@ -6,9 +6,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
+import com.badlogic.gdx.utils.TimeUtils;
 
 public class Player {
     Vector2 position;
@@ -18,8 +20,9 @@ public class Player {
     Rectangle attackBox;
     boolean attacking = false;
     Circle attackCircle;
-    float attackRange = 50;
+    float attackRange = 64;
     boolean isFacingRight = true;
+    public float playerSpeed = Constant.PLAYER_SPEED;
     public Player(Vector2 position){
         this.position = position;
         Init();
@@ -35,9 +38,8 @@ public class Player {
         sprite = new Sprite(texture);
         sprite.setScale(2);
 
-        attackBox = new Rectangle(position.x + sprite.getTexture().getWidth() * 2,
+        attackBox = new Rectangle(position.x,
                 position.y, attackRange, attackRange);
-
     }
 
     public void render(float dt, SpriteBatch batch){
@@ -48,14 +50,19 @@ public class Player {
     }
 
     public void update(float dt){
-
         if(Gdx.input.isKeyJustPressed(Input.Keys.J)){
             attacking = true;
         }
         else{
             attacking = false;
         }
-        attackBox.setPosition(position.x + 64, position.y);
+        if(attacking == true){
+
+        }
+        else{
+            playerSpeed = Constant.PLAYER_SPEED;
+        }
+        attackBox.setPosition(isFacingRight == true ? sprite.getX() : sprite.getX() + 64, sprite.getY());
         if(isFacingRight == false){
             sprite.setScale(-2, 2);
             attackBox.x -= sprite.getTexture().getWidth() * 4;
@@ -64,18 +71,18 @@ public class Player {
             sprite.setScale(2);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.A)){
-            position.x -= Constant.PLAYER_SPEED * dt;
+            position.x -= playerSpeed * dt;
             isFacingRight = false;
         }
         if(Gdx.input.isKeyPressed(Input.Keys.D)){
-            position.x += Constant.PLAYER_SPEED * dt;
+            position.x += playerSpeed * dt;
             isFacingRight = true;
         }
         if(Gdx.input.isKeyPressed(Input.Keys.S)){
-            position.y -= Constant.PLAYER_SPEED * dt;
+            position.y -= playerSpeed * dt;
         }
         if(Gdx.input.isKeyPressed(Input.Keys.W)){
-            position.y += Constant.PLAYER_SPEED * dt;
+            position.y += playerSpeed * dt;
         }
     }
 
@@ -84,8 +91,19 @@ public class Player {
             if(attackBox.overlaps(e.selfCollider) && attacking == true){
                 e.TakeDamage(2);
                 System.out.println("damage");
+                if(isFacingRight == true){
+                    e.position.x += 2;
+                    e.position.y += MathUtils.random(-3.0f, 2.0f);
+                }
+                else{
+                    e.position.x -= 2;
+                    e.position.y += MathUtils.random(-3.0f, 2.0f);
+                }
             }
         }
     }
 
+    void PlayAttackAni(){
+
+    }
 }

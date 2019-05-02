@@ -1,5 +1,5 @@
 package com.mygdx.game;
 
 public class Constant {
-    public static final float PLAYER_SPEED = 200;
+    public static final float PLAYER_SPEED = 300;
 }

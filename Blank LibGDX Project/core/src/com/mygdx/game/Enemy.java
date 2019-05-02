@@ -42,7 +42,7 @@ public class Enemy {
     }
 
     public void update(float dt){
-
+        sprite.setPosition(position.x, position.y);
     }
 
     public void TakeDamage(int damage){
