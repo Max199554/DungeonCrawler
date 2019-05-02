@@ -20,6 +20,7 @@ public class Player {
     Rectangle attackBox;
     boolean attacking = false;
     Circle attackCircle;
+    DelayedRemovalArray<Enemy> enemiesToAttack;
     float attackRange = 64;
     boolean isFacingRight = true;
     public float playerSpeed = Constant.PLAYER_SPEED;
@@ -52,6 +53,7 @@ public class Player {
     public void update(float dt){
         if(Gdx.input.isKeyJustPressed(Input.Keys.J)){
             attacking = true;
+            ApplyDamage();
         }
         else{
             attacking = false;
@@ -84,10 +86,27 @@ public class Player {
         if(Gdx.input.isKeyPressed(Input.Keys.W)){
             position.y += playerSpeed * dt;
         }
+
+        CheckForBounds();
     }
 
-    public void ApplyDamage(DelayedRemovalArray<Enemy> enemies){
-        for (Enemy e: enemies) {
+    void CheckForBounds(){
+        if(position.x <= 0){
+            position.x = 0;
+        }
+        if(position.x > 700){
+            position.x = 700;
+        }
+        if(position.y <= 0){
+            position.y = 0;
+        }
+        if(position.y > 500){
+            position.y = 500;
+        }
+    }
+
+    public void ApplyDamage(){
+        for (Enemy e: enemiesToAttack) {
             if(attackBox.overlaps(e.selfCollider) && attacking == true){
                 e.TakeDamage(2);
                 System.out.println("damage");
@@ -99,6 +118,8 @@ public class Player {
                     e.position.x -= 2;
                     e.position.y += MathUtils.random(-3.0f, 2.0f);
                 }
+
+                attacking = false;
             }
         }
     }
