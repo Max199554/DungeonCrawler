@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -22,9 +23,12 @@ public class Player {
     boolean attacking = false;
     Circle attackCircle;
     DelayedRemovalArray<Enemy> enemiesToAttack;
-    float attackRange = 64;
+    float attackRange = 70;
     boolean isFacingRight = true;
     public float playerSpeed = Constant.PLAYER_SPEED;
+
+    Texture idle;
+    Animation idleAnimation;
     public Player(Vector2 position){
 
         this.position = position;
@@ -43,16 +47,22 @@ public class Player {
 
         attackBox = new Rectangle(position.x,
                 position.y, attackRange, attackRange);
+
+        idle = new Texture("PlayerIdle.png");
+        idleAnimation = new Animation(new TextureRegion(idle), 4, .5f);
     }
 
     public void render(float dt, SpriteBatch batch){
         sprite.draw(batch);
-        sprite.setPosition(position.x, position.y);
-
         update(dt);
     }
 
     public void update(float dt){
+        System.out.println(attackBox.getX());
+        System.out.println(sprite.getX());
+        sprite = new Sprite(idleAnimation.getFrame());
+        idleAnimation.update(dt);
+        sprite.setPosition(position.x, position.y);
         if(Gdx.input.isKeyJustPressed(Input.Keys.J)){
             attacking = true;
             ApplyDamage();
@@ -67,10 +77,9 @@ public class Player {
         else{
             playerSpeed = Constant.PLAYER_SPEED;
         }
-        attackBox.setPosition(isFacingRight == true ? sprite.getX() : sprite.getX() + 64, sprite.getY());
+        attackBox.setPosition(isFacingRight == true ? sprite.getX() + 30 : sprite.getX() - 30, sprite.getY());
         if(isFacingRight == false){
             sprite.setScale(-2, 2);
-            attackBox.x -= sprite.getTexture().getWidth() * 4;
         }
         else{
             sprite.setScale(2);
@@ -131,4 +140,6 @@ public class Player {
     void PlayAttackAni(){
 
     }
+
+
 }
