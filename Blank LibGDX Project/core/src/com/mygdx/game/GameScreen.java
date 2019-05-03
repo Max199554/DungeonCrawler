@@ -16,7 +16,7 @@ public class GameScreen implements Screen {
     Player player;
     DelayedRemovalArray<Enemy> enemies;
     SpriteBatch batch;
-    int enemyAmount = 4;
+    int enemyAmount = 50;
     public GameScreen(MyGdxGame game){
         this.game = game;
     }

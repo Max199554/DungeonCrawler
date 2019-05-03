@@ -50,4 +50,8 @@ public class Animation {
         this.frame = frame;
     }
 
+    public void SetCycle(float cycle){
+        maxFrameTime = cycle / frameCount;
+    }
+
 }
