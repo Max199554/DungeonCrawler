@@ -28,8 +28,8 @@ public class Enemy {
     }
 
     public void Init(){
-        texture = new Texture("Enemy1.png");
-        sprite = new Sprite(texture);
+        //texture = new Texture("Enemy1.png");
+        //sprite = new Sprite(texture);
         //sprite.setScale(2);
         sprite.setPosition(position.x, position.y);
         selfCollider = new Rectangle(position.x, position.y, 32, 32);

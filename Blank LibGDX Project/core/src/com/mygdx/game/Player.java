@@ -50,6 +50,7 @@ public class Player {
         sprite = new Sprite(texture);
         sprite.setScale(2);
 
+
         attackBox = new Rectangle(position.x,
                 position.y, attackRange, attackRange);
 
@@ -80,7 +81,7 @@ public class Player {
         if(attacking == true){
             playerState = PlayerState.ATTACKING;
         }
-        attackBox.setPosition(isFacingRight == true ? sprite.getX() + 20 : sprite.getX() - 20, sprite.getY());
+        attackBox.setPosition(isFacingRight == true ? sprite.getX() + 10 : sprite.getX() - 10, sprite.getY());
         if(isFacingRight == false){
             sprite.setScale(-2, 2);
         }
