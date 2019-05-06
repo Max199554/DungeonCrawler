@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 public class Enemy {
     int health = 10;
@@ -43,6 +44,7 @@ public class Enemy {
 
     public void update(float dt){
         sprite.setPosition(position.x, position.y);
+
     }
 
     public void TakeDamage(int damage){

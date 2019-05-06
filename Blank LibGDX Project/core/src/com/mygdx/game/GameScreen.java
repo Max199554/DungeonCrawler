@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 
@@ -16,7 +17,7 @@ public class GameScreen implements Screen {
     Player player;
     DelayedRemovalArray<Enemy> enemies;
     SpriteBatch batch;
-    int enemyAmount = 50;
+    int enemyAmount = 4;
     public GameScreen(MyGdxGame game){
         this.game = game;
     }
@@ -26,7 +27,7 @@ public class GameScreen implements Screen {
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         enemies = new DelayedRemovalArray<Enemy>();
         for(int i = 0; i < enemyAmount; i++){
-            enemies.add(new Enemy(MathUtils.random(600), MathUtils.random(400)));
+            enemies.add(new Slime(new Vector2(MathUtils.random(600), MathUtils.random(400))));
         }
         batch = new SpriteBatch();
         player = new Player(200, 200);

@@ -79,10 +79,6 @@ public class Player {
         }
         if(attacking == true){
             playerState = PlayerState.ATTACKING;
-            playerSpeed -= 1000;
-        }
-        else{
-            playerSpeed = Constant.PLAYER_SPEED;
         }
         attackBox.setPosition(isFacingRight == true ? sprite.getX() + 20 : sprite.getX() - 20, sprite.getY());
         if(isFacingRight == false){
@@ -114,7 +110,6 @@ public class Player {
         }
 
         CheckForBounds();
-
     }
 
     void UpdateAnimation(float dt){
