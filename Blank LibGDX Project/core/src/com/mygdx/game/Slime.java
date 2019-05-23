@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class Slime extends Enemy {
+
     public Slime(Vector2 position) {
         //texture = new Texture("Slime Jump.png");
         super(position);
