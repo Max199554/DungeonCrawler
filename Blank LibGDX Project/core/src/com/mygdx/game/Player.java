@@ -24,7 +24,8 @@ public class Player {
     boolean attacking = false;
     Circle attackCircle;
     DelayedRemovalArray<Enemy> enemiesToAttack;
-    float attackRange = 70;
+    float attackRangeX = 70;
+    float attackRangeY = 35;
     boolean isFacingRight = true;
     public float playerSpeed = Constant.PLAYER_SPEED;
 
@@ -52,7 +53,7 @@ public class Player {
 
 
         attackBox = new Rectangle(position.x,
-                position.y, attackRange, attackRange);
+                position.y, attackRangeX, attackRangeY);
 
         idle = new Texture("PlayerIdle.png");
         idleAnimation = new Animation(new TextureRegion(idle), 4, .7f);
@@ -64,6 +65,7 @@ public class Player {
     public void render(float dt, SpriteBatch batch){
         sprite.draw(batch);
         update(dt);
+        sprite.setColor(1,1,1,1);
     }
 
     public void update(float dt){
@@ -81,7 +83,7 @@ public class Player {
         if(attacking == true){
             playerState = PlayerState.ATTACKING;
         }
-        attackBox.setPosition(isFacingRight == true ? sprite.getX() + 10 : sprite.getX() - 10, sprite.getY());
+        attackBox.setPosition(isFacingRight == true ? sprite.getX() + 10 : sprite.getX() - 10, sprite.getY() - 32);
         if(isFacingRight == false){
             sprite.setScale(-2, 2);
         }
@@ -160,6 +162,11 @@ public class Player {
 
     void PlayAttackAni(){
 
+    }
+
+    public void TakeDamge(int damage){
+        health -= damage;
+        sprite.setColor(1,0,0,1);
     }
 
     enum PlayerState{
