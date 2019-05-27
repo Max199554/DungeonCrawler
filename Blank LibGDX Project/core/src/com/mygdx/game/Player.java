@@ -35,6 +35,9 @@ public class Player {
     Texture move;
     Animation moveAnimation;
 
+    Texture attack1;
+    Animation attack1Animation;
+
     public Player(Vector2 position){
         this.position = position;
         Init();
@@ -60,6 +63,9 @@ public class Player {
 
         move = new Texture("PlayerMove.png");
         moveAnimation = new Animation(new TextureRegion(move), 6, .5f);
+
+        attack1 = new Texture(("PlayerAttack1.png"));
+        attack1Animation = new Animation(new TextureRegion(attack1), 6, .4f);
     }
 
     public void render(float dt, SpriteBatch batch){
@@ -75,13 +81,21 @@ public class Player {
         sprite.setPosition(position.x, position.y);
         if(Gdx.input.isKeyJustPressed(Input.Keys.J)){
             attacking = true;
-            ApplyDamage();
-        }
-        else{
-            attacking = false;
         }
         if(attacking == true){
             playerState = PlayerState.ATTACKING;
+            playerSpeed = 50;
+            float attackTime = 0;
+            attackTime += dt;
+            if(attackTime <= dt && attack1Animation.getFrameNum() == 3){
+                ApplyDamage();
+            }
+            else if(attackTime > dt / 5){
+                attackTime = 0;
+            }
+        }
+        else{
+            playerSpeed = Constant.PLAYER_SPEED;
         }
         attackBox.setPosition(isFacingRight == true ? sprite.getX() + 10 : sprite.getX() - 10, sprite.getY() - 32);
         if(isFacingRight == false){
@@ -124,6 +138,16 @@ public class Player {
             sprite = new Sprite(idleAnimation.getFrame());
             idleAnimation.update(dt);
         }
+        if(attacking == true){
+           PlayAttackAni(dt);
+           playerState = PlayerState.ATTACKING;
+           if(attack1Animation.getFrameNum() == 5){
+
+               attack1Animation.setFrameNum(0);
+               playerState = PlayerState.IDLE;
+               attacking = false;
+           }
+        }
     }
 
     void CheckForBounds(){
@@ -157,11 +181,12 @@ public class Player {
                 }
             }
         }
-        attacking = false;
+        //attacking = false;
     }
 
-    void PlayAttackAni(){
-
+    void PlayAttackAni(float deltaTime){
+        sprite = new Sprite(attack1Animation.getFrame());
+        attack1Animation.update(deltaTime);
     }
 
     public void TakeDamge(int damage){
