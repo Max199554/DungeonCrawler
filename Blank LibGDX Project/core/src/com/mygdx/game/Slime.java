@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 public class Slime extends Enemy {
     Texture idleAndWalk;
     Animation slimeWalkAndIdle;
+
     public Slime(Vector2 position) {
         //texture = new Texture("Slime Jump.png");
         super(position);
