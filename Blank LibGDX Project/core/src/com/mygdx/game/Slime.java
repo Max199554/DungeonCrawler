@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 public class Slime extends Enemy {
@@ -25,7 +26,7 @@ public class Slime extends Enemy {
     @Override
     public void Init() {
         idleAndWalk = new Texture("Slime Jump.png");
-        slimeWalkAndIdle = new Animation(new TextureRegion(idleAndWalk), 7, .9f);
+        slimeWalkAndIdle = new Animation(new TextureRegion(idleAndWalk), 7, MathUtils.random(.7f, .9f));
         sprite = new Sprite(slimeWalkAndIdle.getFrame());
         super.Init();
     }
