@@ -63,16 +63,14 @@ public class Player {
 
     public void Init(){
         playerState = PlayerState.IDLE;
-        texture = new Texture("Player.png");
-        sprite = new Sprite(texture);
-        sprite.setScale(2);
-
-
         attackBox = new Rectangle(position.x,
                 position.y, attackRangeX, attackRangeY);
 
         idle = new Texture("PlayerIdle.png");
         idleAnimation = new Animation(new TextureRegion(idle), 4, .7f);
+
+        sprite = new Sprite(idleAnimation.getFrame());
+        sprite.setScale(2);
 
         move = new Texture("PlayerMove.png");
         moveAnimation = new Animation(new TextureRegion(move), 6, .5f);
@@ -206,7 +204,6 @@ public class Player {
                 }
             }
         }
-        //attacking = false;
     }
 
     void PlayAttackAni(float deltaTime){
