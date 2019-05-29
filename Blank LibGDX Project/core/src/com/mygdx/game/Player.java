@@ -13,6 +13,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import sun.awt.EventQueueDelegate;
 
 public class Player {
@@ -33,6 +36,13 @@ public class Player {
 
     float attackTime = 0;
 
+    float comboTimer = 0;
+    float comboMaxTime = .5f;
+    int currentAttackNum = 0;
+
+    boolean[] comboSetter;
+    ArrayList<Animation> attacks;
+
     Texture idle;
     Animation idleAnimation;
 
@@ -51,6 +61,8 @@ public class Player {
     Texture attack4;
     Animation attack4Animation;
 
+    float attackTimerLag = .5f;
+
     public Player(Vector2 position){
         this.position = position;
         Init();
@@ -62,6 +74,9 @@ public class Player {
     }
 
     public void Init(){
+        attacks = new ArrayList<Animation>();
+
+
         playerState = PlayerState.IDLE;
         attackBox = new Rectangle(position.x,
                 position.y, attackRangeX, attackRangeY);
@@ -75,18 +90,26 @@ public class Player {
         move = new Texture("PlayerMove.png");
         moveAnimation = new Animation(new TextureRegion(move), 6, .5f);
 
-        attack1 = new Texture(("PlayerAttack1.png"));
-        attack1Animation = new Animation(new TextureRegion(attack1), 6, .55f);
-
-        attack2 = new Texture("PlayerAttack2.png");
-        attack2Animation = new Animation(new TextureRegion(attack2), 5, .55f);
+        attack4 = new Texture("PlayerAttack4.png");
+        attack4Animation = new Animation(new TextureRegion(attack4), 5, .55f);
+        attacks.add(attack4Animation);
 
         attack3 = new Texture("PlayerAttack3.png");
         attack3Animation = new Animation(new TextureRegion(attack3), 5, .55f);
+        attacks.add(attack3Animation);
 
-        attack4 = new Texture("PlayerAttack4.png");
-        attack4Animation = new Animation(new TextureRegion(attack4), 4, .55f);
+        attack1 = new Texture(("PlayerAttack1.png"));
+        attack1Animation = new Animation(new TextureRegion(attack1), 7, .55f);
+        attacks.add(attack1Animation);
 
+        attack2 = new Texture("PlayerAttack2.png");
+        attack2Animation = new Animation(new TextureRegion(attack2), 5, .55f);
+        attacks.add(attack2Animation);
+
+        comboSetter = new boolean[attacks.size()];
+        for(int i = 0; i < comboSetter.length; i++){
+            comboSetter[i] = false;
+        }
     }
 
     public void render(float dt, SpriteBatch batch){
@@ -97,15 +120,39 @@ public class Player {
 
     public void update(float dt){
         UpdateAnimation(dt);
+        comboTimer += dt;
+        attackTimerLag -= dt;
         sprite.setPosition(position.x, position.y);
         if(Gdx.input.isKeyJustPressed(Input.Keys.J)){
             attacking = true;
+            for(int i = 0; i < comboSetter.length; i++){
+                if(comboTimer <= comboMaxTime && comboSetter[i] != true) {
+                    comboSetter[i] = true;
+                    System.out.println(i + " " + comboSetter[i]);
+                    comboTimer = 0;
+                    break;
+                }
+            }
+        }
+
+        if(comboTimer > comboMaxTime){
+
+            for(int i = 0; i < comboSetter.length; i++){
+                comboSetter[i] = false;
+                System.out.println("reset" + i + " " + comboSetter[i]);
+            }
+            currentAttackNum = 0;
+            comboTimer = 0;
+
+            System.out.println("all false");
         }
         if(attacking == true){
             playerSpeed = 50;
+            comboTimer = 0;
         }
         else{
             playerSpeed = Constant.PLAYER_SPEED;
+            //comboTimer = 0;
         }
         attackBox.setPosition(isFacingRight == true ? sprite.getX() + 10 : sprite.getX() - 10, sprite.getY() - 32);
         if(isFacingRight == false){
@@ -149,9 +196,13 @@ public class Player {
             idleAnimation.update(dt);
         }
         if(attacking == true){
-           PlayAttackAni(dt);
-           playerState = PlayerState.ATTACKING;
-           attachAnimationEventAt(attack1Animation, 3, dt);
+
+            PlayAttackAni(dt);
+            playerState = PlayerState.ATTACKING;
+            attachAnimationEventAt(attack1Animation, 4, dt);
+            attachAnimationEventAt(attack2Animation, 2, dt);
+            attachAnimationEventAt(attack3Animation, 3, dt);
+            attachAnimationEventAt(attack4Animation, 2, dt);
         }
         else{
             playerState = playerState.IDLE;
@@ -167,8 +218,10 @@ public class Player {
         }
         if(animation.getFrameNum() == animation.getRegion().size - 1 ){
             animation.setFrameNum(0);
-            attacking = false;
-            attackTime = 0;
+
+                attacking = false;
+                attackTime = 0;
+
         }
     }
 
@@ -207,8 +260,22 @@ public class Player {
     }
 
     void PlayAttackAni(float deltaTime){
-        sprite = new Sprite(attack1Animation.getFrame());
-        attack1Animation.update(deltaTime);
+        if(currentAttackNum == 4)
+            currentAttackNum = 0;
+        sprite = new Sprite(attacks.get(currentAttackNum).getFrame());
+        attacks.get(currentAttackNum).update(deltaTime);
+        //attack1Animation.update(deltaTime);
+        /*if(comboSetter[currentAttackNum] == true)
+            attacks.get(currentAttackNum).update(deltaTime);
+        else
+            */
+
+        if(comboSetter[currentAttackNum] == true &&
+           attacks.get(currentAttackNum).getFrameNum() == attacks.get(currentAttackNum).getRegion().size - 1){
+            currentAttackNum += 1;
+        }
+
+
     }
 
     public void TakeDamge(int damage){

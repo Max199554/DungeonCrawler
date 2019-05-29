@@ -34,7 +34,11 @@ public class Slime extends Enemy {
     @Override
     public void update(float dt){
         sprite = new Sprite((slimeWalkAndIdle.getFrame()));
-        slimeWalkAndIdle.update(dt);
+        if(takingDamage == true){
+            slimeWalkAndIdle.update(dt / 20);
+        }else {
+            slimeWalkAndIdle.update(dt);
+        }
         super.update(dt);
 
 

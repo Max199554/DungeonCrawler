@@ -58,8 +58,6 @@ public class GameScreen implements Screen {
             }
         }
         player.render(delta, batch);
-        //player.enemiesToAttack = enemies;
-        //player.ApplyDamage(enemies);
         batch.end();
     }
 
