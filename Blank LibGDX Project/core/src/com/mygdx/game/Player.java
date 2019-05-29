@@ -13,6 +13,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 
+import sun.awt.EventQueueDelegate;
+
 public class Player {
 
     PlayerState playerState;
@@ -29,6 +31,8 @@ public class Player {
     boolean isFacingRight = true;
     public float playerSpeed = Constant.PLAYER_SPEED;
 
+    float attackTime = 0;
+
     Texture idle;
     Animation idleAnimation;
 
@@ -37,6 +41,15 @@ public class Player {
 
     Texture attack1;
     Animation attack1Animation;
+
+    Texture attack2;
+    Animation attack2Animation;
+
+    Texture attack3;
+    Animation attack3Animation;
+
+    Texture attack4;
+    Animation attack4Animation;
 
     public Player(Vector2 position){
         this.position = position;
@@ -50,22 +63,30 @@ public class Player {
 
     public void Init(){
         playerState = PlayerState.IDLE;
-        texture = new Texture("Player.png");
-        sprite = new Sprite(texture);
-        sprite.setScale(2);
-
-
         attackBox = new Rectangle(position.x,
                 position.y, attackRangeX, attackRangeY);
 
         idle = new Texture("PlayerIdle.png");
         idleAnimation = new Animation(new TextureRegion(idle), 4, .7f);
 
+        sprite = new Sprite(idleAnimation.getFrame());
+        sprite.setScale(2);
+
         move = new Texture("PlayerMove.png");
         moveAnimation = new Animation(new TextureRegion(move), 6, .5f);
 
         attack1 = new Texture(("PlayerAttack1.png"));
-        attack1Animation = new Animation(new TextureRegion(attack1), 6, .4f);
+        attack1Animation = new Animation(new TextureRegion(attack1), 6, .55f);
+
+        attack2 = new Texture("PlayerAttack2.png");
+        attack2Animation = new Animation(new TextureRegion(attack2), 5, .55f);
+
+        attack3 = new Texture("PlayerAttack3.png");
+        attack3Animation = new Animation(new TextureRegion(attack3), 5, .55f);
+
+        attack4 = new Texture("PlayerAttack4.png");
+        attack4Animation = new Animation(new TextureRegion(attack4), 4, .55f);
+
     }
 
     public void render(float dt, SpriteBatch batch){
@@ -75,24 +96,13 @@ public class Player {
     }
 
     public void update(float dt){
-        //sprite = new Sprite(idleAnimation.getFrame());
-        //idleAnimation.update(dt);
         UpdateAnimation(dt);
         sprite.setPosition(position.x, position.y);
         if(Gdx.input.isKeyJustPressed(Input.Keys.J)){
             attacking = true;
         }
         if(attacking == true){
-            playerState = PlayerState.ATTACKING;
             playerSpeed = 50;
-            float attackTime = 0;
-            attackTime += dt;
-            if(attackTime <= dt && attack1Animation.getFrameNum() == 3){
-                ApplyDamage();
-            }
-            else if(attackTime > dt / 5){
-                attackTime = 0;
-            }
         }
         else{
             playerSpeed = Constant.PLAYER_SPEED;
@@ -141,12 +151,24 @@ public class Player {
         if(attacking == true){
            PlayAttackAni(dt);
            playerState = PlayerState.ATTACKING;
-           if(attack1Animation.getFrameNum() == 5){
+           attachAnimationEventAt(attack1Animation, 3, dt);
+        }
+        else{
+            playerState = playerState.IDLE;
+        }
+    }
 
-               attack1Animation.setFrameNum(0);
-               playerState = PlayerState.IDLE;
-               attacking = false;
-           }
+    void attachAnimationEventAt(Animation animation, int frameNum, float dt){
+        if(animation.getFrameNum() == frameNum){
+            attackTime += dt;
+            if(attackTime <= dt){
+                ApplyDamage(2);
+            }
+        }
+        if(animation.getFrameNum() == animation.getRegion().size - 1 ){
+            animation.setFrameNum(0);
+            attacking = false;
+            attackTime = 0;
         }
     }
 
@@ -165,11 +187,12 @@ public class Player {
         }
     }
 
-    public void ApplyDamage(){
+    public void ApplyDamage(int damage){
+        //attackTime = 0;
         for (Enemy e: enemiesToAttack) {
             if(attackBox.overlaps(e.selfCollider) && attacking == true){
-                e.TakeDamage(2);
-                MyGdxGame.gameScreen.ScreenShake(5);
+                e.TakeDamage(damage);
+                MyGdxGame.gameScreen.ScreenShake(20);
                 System.out.println("damage");
                 if(isFacingRight == true){
                     e.position.x += 2;
@@ -181,7 +204,6 @@ public class Player {
                 }
             }
         }
-        //attacking = false;
     }
 
     void PlayAttackAni(float deltaTime){
