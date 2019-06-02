@@ -13,6 +13,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 
+import sun.awt.EventQueueDelegate;
+
 public class Player {
 
     PlayerState playerState;
@@ -24,15 +26,30 @@ public class Player {
     boolean attacking = false;
     Circle attackCircle;
     DelayedRemovalArray<Enemy> enemiesToAttack;
-    float attackRange = 70;
+    float attackRangeX = 70;
+    float attackRangeY = 35;
     boolean isFacingRight = true;
     public float playerSpeed = Constant.PLAYER_SPEED;
+
+    float attackTime = 0;
 
     Texture idle;
     Animation idleAnimation;
 
     Texture move;
     Animation moveAnimation;
+
+    Texture attack1;
+    Animation attack1Animation;
+
+    Texture attack2;
+    Animation attack2Animation;
+
+    Texture attack3;
+    Animation attack3Animation;
+
+    Texture attack4;
+    Animation attack4Animation;
 
     public Player(Vector2 position){
         this.position = position;
@@ -46,41 +63,51 @@ public class Player {
 
     public void Init(){
         playerState = PlayerState.IDLE;
-        texture = new Texture("Player.png");
-        sprite = new Sprite(texture);
-        sprite.setScale(2);
-
         attackBox = new Rectangle(position.x,
-                position.y, attackRange, attackRange);
+                position.y, attackRangeX, attackRangeY);
 
         idle = new Texture("PlayerIdle.png");
         idleAnimation = new Animation(new TextureRegion(idle), 4, .7f);
 
+        sprite = new Sprite(idleAnimation.getFrame());
+        sprite.setScale(2);
+
         move = new Texture("PlayerMove.png");
         moveAnimation = new Animation(new TextureRegion(move), 6, .5f);
+
+        attack1 = new Texture(("PlayerAttack1.png"));
+        attack1Animation = new Animation(new TextureRegion(attack1), 6, .55f);
+
+        attack2 = new Texture("PlayerAttack2.png");
+        attack2Animation = new Animation(new TextureRegion(attack2), 5, .55f);
+
+        attack3 = new Texture("PlayerAttack3.png");
+        attack3Animation = new Animation(new TextureRegion(attack3), 5, .55f);
+
+        attack4 = new Texture("PlayerAttack4.png");
+        attack4Animation = new Animation(new TextureRegion(attack4), 4, .55f);
+
     }
 
     public void render(float dt, SpriteBatch batch){
         sprite.draw(batch);
         update(dt);
+        sprite.setColor(1,1,1,1);
     }
 
     public void update(float dt){
-        //sprite = new Sprite(idleAnimation.getFrame());
-        //idleAnimation.update(dt);
         UpdateAnimation(dt);
         sprite.setPosition(position.x, position.y);
         if(Gdx.input.isKeyJustPressed(Input.Keys.J)){
             attacking = true;
-            ApplyDamage();
-        }
-        else{
-            attacking = false;
         }
         if(attacking == true){
-            playerState = PlayerState.ATTACKING;
+            playerSpeed = 50;
         }
-        attackBox.setPosition(isFacingRight == true ? sprite.getX() + 20 : sprite.getX() - 20, sprite.getY());
+        else{
+            playerSpeed = Constant.PLAYER_SPEED;
+        }
+        attackBox.setPosition(isFacingRight == true ? sprite.getX() + 10 : sprite.getX() - 10, sprite.getY() - 32);
         if(isFacingRight == false){
             sprite.setScale(-2, 2);
         }
@@ -121,6 +148,28 @@ public class Player {
             sprite = new Sprite(idleAnimation.getFrame());
             idleAnimation.update(dt);
         }
+        if(attacking == true){
+           PlayAttackAni(dt);
+           playerState = PlayerState.ATTACKING;
+           attachAnimationEventAt(attack1Animation, 3, dt);
+        }
+        else{
+            playerState = playerState.IDLE;
+        }
+    }
+
+    void attachAnimationEventAt(Animation animation, int frameNum, float dt){
+        if(animation.getFrameNum() == frameNum){
+            attackTime += dt;
+            if(attackTime <= dt){
+                ApplyDamage(2);
+            }
+        }
+        if(animation.getFrameNum() == animation.getRegion().size - 1 ){
+            animation.setFrameNum(0);
+            attacking = false;
+            attackTime = 0;
+        }
     }
 
     void CheckForBounds(){
@@ -138,11 +187,12 @@ public class Player {
         }
     }
 
-    public void ApplyDamage(){
+    public void ApplyDamage(int damage){
+        //attackTime = 0;
         for (Enemy e: enemiesToAttack) {
             if(attackBox.overlaps(e.selfCollider) && attacking == true){
-                e.TakeDamage(2);
-                MyGdxGame.gameScreen.ScreenShake(5);
+                e.TakeDamage(damage);
+                MyGdxGame.gameScreen.ScreenShake(20);
                 System.out.println("damage");
                 if(isFacingRight == true){
                     e.position.x += 2;
@@ -154,11 +204,16 @@ public class Player {
                 }
             }
         }
-        attacking = false;
     }
 
-    void PlayAttackAni(){
+    void PlayAttackAni(float deltaTime){
+        sprite = new Sprite(attack1Animation.getFrame());
+        attack1Animation.update(deltaTime);
+    }
 
+    public void TakeDamge(int damage){
+        health -= damage;
+        sprite.setColor(1,0,0,1);
     }
 
     enum PlayerState{

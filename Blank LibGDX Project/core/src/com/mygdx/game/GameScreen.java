@@ -17,7 +17,7 @@ public class GameScreen implements Screen {
     Player player;
     DelayedRemovalArray<Enemy> enemies;
     SpriteBatch batch;
-    int enemyAmount = 4;
+    int enemyAmount = 20;
     public GameScreen(MyGdxGame game){
         this.game = game;
     }
@@ -44,7 +44,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
 
-        player.render(delta, batch);
+
         camera.position.x = MathUtils.lerp(camera.position.x, player.position.x, delta * 5);
         camera.position.y = MathUtils.lerp(camera.position.y, player.position.y, delta * 5);
         camera.update();
@@ -57,6 +57,7 @@ public class GameScreen implements Screen {
                 ScreenShake(10);
             }
         }
+        player.render(delta, batch);
         //player.enemiesToAttack = enemies;
         //player.ApplyDamage(enemies);
         batch.end();
