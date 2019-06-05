@@ -44,14 +44,14 @@ public class Enemy {
 
     public void update(float dt){
         sprite.setPosition(position.x, position.y);
-        takeDamageForDuration(1f, dt);
+        takeDamageForDuration(.3f, dt);
     }
 
     void takeDamageForDuration(float duration, float dt){
         if(takingDamage == true){
             damageColorTimer += dt;
             if(damageColorTimer <= duration){
-                //sprite.setColor(1,0,0,1);
+                sprite.setColor(1,0,0,1);
             }
             else{
                 damageColorTimer = 0;
@@ -65,7 +65,6 @@ public class Enemy {
     public void TakeDamage(int damage){
         health -= damage;
         //sprite.setColor(1,0,0,1);
-
         takingDamage = true;
     }
 }
