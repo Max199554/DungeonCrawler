@@ -14,7 +14,7 @@ public class Slime extends Enemy {
     public Slime(Vector2 position) {
         //texture = new Texture("Slime Jump.png");
         super(position);
-        texture = new Texture("Slime Jump.png");
+        texture = new Texture("GreenSlime-idle.png");
     }
 
     @Override
@@ -25,7 +25,7 @@ public class Slime extends Enemy {
 
     @Override
     public void Init() {
-        idleAndWalk = new Texture("Slime Jump.png");
+        idleAndWalk = new Texture("GreenSlime-idle.png");
         slimeWalkAndIdle = new Animation(new TextureRegion(idleAndWalk), 7, MathUtils.random(.7f, .9f));
         sprite = new Sprite(slimeWalkAndIdle.getFrame());
         super.Init();
