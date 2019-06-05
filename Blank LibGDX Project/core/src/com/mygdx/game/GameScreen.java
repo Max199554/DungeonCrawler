@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
@@ -44,6 +45,12 @@ public class GameScreen implements Screen {
             e.target = player;
         }
         player.enemiesToAttack = enemies;
+
+        // Get the width and height of our maps
+        // Then halve it, as our sprites are 64x64 not 32x32 that our map is made of
+        int mapWidth = Map.getProperties().get("width",Integer.class)/2;
+        int mapHeight = Map.getProperties().get("height",Integer.class)/2;
+        TiledMapTileLayer tileLayer = new TiledMapTileLayer(mapWidth,mapHeight,64,64);
         Map = new TmxMapLoader().load("t1_asset/Mao.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(Map);
     }
@@ -70,11 +77,12 @@ public class GameScreen implements Screen {
             }
         }
         player.render(delta, batch);
-        mapRenderer.setView(camera);
-        mapRenderer.render();
+
         //player.enemiesToAttack = enemies;
         //player.ApplyDamage(enemies);
         batch.end();
+        mapRenderer.setView(camera);
+        mapRenderer.render();
     }
 
     public void ScreenShake(float amount){
