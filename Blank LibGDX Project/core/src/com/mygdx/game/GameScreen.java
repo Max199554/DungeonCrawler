@@ -6,6 +6,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -17,12 +21,16 @@ public class GameScreen implements Screen {
     Player player;
     DelayedRemovalArray<Enemy> enemies;
     SpriteBatch batch;
+
+    TiledMap Map;
+    TiledMapRenderer mapRenderer;
     int enemyAmount = 20;
     public GameScreen(MyGdxGame game){
         this.game = game;
     }
     @Override
     public void show() {
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         enemies = new DelayedRemovalArray<Enemy>();
@@ -36,6 +44,8 @@ public class GameScreen implements Screen {
             e.target = player;
         }
         player.enemiesToAttack = enemies;
+        Map = new TmxMapLoader().load("t1_asset/Mao.tmx");
+        mapRenderer = new OrthogonalTiledMapRenderer(Map);
     }
 
     @Override
@@ -48,6 +58,8 @@ public class GameScreen implements Screen {
         camera.position.x = MathUtils.lerp(camera.position.x, player.position.x, delta * 5);
         camera.position.y = MathUtils.lerp(camera.position.y, player.position.y, delta * 5);
         camera.update();
+
+
         //System.out.println(player.position);
         batch.setProjectionMatrix(camera.combined);
         for (Enemy e : enemies){
@@ -58,6 +70,8 @@ public class GameScreen implements Screen {
             }
         }
         player.render(delta, batch);
+        mapRenderer.setView(camera);
+        mapRenderer.render();
         //player.enemiesToAttack = enemies;
         //player.ApplyDamage(enemies);
         batch.end();

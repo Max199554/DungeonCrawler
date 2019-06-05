@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="10">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="10">
  <tileset firstgid="1" source="nn.tsx"/>
  <tileset firstgid="769" source="blood.tsx"/>
  <tileset firstgid="913" source="chong.tsx"/>
  <tileset firstgid="1057" source="obj3.tsx"/>
  <tileset firstgid="1489" source="objjjj2.tsx"/>
  <tileset firstgid="2513" source="tilee.tsx"/>
- <tileset firstgid="3025" source="map/objjjjj.tsx"/>
  <tileset firstgid="3025" source="obj5.tsx"/>
  <tileset firstgid="3793" source="tilee3.tsx"/>
  <tileset firstgid="4305" source="object.tsx"/>
