@@ -50,8 +50,10 @@ public class GameScreen implements Screen {
         camera.update();
         //System.out.println(player.position);
         batch.setProjectionMatrix(camera.combined);
+
         for (Enemy e : enemies){
             e.render(delta, batch);
+            e.EnemyTrade(player.position.x, player.position.y);
             if(e.health <= 0){
                 enemies.removeValue(e, false);
                 ScreenShake(10);

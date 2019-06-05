@@ -45,7 +45,15 @@ public class Slime extends Enemy {
             slimeWalkAndIdle.update(dt);
         }
         super.update(dt);
+    }
 
+    @Override
+    public void MoveLeft(){
+        sprite.setScale(-1,1);
+    }
 
+    @Override
+    public void MoveRight(){
+        sprite.setScale(1, 1);
     }
 }
