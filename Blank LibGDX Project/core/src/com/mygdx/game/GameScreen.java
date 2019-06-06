@@ -12,12 +12,13 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 
 public class GameScreen implements Screen {
+    int currentLevel = 0;
     OrthographicCamera camera;
     MyGdxGame game;
     Player player;
     DelayedRemovalArray<Enemy> enemies;
     SpriteBatch batch;
-    int enemyAmount = 20;
+    int enemyAmount = 10;
     public GameScreen(MyGdxGame game){
         this.game = game;
     }
@@ -26,15 +27,33 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         enemies = new DelayedRemovalArray<Enemy>();
-        for(int i = 0; i < enemyAmount; i++){
-            enemies.add(new Slime(new Vector2(MathUtils.random(600), MathUtils.random(400))));
-        }
         batch = new SpriteBatch();
-        player = new Player(200, 200);
+        if(currentLevel == 0){
+            for(int i = 0; i < enemyAmount; i++){
+                enemies.add(new Slime(new Vector2(MathUtils.random(600), MathUtils.random(400))));
+            }
+        }
+        else if(currentLevel == 1){
+            for(int i = 0; i < enemyAmount + 5; i++){
+                enemies.add(new Slime(new Vector2(MathUtils.random(600), MathUtils.random(400))));
+            }
+        }
+        else if(currentLevel == 2){
+            for(int i = 0; i < enemyAmount + 10; i++){
+                enemies.add(new Slime(new Vector2(MathUtils.random(600), MathUtils.random(400))));
+            }
+        }
+        else if(currentLevel == 3){
+            for(int i = 0; i < enemyAmount + 15; i++){
+                enemies.add(new Slime(new Vector2(MathUtils.random(600), MathUtils.random(400))));
+            }
+        }
         for (Enemy e:
-             enemies) {
+                enemies) {
             e.target = player;
         }
+        player = new Player(200, 200);
+
         player.enemiesToAttack = enemies;
     }
 
@@ -44,7 +63,9 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
 
-
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+            currentLevel += 1;
+        }
         camera.position.x = MathUtils.lerp(camera.position.x, player.position.x, delta * 5);
         camera.position.y = MathUtils.lerp(camera.position.y, player.position.y, delta * 5);
         camera.update();
@@ -54,7 +75,7 @@ public class GameScreen implements Screen {
             e.render(delta, batch);
             if(e.health <= 0){
                 enemies.removeValue(e, false);
-                ScreenShake(10);
+                ScreenShake(40);
             }
         }
         player.render(delta, batch);

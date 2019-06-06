@@ -23,21 +23,25 @@ public class Player {
     PlayerState playerState;
     Vector2 position;
     Sprite sprite;
-    Texture texture;
     int health;
     Rectangle attackBox;
     boolean attacking = false;
-    Circle attackCircle;
     DelayedRemovalArray<Enemy> enemiesToAttack;
     float attackRangeX = 70;
     float attackRangeY = 35;
     boolean isFacingRight = true;
     public float playerSpeed = Constant.PLAYER_SPEED;
 
+    //Time for determining when to start and stop the attack animation event
     float attackTime = 0;
 
+    //Timer to check when to reset combo
     float comboTimer = 0;
-    float comboMaxTime = .5f;
+
+    //How much time have passed, if pass this value, combo will be reset
+    float comboMaxTime = .6f;
+
+    //which attack animation to trigger next
     int currentAttackNum = 0;
 
     boolean[] comboSetter;
@@ -91,19 +95,19 @@ public class Player {
         moveAnimation = new Animation(new TextureRegion(move), 6, .5f);
 
         attack4 = new Texture("PlayerAttack4.png");
-        attack4Animation = new Animation(new TextureRegion(attack4), 5, .55f);
+        attack4Animation = new Animation(new TextureRegion(attack4), 5, .5f);
         attacks.add(attack4Animation);
 
         attack3 = new Texture("PlayerAttack3.png");
-        attack3Animation = new Animation(new TextureRegion(attack3), 5, .55f);
+        attack3Animation = new Animation(new TextureRegion(attack3), 5, .5f);
         attacks.add(attack3Animation);
 
         attack1 = new Texture(("PlayerAttack1.png"));
-        attack1Animation = new Animation(new TextureRegion(attack1), 7, .55f);
+        attack1Animation = new Animation(new TextureRegion(attack1), 7, .5f);
         attacks.add(attack1Animation);
 
         attack2 = new Texture("PlayerAttack2.png");
-        attack2Animation = new Animation(new TextureRegion(attack2), 5, .55f);
+        attack2Animation = new Animation(new TextureRegion(attack2), 5, .5f);
         attacks.add(attack2Animation);
 
         comboSetter = new boolean[attacks.size()];
@@ -196,7 +200,6 @@ public class Player {
             idleAnimation.update(dt);
         }
         if(attacking == true){
-
             PlayAttackAni(dt);
             playerState = PlayerState.ATTACKING;
             attachAnimationEventAt(attack1Animation, 4, dt);
@@ -218,10 +221,15 @@ public class Player {
         }
         if(animation.getFrameNum() == animation.getRegion().size - 1 ){
             animation.setFrameNum(0);
-
+            if(attackTimerLag < 0){
                 attacking = false;
                 attackTime = 0;
-
+                attackTimerLag = .5f;
+            }
+            else{
+                animation.setFrameNum(animation.getRegion().size - 1);
+                sprite = new Sprite(animation.getFrame());
+            }
         }
     }
 
@@ -245,7 +253,7 @@ public class Player {
         for (Enemy e: enemiesToAttack) {
             if(attackBox.overlaps(e.selfCollider) && attacking == true){
                 e.TakeDamage(damage);
-                MyGdxGame.gameScreen.ScreenShake(20);
+                MyGdxGame.gameScreen.ScreenShake(25);
                 System.out.println("damage");
                 if(isFacingRight == true){
                     e.position.x += 2;
@@ -271,16 +279,19 @@ public class Player {
             */
 
         if(comboSetter[currentAttackNum] == true &&
-           attacks.get(currentAttackNum).getFrameNum() == attacks.get(currentAttackNum).getRegion().size - 1){
+         attacks.get(currentAttackNum).getFrameNum() == attacks.get(currentAttackNum).getRegion().size - 1 ){
             currentAttackNum += 1;
         }
-
 
     }
 
     public void TakeDamge(int damage){
         health -= damage;
         sprite.setColor(1,0,0,1);
+        if(health - damage == 0){
+            playerState = PlayerState.DEAD;
+            System.out.println("Game Over");
+        }
     }
 
     enum PlayerState{

@@ -51,7 +51,7 @@ public class Enemy {
         if(takingDamage == true){
             damageColorTimer += dt;
             if(damageColorTimer <= duration){
-                sprite.setColor(1,0,0,1);
+                sprite.setColor(0,0,0,1);
             }
             else{
                 damageColorTimer = 0;
