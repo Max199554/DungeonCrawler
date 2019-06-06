@@ -11,10 +11,15 @@ public class Slime extends Enemy {
     Texture idleAndWalk;
     Animation slimeWalkAndIdle;
 
+    Texture TakeDamage;
+    Animation slimeTakeDamage;
+
     public Slime(Vector2 position) {
         //texture = new Texture("Slime Jump.png");
         super(position);
         texture = new Texture("GreenSlime-idle.png");
+        TakeDamage = new Texture("GreenSlime-hit.png");
+        slimeTakeDamage = new Animation(new TextureRegion(TakeDamage), 2, 1);
     }
 
     @Override
@@ -35,12 +40,20 @@ public class Slime extends Enemy {
     public void update(float dt){
         sprite = new Sprite((slimeWalkAndIdle.getFrame()));
         if(takingDamage == true){
-            slimeWalkAndIdle.update(dt / 20);
+            sprite = new Sprite(slimeTakeDamage.getFrame());
         }else {
             slimeWalkAndIdle.update(dt);
         }
         super.update(dt);
+    }
 
+    @Override
+    public void MoveLeft(){
+        sprite.setScale(-1,1);
+    }
 
+    @Override
+    public void MoveRight(){
+        sprite.setScale(1, 1);
     }
 }
