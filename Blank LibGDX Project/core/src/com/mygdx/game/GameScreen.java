@@ -75,7 +75,8 @@ public class GameScreen implements Screen {
 
         for (Enemy e : enemies){
             e.render(delta, batch);
-            e.EnemyTrade(player.position.x , player.position.y );
+            e.EnemyDetect(player.position.x, player.position.y);
+            e.EnemyTrace(player.position.x, player.position.y);
             if(e.health <= 0){
                 enemies.removeValue(e, false);
                 ScreenShake(40);
