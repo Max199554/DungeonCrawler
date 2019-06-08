@@ -10,11 +10,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.awt.Menu;
+import java.util.logging.Level;
 
 public class MyGdxGame extends Game implements ApplicationListener {
 
 	public static GameScreen gameScreen;
 	public static MenuScreen menuScreen;
+	public static LevelClearScreen levelClearScreen;
+	public static GameOverScreen gameOverScreen;
 	@Override
 	public void create() {
 		gameScreen = new GameScreen(this);

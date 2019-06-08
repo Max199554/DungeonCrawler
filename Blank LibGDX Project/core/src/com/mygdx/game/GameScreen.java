@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 
 public class GameScreen implements Screen {
+
     int currentLevel = 0;
     OrthographicCamera camera;
     MyGdxGame game;
@@ -74,7 +75,7 @@ public class GameScreen implements Screen {
 
         for (Enemy e : enemies){
             e.render(delta, batch);
-            e.EnemyTrade(player.position.x, player.position.y);
+            e.EnemyTrade(player.position.x , player.position.y );
             if(e.health <= 0){
                 enemies.removeValue(e, false);
                 ScreenShake(40);

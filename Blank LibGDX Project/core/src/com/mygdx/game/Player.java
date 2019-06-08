@@ -291,6 +291,7 @@ public class Player {
         if(health - damage == 0){
             playerState = PlayerState.DEAD;
             System.out.println("Game Over");
+
         }
     }
 

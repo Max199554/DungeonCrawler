@@ -11,9 +11,15 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public class Enemy {
+
+    float stopPositionChangeRate = 3;
+    Vector2 randomStopPosition;
+
+
+    float randomPositionChangeTimer;
     int health = 10;
-    int diffx = 0;//10
-    int diffy = 0;//-45
+    int diffx = 0;
+    int diffy = 0;
     float speed = 0;
     Vector2 position;
     Sprite sprite;
@@ -26,11 +32,13 @@ public class Enemy {
     float damageColorTimer = 0;
 
     public Enemy(Vector2 position){
+
         this.position = position;
         Init();
     }
 
     public Enemy(float x, float y){
+
         position = new Vector2(x, y);
         Init();
     }
@@ -49,7 +57,15 @@ public class Enemy {
     }
 
     public void update(float dt){
+
+        if(randomPositionChangeTimer <= 0){
+            randomStopPosition = new Vector2(MathUtils.random(-70f,70f), MathUtils.random(-70f,70f));
+            randomPositionChangeTimer = stopPositionChangeRate;
+        }else{
+            randomPositionChangeTimer -= dt;
+        }
         sprite.setPosition(position.x, position.y);
+        selfCollider.setPosition(position.x, position.y);
         takeDamageForDuration(.3f, dt);
     }
 
@@ -61,7 +77,7 @@ public class Enemy {
             }
             else{
                 damageColorTimer = 0;
-                sprite.setColor(1,1,1,1);
+                //sprite.setColor(1,1,1,1);
                 takingDamage = false;
             }
 
@@ -81,26 +97,27 @@ public class Enemy {
     }
 
     public void EnemyTrade(float x,float y){
-        //pixel的坐标有问题，player的坐标和enemy的坐标不一致
-        if(Math.abs(position.x - x - diffx) >= Math.abs(position.y - y - diffy)){
-            if(position.x - x - diffx >=0){
-                MoveLeft();
-                position.x = position.x - speed;
-            }
-            else{
-                MoveRight();
-                position.x = position.x + speed;
-            }
-        }
-        else{
-            if(position.y - y - diffy >=0){
-                position.y = position.y - speed;
-            }
-            else{
-                position.y = position.y + speed;
-            }
-        }
 
+        //pixel的坐标有问题，player的坐标和enemy的坐标不一致
+        if(Vector2.dot(position.x, position.y, x, y) > 100) {
+            if (Math.abs(position.x - x ) >
+                    Math.abs(position.y - y )) {
+                if (position.x - (x + randomStopPosition.x) > 1) {
+                    // MoveLeft();
+                    position.x = position.x - speed;
+                } else if (position.x - (x + randomStopPosition.x) < 1) {
+                    //MoveRight();
+                    position.x = position.x + speed;
+                }
+            } else if (Math.abs(position.x - x ) <
+                    Math.abs(position.y - y )) {
+                if (position.y - (y + randomStopPosition.y) > 1) {
+                    position.y = position.y - speed;
+                } else if (position.y - (y + randomStopPosition.y) < 1) {
+                    position.y = position.y + speed;
+                }
+            }
+        }
     }
 
 }
