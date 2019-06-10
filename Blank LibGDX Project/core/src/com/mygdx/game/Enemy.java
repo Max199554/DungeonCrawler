@@ -122,8 +122,12 @@ public class Enemy {
         }
         if(detect == true) {
             if (Math.abs(position.x - x - diffx) >= Math.abs(position.y - y - diffy)) {
-                Walk = true;
-                if (position.x - (x + randomStopPosition.x) - diffx >= 0) {
+                if(Math.abs(position.x - x - diffx)<30){
+                    //Attack = true;
+                    return;
+                }
+                if (position.x - x - diffx >= 0) {
+                    Walk = true;
                     MoveLeft();
                     position.x = position.x - speed;
                 } else {
