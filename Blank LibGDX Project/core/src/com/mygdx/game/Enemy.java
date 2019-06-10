@@ -30,7 +30,9 @@ public class Enemy {
     public Player target;
     Color originColor;
     boolean takingDamage = false;
+    boolean Attack = false;
     float damageColorTimer = 0;
+    float AttackColorTimer = 0;
 
     public Enemy(Vector2 position){
 
@@ -67,6 +69,7 @@ public class Enemy {
         sprite.setPosition(position.x, position.y);
         selfCollider.setPosition(position.x, position.y);
         takeDamageForDuration(.3f, dt);
+        AttackDuration(.3f, dt);
         selfCollider.setPosition(position.x, position.y);
     }
 
@@ -80,6 +83,19 @@ public class Enemy {
                 damageColorTimer = 0;
                 //sprite.setColor(1,1,1,1);
                 takingDamage = false;
+            }
+
+        }
+    }
+
+    void AttackDuration(float duration, float dt){
+        if(Attack == true){
+            AttackColorTimer += dt;
+            if(AttackColorTimer <= duration){
+            }
+            else{
+                AttackColorTimer = 0;
+                Attack = false;
             }
 
         }
@@ -103,8 +119,9 @@ public class Enemy {
             detect = true;
         }
         if(detect==true) {
-            if (Math.abs(position.x - x - diffx) >= Math.abs(position.y - y  - diffy)) {
-                if(Math.abs(position.x - x  - diffx) < 10){
+            if (Math.abs(position.x - x - diffx) >= Math.abs(position.y - y - diffy)) {
+                if(Math.abs(position.x - x - diffx)<30){
+                    Attack = true;
                     return;
                 }
                 if (position.x - (x + randomStopPosition.x) - diffx >= 0) {
@@ -131,7 +148,5 @@ public class Enemy {
         else{
             return false;
         }
-
     }
-
 }
