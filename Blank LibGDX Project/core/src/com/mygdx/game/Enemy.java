@@ -39,7 +39,6 @@ public class Enemy {
     }
 
     public Enemy(float x, float y){
-
         position = new Vector2(x, y);
         Init();
     }
@@ -60,7 +59,7 @@ public class Enemy {
     public void update(float dt){
 
         if(randomPositionChangeTimer <= 0){
-            randomStopPosition = new Vector2(MathUtils.random(-70f,70f), MathUtils.random(-70f,70f));
+            randomStopPosition = new Vector2(MathUtils.random(-100f,100f), MathUtils.random(-100f,100f));
             randomPositionChangeTimer = stopPositionChangeRate;
         }else{
             randomPositionChangeTimer -= dt;
@@ -100,15 +99,15 @@ public class Enemy {
 
     public void EnemyTrace(float x,float y){
         //pixel的坐标有问题，player的坐标和enemy的坐标不一致
-        if(EnemyDetect(x,y) == true && detect==false) {
-            detect=true;
+        if(EnemyDetect(x,y) == true && detect == false) {
+            detect = true;
         }
         if(detect==true) {
-            if (Math.abs(position.x - x - diffx) >= Math.abs(position.y - y - diffy)) {
-                if(Math.abs(position.x - x - diffx)<10){
+            if (Math.abs(position.x - x - diffx) >= Math.abs(position.y - y  - diffy)) {
+                if(Math.abs(position.x - x  - diffx) < 10){
                     return;
                 }
-                if (position.x - x - diffx >= 0) {
+                if (position.x - (x + randomStopPosition.x) - diffx >= 0) {
                     MoveLeft();
                     position.x = position.x - speed;
                 } else {
@@ -116,15 +115,13 @@ public class Enemy {
                     position.x = position.x + speed;
                 }
             } else {
-                if (position.y - y - diffy >= 0) {
+                if (position.y - (y + randomStopPosition.y) - diffy >= 0) {
                     position.y = position.y - speed;
                 } else {
                     position.y = position.y + speed;
                 }
             }
         }
-
-
     }
 
     public boolean EnemyDetect(float x, float y){

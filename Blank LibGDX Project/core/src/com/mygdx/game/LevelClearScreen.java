@@ -3,13 +3,15 @@ package com.mygdx.game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class LevelClearScreen implements Screen {
     public GameScreen gameScreen;
     Label finishTimeText;
     Button nextLevelButton;
     String finishTip;
-
+    Skin skin;
     MyGdxGame game;
     public LevelClearScreen(MyGdxGame game){
         this.game = game;
@@ -17,7 +19,8 @@ public class LevelClearScreen implements Screen {
 
     @Override
     public void show() {
-
+        skin = new Skin();
+        nextLevelButton = new TextButton("Play",skin,"default");
     }
 
     @Override
