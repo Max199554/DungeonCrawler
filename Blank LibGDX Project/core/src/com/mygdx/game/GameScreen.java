@@ -23,7 +23,7 @@ public class GameScreen implements Screen {
     SpriteBatch batch;
     int enemyAmount = 1;
 
-    Texture mapImg = new Texture("Map.PNG");
+    Texture mapImg = new Texture("Map.png");
     //Texture levelChangeDoor = new Texture("LevelChangeDoor.png");
     Interactable levelChangeDoor;
 
