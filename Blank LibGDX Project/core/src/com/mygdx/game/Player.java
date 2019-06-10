@@ -192,11 +192,11 @@ public class Player {
 
     void UpdateAnimation(float dt){
         if(playerState == PlayerState.WALKING){
-            sprite = new Sprite(moveAnimation.getFrame());
+            sprite.setRegion(moveAnimation.getFrame());
             moveAnimation.update(dt);
         }
         if(playerState == PlayerState.IDLE){
-            sprite = new Sprite(idleAnimation.getFrame());
+            sprite.setRegion(idleAnimation.getFrame());
             idleAnimation.update(dt);
         }
         if(attacking == true){
@@ -228,7 +228,7 @@ public class Player {
             }
             else{
                 animation.setFrameNum(animation.getRegion().size - 1);
-                sprite = new Sprite(animation.getFrame());
+                sprite.setRegion(animation.getFrame());
             }
         }
     }
@@ -237,14 +237,14 @@ public class Player {
         if(position.x <= 0){
             position.x = 0;
         }
-        if(position.x > 700){
-            position.x = 700;
+        if(position.x > GameScreen.mapBoundX){
+            position.x = GameScreen.mapBoundX;
         }
         if(position.y <= 0){
             position.y = 0;
         }
-        if(position.y > 500){
-            position.y = 500;
+        if(position.y > GameScreen.mapBoundY){
+            position.y = GameScreen.mapBoundY;
         }
     }
 

@@ -60,7 +60,6 @@ public class Enemy {
     }
 
     public void update(float dt){
-
         if(randomPositionChangeTimer <= 0){
             randomStopPosition = new Vector2(MathUtils.random(-100f,100f), MathUtils.random(-100f,100f));
             randomPositionChangeTimer = stopPositionChangeRate;
@@ -70,7 +69,7 @@ public class Enemy {
         sprite.setPosition(position.x, position.y);
         selfCollider.setPosition(position.x, position.y);
         takeDamageForDuration(.3f, dt);
-        AttackDuration(.3f, dt);
+        AttackDuration(1f, dt);
         selfCollider.setPosition(position.x, position.y);
     }
 
@@ -98,7 +97,6 @@ public class Enemy {
                 AttackColorTimer = 0;
                 Attack = false;
             }
-
         }
     }
 
@@ -116,30 +114,26 @@ public class Enemy {
 
     public void EnemyTrace(float x,float y){
         //pixel的坐标有问题，player的坐标和enemy的坐标不一致
-        if(EnemyDetect(x,y) == true && detect == false) {
+        if(EnemyCheckAttack(x,y) == true){
+            Attack = true;
+        }
+        if(EnemyDetect(x,y) == true && detect == false && EnemyCheckAttack(x,y) == false) {
             detect = true;
         }
-        if(detect==true) {
+        if(detect == true) {
             if (Math.abs(position.x - x - diffx) >= Math.abs(position.y - y - diffy)) {
-                if(Math.abs(position.x - x - diffx)<30){
-                    Attack = true;
-                    return;
-                }
-                if (position.x - x - diffx >= 0) {
-                    Walk = true;
+                Walk = true;
+                if (position.x - (x + randomStopPosition.x) - diffx >= 0) {
                     MoveLeft();
                     position.x = position.x - speed;
                 } else {
-                    Walk = true;
                     MoveRight();
                     position.x = position.x + speed;
                 }
             } else {
-                if (position.y - y - diffy >= 0) {
-                    Walk = true;
+                if (position.y - (y + randomStopPosition.y) - diffy >= 0) {
                     position.y = position.y - speed;
                 } else {
-                    Walk = true;
                     position.y = position.y + speed;
                 }
             }
@@ -151,6 +145,15 @@ public class Enemy {
             return true;
         }
         else{
+            return false;
+        }
+    }
+
+    public boolean EnemyCheckAttack(float x, float y){
+        if(Vector2.dst(position.x, position.y, x,y) < 50){
+            return  true;
+        }
+        else {
             return false;
         }
     }

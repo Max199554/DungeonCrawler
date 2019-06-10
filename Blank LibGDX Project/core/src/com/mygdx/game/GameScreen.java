@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -19,16 +21,30 @@ public class GameScreen implements Screen {
     Player player;
     DelayedRemovalArray<Enemy> enemies;
     SpriteBatch batch;
-    int enemyAmount = 10;
+    int enemyAmount = 1;
+
+    Texture mapImg = new Texture("Map.PNG");
+    //Texture levelChangeDoor = new Texture("LevelChangeDoor.png");
+    Interactable levelChangeDoor;
+
+    Sprite mapSprite = new Sprite(mapImg);
+
+    public static float mapBoundX;
+    public static float mapBoundY;
+
     public GameScreen(MyGdxGame game){
         this.game = game;
     }
+
+
     @Override
     public void show() {
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         enemies = new DelayedRemovalArray<Enemy>();
         batch = new SpriteBatch();
+
         if(currentLevel == 0){
             for(int i = 0; i < enemyAmount; i++){
                 enemies.add(new Slime(new Vector2(MathUtils.random(600), MathUtils.random(400))));
@@ -57,16 +73,28 @@ public class GameScreen implements Screen {
                 enemies) {
             e.target = player;
         }
-        player = new Player(200, 200);
+
+
+        mapSprite.setPosition((-mapSprite.getWidth() / 4) + 30, -mapSprite.getHeight() / 4);
+        mapSprite.setScale(.5f, .6f);
+
+        mapBoundX = mapSprite.getWidth() / 2;
+        mapBoundY = mapSprite.getHeight() / 2;
+
+        levelChangeDoor = new Interactable(new Vector2(mapBoundX, mapBoundY), 100);
+        player = new Player(mapSprite.getWidth() / 4, mapSprite.getHeight() / 4);
 
         player.enemiesToAttack = enemies;
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(.8f,.8f,1,1);
+        Gdx.gl.glClearColor(0.1f,.1f,.1f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
+
+
+        mapSprite.draw(batch);
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
             currentLevel += 1;
@@ -87,6 +115,14 @@ public class GameScreen implements Screen {
             }
         }
         player.render(delta, batch);
+
+        if(enemies.size <= 0){
+            levelChangeDoor.render(batch);
+            levelChangeDoor.DetactDisToPlayer(player.position.x, player.position.y);
+            if(levelChangeDoor.canSetScene == true){
+                game.setScreen(MyGdxGame.levelClearScreen);
+            }
+        }
         batch.end();
     }
 
