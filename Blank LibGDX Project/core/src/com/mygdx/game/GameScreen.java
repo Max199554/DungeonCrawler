@@ -20,8 +20,9 @@ public class GameScreen implements Screen {
     MyGdxGame game;
     Player player;
     DelayedRemovalArray<Enemy> enemies;
+    DelayedRemovalArray<DestoryFX> destoryFXs = new DelayedRemovalArray<DestoryFX>();
     SpriteBatch batch;
-    int enemyAmount = 1;
+    int enemyAmount = 5;
 
     Texture mapImg = new Texture("Map.png");
     //Texture levelChangeDoor = new Texture("LevelChangeDoor.png");
@@ -107,11 +108,20 @@ public class GameScreen implements Screen {
 
         for (Enemy e : enemies){
             e.render(delta, batch);
-            e.EnemyDetect(player.position.x, player.position.y);
+            //e.EnemyDetect(player.position.x, player.position.y);
             e.EnemyTrace(player.position.x, player.position.y);
             if(e.health <= 0){
+                destoryFXs.add(new DestoryFX(e.position));
                 enemies.removeValue(e, false);
                 ScreenShake(40);
+            }
+        }
+
+        for(int i = 0; i < destoryFXs.size; i++){
+            destoryFXs.get(i).render(batch);
+            destoryFXs.get(i).update(delta);
+            if(destoryFXs.get(i).fxAnimation.getFrameNum() == 2){
+                destoryFXs.removeIndex(i);
             }
         }
         player.render(delta, batch);

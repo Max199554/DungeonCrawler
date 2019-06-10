@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.DelayedRemovalArray;
 
 public class Enemy {
 
@@ -34,6 +35,8 @@ public class Enemy {
     boolean Walk = false;
     float damageColorTimer = 0;
     float AttackColorTimer = 0;
+    DelayedRemovalArray<HitFX> hitFXs = new DelayedRemovalArray<HitFX>();
+
 
     public Enemy(Vector2 position){
 
@@ -51,17 +54,26 @@ public class Enemy {
         selfCollider = new Rectangle(position.x, position.y, 32, 32);
         originColor = sprite.getColor();
         speed = MathUtils.random(1f,3f);
+
     }
 
     public void render(float dt, SpriteBatch batch){
         sprite.draw(batch);
+        for(int i = 0; i < hitFXs.size; i++){
+            hitFXs.get(i).render(batch);
+            hitFXs.get(i).update(dt);
+            if(hitFXs.get(i).fxAnimation.getFrameNum() == 5){
+                hitFXs.removeIndex(i);
+            }
+        }
+
 
         update(dt);
     }
 
     public void update(float dt){
         if(randomPositionChangeTimer <= 0){
-            randomStopPosition = new Vector2(MathUtils.random(-100f,100f), MathUtils.random(-100f,100f));
+            randomStopPosition = new Vector2(MathUtils.random(-64,64), MathUtils.random(-64,64));
             randomPositionChangeTimer = stopPositionChangeRate;
         }else{
             randomPositionChangeTimer -= dt;
@@ -71,6 +83,8 @@ public class Enemy {
         takeDamageForDuration(.3f, dt);
         AttackDuration(1f, dt);
         selfCollider.setPosition(position.x, position.y);
+
+
     }
 
     void takeDamageForDuration(float duration, float dt){
@@ -101,9 +115,12 @@ public class Enemy {
     }
 
     public void TakeDamage(int damage){
+        hitFXs.add(new HitFX(position));
+
         health -= damage;
         //sprite.setColor(1,0,0,1);
         takingDamage = true;
+
     }
 
     public void MoveLeft(){
@@ -114,30 +131,33 @@ public class Enemy {
 
     public void EnemyTrace(float x,float y){
         //pixel的坐标有问题，player的坐标和enemy的坐标不一致
-        if(EnemyCheckAttack(x,y) == true){
+        /*if(EnemyCheckAttack(x,y) == true){
             Attack = true;
-        }
-        if(EnemyDetect(x,y) == true && detect == false && EnemyCheckAttack(x,y) == false) {
+        }*/
+        if(EnemyDetect(x,y) == true && detect == false ) {
             detect = true;
         }
         if(detect == true) {
-            if (Math.abs(position.x - x - diffx) >= Math.abs(position.y - y - diffy)) {
-                if(Math.abs(position.x - x - diffx)<30){
+                /*if(Math.abs(position.x - x )<30){
                     //Attack = true;
                     return;
-                }
-                if (position.x - x - diffx >= 0) {
+                }*/
+            if(Vector2.dst(position.x, position.y, x, y) > 30) {
+                if (position.x - (x + randomStopPosition.x) > 0) {
                     Walk = true;
-                    MoveLeft();
                     position.x = position.x - speed;
-                } else {
-                    MoveRight();
+                } else if (position.x - (x + randomStopPosition.x) < 0) {
                     position.x = position.x + speed;
                 }
-            } else {
-                if (position.y - (y + randomStopPosition.y) - diffy >= 0) {
+                if (position.x - x > 0) {
+                    MoveLeft();
+                } else if (position.x - x < 0) {
+                    MoveRight();
+                }
+
+                if (position.y - (y + randomStopPosition.y) > 0) {
                     position.y = position.y - speed;
-                } else {
+                } else if (position.y - (y + randomStopPosition.y) < 0) {
                     position.y = position.y + speed;
                 }
             }
