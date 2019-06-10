@@ -32,21 +32,25 @@ public class GameScreen implements Screen {
         if(currentLevel == 0){
             for(int i = 0; i < enemyAmount; i++){
                 enemies.add(new Slime(new Vector2(MathUtils.random(600), MathUtils.random(400))));
+                //enemies.add(new Minotaur(new Vector2(MathUtils.random(600), MathUtils.random(400))));
             }
         }
         else if(currentLevel == 1){
             for(int i = 0; i < enemyAmount + 5; i++){
                 enemies.add(new Slime(new Vector2(MathUtils.random(600), MathUtils.random(400))));
+                //enemies.add(new Minotaur(new Vector2(MathUtils.random(600), MathUtils.random(400))));
             }
         }
         else if(currentLevel == 2){
             for(int i = 0; i < enemyAmount + 10; i++){
-                enemies.add(new Slime(new Vector2(MathUtils.random(600), MathUtils.random(400))));
+               enemies.add(new Slime(new Vector2(MathUtils.random(600), MathUtils.random(400))));
+                //enemies.add(new Minotaur(new Vector2(MathUtils.random(600), MathUtils.random(400))));
             }
         }
         else if(currentLevel == 3){
             for(int i = 0; i < enemyAmount + 15; i++){
                 enemies.add(new Slime(new Vector2(MathUtils.random(600), MathUtils.random(400))));
+                //enemies.add(new Minotaur(new Vector2(MathUtils.random(600), MathUtils.random(400))));
             }
         }
         for (Enemy e:

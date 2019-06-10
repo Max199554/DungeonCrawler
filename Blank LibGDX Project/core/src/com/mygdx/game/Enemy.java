@@ -31,6 +31,7 @@ public class Enemy {
     Color originColor;
     boolean takingDamage = false;
     boolean Attack = false;
+    boolean Walk = false;
     float damageColorTimer = 0;
     float AttackColorTimer = 0;
 
@@ -124,17 +125,21 @@ public class Enemy {
                     Attack = true;
                     return;
                 }
-                if (position.x - (x + randomStopPosition.x) - diffx >= 0) {
+                if (position.x - x - diffx >= 0) {
+                    Walk = true;
                     MoveLeft();
                     position.x = position.x - speed;
                 } else {
+                    Walk = true;
                     MoveRight();
                     position.x = position.x + speed;
                 }
             } else {
-                if (position.y - (y + randomStopPosition.y) - diffy >= 0) {
+                if (position.y - y - diffy >= 0) {
+                    Walk = true;
                     position.y = position.y - speed;
                 } else {
+                    Walk = true;
                     position.y = position.y + speed;
                 }
             }
