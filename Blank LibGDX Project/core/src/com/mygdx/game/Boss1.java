@@ -23,14 +23,11 @@ public class Boss1 extends Enemy{
     public Boss1(Vector2 position) {
         //texture = new Texture("Slime Jump.png");
         super(position);
-        TakeDamage = new Texture("Boss1-hit.png");
-        Boss1TakeDamage = new Animation(new TextureRegion(TakeDamage), 1, 1);
-
-        AttackDamage = new Texture("Boss1-attack1.png");
-        Boss1Attack = new Animation(new TextureRegion(AttackDamage),13,1);
+        AttackDamage = new Texture("Boss1-attack2.png");
+        Boss1Attack = new Animation(new TextureRegion(AttackDamage),9,1);
 
         Move = new Texture("Boss1-move.png");
-        Boss1Move = new Animation(new TextureRegion(Move),3,1);
+        Boss1Move = new Animation(new TextureRegion(Move),14,1);
     }
 
     @Override
@@ -41,8 +38,8 @@ public class Boss1 extends Enemy{
 
     @Override
     public void Init() {
-        idle = new Texture("Minotaur-idle.png");
-        Boss1Idle = new Animation(new TextureRegion(idle), 5, MathUtils.random(.7f, .9f));
+        idle = new Texture("Boss1-idle.png");
+        Boss1Idle = new Animation(new TextureRegion(idle), 3, MathUtils.random(.7f, .9f));
         sprite = new Sprite(Boss1Idle.getFrame());
         super.Init();
     }
@@ -50,19 +47,17 @@ public class Boss1 extends Enemy{
     @Override
     public void update(float dt){
         sprite = new Sprite((Boss1Idle.getFrame()));
-        if(takingDamage == true){
-            sprite = new Sprite(Boss1TakeDamage.getFrame());
-        }
         if(Attack == true){
             sprite = new Sprite(Boss1Attack.getFrame());
+            Boss1Attack.update(dt);
         }
-        if(Walk == true){
+        else if(Walk == true){
             sprite = new Sprite(Boss1Move.getFrame());
+            Boss1Move.update(dt);
         }
         else {
             Boss1Idle.update(dt);
         }
-
         super.update(dt);
     }
 
