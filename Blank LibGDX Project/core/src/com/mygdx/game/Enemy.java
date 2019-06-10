@@ -123,7 +123,7 @@ public class Enemy {
         if(detect==true) {
             if (Math.abs(position.x - x - diffx) >= Math.abs(position.y - y - diffy)) {
                 if(Math.abs(position.x - x - diffx)<30){
-                    Attack = true;
+                    //Attack = true;
                     return;
                 }
                 if (position.x - x - diffx >= 0) {

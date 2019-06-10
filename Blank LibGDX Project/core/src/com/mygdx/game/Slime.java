@@ -20,7 +20,7 @@ public class Slime extends Enemy {
     public Slime(Vector2 position) {
         //texture = new Texture("Slime Jump.png");
         super(position);
-        texture = new Texture("GreenSlime-idle.png");
+        //texture = new Texture("GreenSlime-idle.png");
 
         TakeDamage = new Texture("GreenSlime-hit.png");
         slimeTakeDamage = new Animation(new TextureRegion(TakeDamage), 2, 1);
