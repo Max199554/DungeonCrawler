@@ -22,7 +22,7 @@ public class GameScreen implements Screen {
     DelayedRemovalArray<Enemy> enemies;
     DelayedRemovalArray<DestoryFX> destoryFXs = new DelayedRemovalArray<DestoryFX>();
     SpriteBatch batch;
-    int enemyAmount = 1;
+    int enemyAmount = 5;
 
     Texture mapImg = new Texture("Map.png");
     //Texture levelChangeDoor = new Texture("LevelChangeDoor.png");

@@ -53,30 +53,16 @@ public class Slime extends Enemy {
         //sprite.setRegion(slimeWalkAndIdle.getFrame());
         if(takingDamage == true){
             sprite.setRegion(slimeTakeDamage.getFrame());
-            slimeTakeDamage.update(dt);
         }
-        else if(Attack == true){
+        else if(Attack == true ){
            sprite.setRegion(slimeAttack.getFrame());
            slimeAttack.update(dt);
+
         }
         else {
             //attackRateTimer = 0;
             slimeWalkAndIdle.update(dt);
             sprite.setRegion(slimeWalkAndIdle.getFrame());
-        }
-
-        if(velocity.x > 0){
-            MoveRight();
-        }
-        else if(velocity.x < 0){
-            MoveLeft();
-        }
-        else{
-            MoveRight();
-        }
-
-        if(takingDamage == true){
-            velocity = Vector2.Zero;
         }
     }
 
