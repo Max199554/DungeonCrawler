@@ -82,10 +82,7 @@ public class GameScreen implements Screen {
 //                //enemies.add(new Minotaur(new Vector2(MathUtils.random(600), MathUtils.random(400))));
 //            }
 //        }
-        for (Enemy e:
-                enemies) {
-            e.target = player;
-        }
+
 
         mapSprite2.setPosition((-mapSprite2.getWidth() / 4) + 30, -mapSprite2.getHeight() / 4);
         mapSprite2.setScale(.5f, .6f);
@@ -114,6 +111,12 @@ public class GameScreen implements Screen {
 
         healthAmount = player.health / 10;
         playerHealthSprite.setScale(1);
+
+        for (Enemy e:
+                enemies) {
+            e.target = player;
+        }
+
     }
 
     @Override
@@ -123,6 +126,7 @@ public class GameScreen implements Screen {
         batch.begin();
 
 
+        healthAmount = player.health / 10;
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
             currentLevel += 1;
         }  if(currentLevel == 0){

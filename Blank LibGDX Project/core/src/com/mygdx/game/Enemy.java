@@ -13,9 +13,11 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 
 public class Enemy {
 
+    public float attackRange;
+
     float stopPositionChangeRate = 3;
     Vector2 randomStopPosition;
-    
+
     float randomPositionChangeTimer;
     int health = 10;
     int diffx = 0;
@@ -54,12 +56,13 @@ public class Enemy {
         selfCollider = new Rectangle(position.x, position.y, 32, 32);
         originColor = sprite.getColor();
         speed = MathUtils.random(1f,3f);
+        hitBox = new Rectangle(position.x, position.y, attackRange, attackRange);
         //velocity = new Vector2(speed, speed);
+
     }
 
     public void render(float dt, SpriteBatch batch){
         sprite.draw(batch);
-
         for(int i = 0; i < hitFXs.size; i++){
             hitFXs.get(i).render(batch);
             hitFXs.get(i).update(dt);
@@ -73,7 +76,7 @@ public class Enemy {
     public void update(float dt){
 
         if(randomPositionChangeTimer <= 0){
-            randomStopPosition = new Vector2(MathUtils.random(-32,32), MathUtils.random(-32,32));
+            randomStopPosition = new Vector2(MathUtils.random(-64,64), MathUtils.random(-64,64));
             randomPositionChangeTimer = stopPositionChangeRate;
         }else{
             randomPositionChangeTimer -= dt;
@@ -83,7 +86,7 @@ public class Enemy {
         takeDamageForDuration(1f, dt);
         AttackDuration(1.2f, dt);
         selfCollider.setPosition(position.x, position.y);
-
+        hitBox.setPosition(position.x, position.y);
         CheckForBounds();
 
         if(velocity.x > 0){
@@ -183,10 +186,10 @@ public class Enemy {
                     Walk = false;
                 }
 
-                if (position.y - y > 0) {
+                if (position.y - (y + randomStopPosition.y) > 0) {
                     velocity.y = - speed;
                     position.y += velocity.y;
-                } else if(position.y - y < 0){
+                } else if(position.y - (y + randomStopPosition.y) < 0){
                     velocity.y = speed;
                     position.y += velocity.y;
                 }
@@ -195,6 +198,16 @@ public class Enemy {
                     //position.y += velocity.y;
                 }
             }
+    }
+
+    public void ApplyDamage(int damage){
+        //System.out.println(target);
+        System.out.println(hitBox);
+        if(target != null){
+            if(hitBox.overlaps(target.selfBox) && Attack == true ){
+                target.TakeDamge(damage);
+                MyGdxGame.gameScreen.ScreenShake(5);
+            }}
     }
 
     public boolean EnemyDetect(float x, float y){
