@@ -25,7 +25,7 @@ public class GameScreen implements Screen {
 
 
     SpriteBatch batch;
-    int enemyAmount = 10;
+    int enemyAmount = 5;
 
     Texture mapImg = new Texture("Map.png");
     Texture Map2 = new Texture("M2.png");
@@ -104,7 +104,7 @@ public class GameScreen implements Screen {
         mapBoundX = mapSprite.getWidth() / 2;
         mapBoundY = mapSprite.getHeight() / 2;
 
-        levelChangeDoor = new Interactable(new Vector2(mapBoundX, mapBoundY), 100);
+        levelChangeDoor = new Interactable(new Vector2(mapBoundX - 300, mapBoundY), 200);
         player = new Player(mapSprite.getWidth() / 4, mapSprite.getHeight() / 4);
 
         player.enemiesToAttack = enemies;

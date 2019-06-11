@@ -49,7 +49,7 @@ public class Slime extends Enemy {
         slimeWalkAndIdle = new Animation(new TextureRegion(idleAndWalk), 7, MathUtils.random(.9f, 1.3f));
         sprite = new Sprite(slimeWalkAndIdle.getFrame());
         super.Init();
-        health = 30;
+        health = 20;
 
     }
 
