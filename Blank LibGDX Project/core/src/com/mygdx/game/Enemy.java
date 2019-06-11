@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.DelayedRemovalArray;
 
 public class Enemy {
 
@@ -36,7 +35,6 @@ public class Enemy {
     boolean Walk = false;
     float damageColorTimer = 0;
     float AttackColorTimer = 0;
-    DelayedRemovalArray<HitFX> hitFXs = new DelayedRemovalArray<HitFX>();
 
 
     public Enemy(Vector2 position){
@@ -72,7 +70,7 @@ public class Enemy {
     public void update(float dt){
 
         if(randomPositionChangeTimer <= 0){
-            randomStopPosition = new Vector2(MathUtils.random(-64,64), MathUtils.random(-64,64));
+            randomStopPosition = new Vector2(MathUtils.random(-100f,100f), MathUtils.random(-100f,100f));
             randomPositionChangeTimer = stopPositionChangeRate;
         }else{
             randomPositionChangeTimer -= dt;
@@ -131,17 +129,17 @@ public class Enemy {
     }
 
     public void TakeDamage(int damage){
-        hitFXs.add(new HitFX(position));
-
         health -= damage;
         //sprite.setColor(1,0,0,1);
         takingDamage = true;
     }
 
     public void MoveLeft(){
+
     }
 
     public void MoveRight(){
+
     }
 
     public void EnemyTrace(float x,float y){
@@ -168,11 +166,12 @@ public class Enemy {
             } else {
                 if (position.y - y >= 0) {
                     position.y = position.y - speed;
-                } else if (position.y - (y + randomStopPosition.y) < 0) {
+                } else {
                     position.y = position.y + speed;
                 }
             }
         }
+
     }
 
     public boolean EnemyDetect(float x, float y){
@@ -191,3 +190,30 @@ public class Enemy {
         else return false;
     }
 }
+
+/*
+  if (Math.abs(position.x - x - diffx) >= Math.abs(position.y - y - diffy)) {
+                Walk = true;
+                if(Math.abs(position.x - x - diffx)<40){
+                    Attack = true;
+                    return;
+                }
+                if (position.x - x - diffx > 0 ) {
+                    MoveLeft();
+                    position.x = position.x - speed;
+                }
+                if (position.x - x - diffx < 0 ){
+                    MoveRight();
+                    position.x = position.x + speed;
+                }
+            }
+            else {
+                if (position.y - y - diffy > 0) {
+                    position.y = position.y - speed;
+                } else {
+                    position.y = position.y + speed;
+                }
+            }
+ */
+
+
