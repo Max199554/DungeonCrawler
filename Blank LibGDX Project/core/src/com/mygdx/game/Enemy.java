@@ -130,7 +130,6 @@ public class Enemy {
                 MoveLeft();
                 Attack = true;
             }
-
         }
         else{
             Walk = true;
