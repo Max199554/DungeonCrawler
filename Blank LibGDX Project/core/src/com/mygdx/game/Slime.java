@@ -56,12 +56,15 @@ public class Slime extends Enemy {
             slimeTakeDamage.update(dt);
 
         }
-        else if(Attack == true){
+        else if(Attack == true ){
            sprite.setRegion(slimeAttack.getFrame());
            slimeAttack.update(dt);
+           /*if(slimeAttack.getFrameNum() == 11){
+               attackRateTimer = 0;
+           }*/
         }
         else {
-            //attackRateTimer = 0;
+
             sprite.setRegion(slimeWalkAndIdle.getFrame());
             slimeWalkAndIdle.update(dt);
         }

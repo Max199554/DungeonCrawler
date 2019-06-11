@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 
 public class GameScreen implements Screen {
 
+
     int currentLevel = 0;
     OrthographicCamera camera;
     MyGdxGame game;
@@ -24,17 +25,22 @@ public class GameScreen implements Screen {
 
 
     SpriteBatch batch;
-    int enemyAmount = 5;
+    int enemyAmount = 10;
 
     Texture mapImg = new Texture("Map.png");
     Texture Map2 = new Texture("M2.png");
     Texture Map3 = new Texture("GreenM.png");
+    Texture playerHealth = new Texture("Player_Health.png");
     //Texture levelChangeDoor = new Texture("LevelChangeDoor.png");
     Interactable levelChangeDoor;
 
     Sprite mapSprite = new Sprite(mapImg);
     Sprite mapSprite2 = new Sprite(Map2);
     Sprite mapSprite3 = new Sprite(Map3);
+
+    Sprite playerHealthSprite = new Sprite(playerHealth);
+
+    int healthAmount;
     public static float mapBoundX;
     public static float mapBoundY;
 
@@ -47,7 +53,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         enemies = new DelayedRemovalArray<Enemy>();
@@ -61,7 +66,7 @@ public class GameScreen implements Screen {
             }
         }
         else if(currentLevel == 1){
-            for(int i = 0; i < enemyAmount + 10; i++){
+            for(int i = 0; i < enemyAmount ; i++){
                 enemies.add(new Slime(new Vector2(MathUtils.random(600), MathUtils.random(400))));
                 //enemies.add(new Minotaur(new Vector2(MathUtils.random(600), MathUtils.random(400))));
             }
@@ -106,6 +111,9 @@ public class GameScreen implements Screen {
         player = new Player(mapSprite.getWidth() / 4, mapSprite.getHeight() / 4);
 
         player.enemiesToAttack = enemies;
+
+        healthAmount = player.health / 10;
+        playerHealthSprite.setScale(1);
     }
 
     @Override
@@ -131,6 +139,12 @@ public class GameScreen implements Screen {
         camera.update();
         //System.out.println(player.position);
         batch.setProjectionMatrix(camera.combined);
+
+        for(int i = 0; i <= healthAmount; i++){
+            playerHealthSprite.draw(batch);
+            playerHealthSprite.setPosition(player.position.x - 32 + i * 16, player.position.y - 64);
+
+        }
 
         for (Enemy e : enemies){
             e.render(delta, batch);

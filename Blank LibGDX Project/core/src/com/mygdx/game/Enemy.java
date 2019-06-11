@@ -115,8 +115,8 @@ public class Enemy {
         if(position.x <= 0){
             position.x = 0;
         }
-        if(position.x > GameScreen.mapBoundX){
-            position.x = GameScreen.mapBoundX;
+        if(position.x > GameScreen.mapBoundX - 100){
+            position.x = GameScreen.mapBoundX - 100;
         }
         if(position.y <= 0){
             position.y = 0;

@@ -79,6 +79,8 @@ public class Player {
     }
 
     public void Init(){
+        health = 100;
+
         attacks = new ArrayList<Animation>();
 
 
