@@ -44,26 +44,28 @@ public class Slime extends Enemy {
         slimeWalkAndIdle = new Animation(new TextureRegion(idleAndWalk), 7, MathUtils.random(.9f, 1.3f));
         sprite = new Sprite(slimeWalkAndIdle.getFrame());
         super.Init();
+        health = 30;
     }
 
     @Override
     public void update(float dt){
-        super.update(dt);
         attackRateTimer += dt;
         //sprite.setRegion(slimeWalkAndIdle.getFrame());
         if(takingDamage == true){
             sprite.setRegion(slimeTakeDamage.getFrame());
+            slimeTakeDamage.update(dt);
+
         }
-        else if(Attack == true ){
+        else if(Attack == true){
            sprite.setRegion(slimeAttack.getFrame());
            slimeAttack.update(dt);
-
         }
         else {
             //attackRateTimer = 0;
-            slimeWalkAndIdle.update(dt);
             sprite.setRegion(slimeWalkAndIdle.getFrame());
+            slimeWalkAndIdle.update(dt);
         }
+        super.update(dt);
     }
 
     @Override
@@ -74,5 +76,11 @@ public class Slime extends Enemy {
     @Override
     public void MoveRight(){
         sprite.setScale(1, 1);
+    }
+
+    @Override
+    public void resetToIdleStart(){
+        slimeWalkAndIdle.setFrameNum(0);
+        sprite.setRegion(slimeWalkAndIdle.getFrame());
     }
 }

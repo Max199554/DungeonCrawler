@@ -20,6 +20,7 @@ import sun.awt.EventQueueDelegate;
 
 public class Player {
 
+    float damage = 5;
     PlayerState playerState;
     Vector2 position;
     Sprite sprite;
@@ -216,7 +217,7 @@ public class Player {
         if(animation.getFrameNum() == frameNum){
             attackTime += dt;
             if(attackTime <= dt){
-                ApplyDamage(2);
+                ApplyDamage((int)damage);
             }
         }
         if(animation.getFrameNum() == animation.getRegion().size - 1 ){

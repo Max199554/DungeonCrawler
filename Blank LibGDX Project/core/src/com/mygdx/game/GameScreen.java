@@ -24,7 +24,7 @@ public class GameScreen implements Screen {
 
 
     SpriteBatch batch;
-    int enemyAmount = 1;
+    int enemyAmount = 5;
 
     Texture mapImg = new Texture("Map.png");
     //Texture levelChangeDoor = new Texture("LevelChangeDoor.png");
@@ -50,9 +50,9 @@ public class GameScreen implements Screen {
 
         if(currentLevel == 0){
             for(int i = 0; i < enemyAmount; i++){
-               //enemies.add(new Slime(new Vector2(MathUtils.random(600), MathUtils.random(400))));
+               enemies.add(new Slime(new Vector2(MathUtils.random(600), MathUtils.random(400))));
                //enemies.add(new Minotaur(new Vector2(MathUtils.random(600), MathUtils.random(400))));
-                enemies.add(new Boss1(new Vector2(MathUtils.random(600), MathUtils.random(400))));
+                //enemies.add(new Boss1(new Vector2(MathUtils.random(600), MathUtils.random(400))));
             }
         }
         else if(currentLevel == 1){
