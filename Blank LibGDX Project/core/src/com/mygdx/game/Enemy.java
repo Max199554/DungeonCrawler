@@ -15,8 +15,7 @@ public class Enemy {
 
     float stopPositionChangeRate = 3;
     Vector2 randomStopPosition;
-
-
+    
     float randomPositionChangeTimer;
     int health = 10;
     int diffx = 0;
