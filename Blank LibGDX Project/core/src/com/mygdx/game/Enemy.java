@@ -35,6 +35,7 @@ public class Enemy {
     float damageColorTimer = 0;
     float AttackColorTimer = 0;
 
+
     public Enemy(Vector2 position){
 
         this.position = position;
@@ -109,38 +110,49 @@ public class Enemy {
     }
 
     public void MoveLeft(){
+
     }
 
     public void MoveRight(){
+
     }
 
     public void EnemyTrace(float x,float y){
-        //pixel的坐标有问题，player的坐标和enemy的坐标不一致
         if(EnemyDetect(x,y) == true && detect == false) {
             detect = true;
         }
-        if(detect==true) {
+        if(Math.abs(position.x - x - diffx)<40 && Math.abs(position.y - y - diffx)<40){
+            if(position.y > y){
+                MoveRight();
+                Attack = true;
+            }
+            if(position.y < y){
+                MoveLeft();
+                Attack = true;
+            }
+
+        }
+        else{
+            Walk = true;
             if (Math.abs(position.x - x - diffx) >= Math.abs(position.y - y - diffy)) {
-                Walk = true;
-                if(Math.abs(position.x - x - diffx)<40){
-                    Attack = true;
-                    return;
-                }
-                if (position.x - x - diffx >= 0) {
+                if (position.x - x - diffx > 0 ) {
                     MoveLeft();
                     position.x = position.x - speed;
-                } else {
+                }
+                else{
                     MoveRight();
                     position.x = position.x + speed;
                 }
-            } else {
-                if (position.y - y - diffy >= 0) {
+            }
+            else{
+                if (position.y - y - diffy > 0) {
                     position.y = position.y - speed;
                 } else {
                     position.y = position.y + speed;
                 }
             }
         }
+
     }
 
     public boolean EnemyDetect(float x, float y){
@@ -152,3 +164,30 @@ public class Enemy {
         }
     }
 }
+
+/*
+  if (Math.abs(position.x - x - diffx) >= Math.abs(position.y - y - diffy)) {
+                Walk = true;
+                if(Math.abs(position.x - x - diffx)<40){
+                    Attack = true;
+                    return;
+                }
+                if (position.x - x - diffx > 0 ) {
+                    MoveLeft();
+                    position.x = position.x - speed;
+                }
+                if (position.x - x - diffx < 0 ){
+                    MoveRight();
+                    position.x = position.x + speed;
+                }
+            }
+            else {
+                if (position.y - y - diffy > 0) {
+                    position.y = position.y - speed;
+                } else {
+                    position.y = position.y + speed;
+                }
+            }
+ */
+
+
