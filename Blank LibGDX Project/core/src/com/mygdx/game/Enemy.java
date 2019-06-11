@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.DelayedRemovalArray;
 
 public class Enemy {
 
@@ -35,7 +36,7 @@ public class Enemy {
     float damageColorTimer = 0;
     float AttackColorTimer = 0;
 
-
+    DelayedRemovalArray<HitFX> hitFXs = new DelayedRemovalArray<HitFX>();
     public Enemy(Vector2 position){
 
         this.position = position;
@@ -57,6 +58,7 @@ public class Enemy {
 
     public void render(float dt, SpriteBatch batch){
         sprite.draw(batch);
+
         for(int i = 0; i < hitFXs.size; i++){
             hitFXs.get(i).render(batch);
             hitFXs.get(i).update(dt);
@@ -64,7 +66,6 @@ public class Enemy {
                 hitFXs.removeIndex(i);
             }
         }
-
 
         update(dt);
     }
@@ -79,8 +80,8 @@ public class Enemy {
         }
         sprite.setPosition(position.x, position.y);
         selfCollider.setPosition(position.x, position.y);
-        takeDamageForDuration(.3f, dt);
-        AttackDuration(.3f, dt);
+        takeDamageForDuration(1f, dt);
+        AttackDuration(1f, dt);
         selfCollider.setPosition(position.x, position.y);
 
 
@@ -116,6 +117,7 @@ public class Enemy {
 
     public void TakeDamage(int damage){
         health -= damage;
+        hitFXs.add(new HitFX(new Vector2(position.x, position.y)));
         //sprite.setColor(1,0,0,1);
         takingDamage = true;
 

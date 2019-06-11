@@ -46,13 +46,13 @@ public class Boss1 extends Enemy{
 
     @Override
     public void update(float dt){
-        sprite = new Sprite((Boss1Idle.getFrame()));
+        //sprite = new Sprite((Boss1Idle.getFrame()));
         if(Attack == true){
-            sprite = new Sprite(Boss1Attack.getFrame());
+            sprite.setRegion(Boss1Attack.getFrame());
             Boss1Attack.update(dt);
         }
         else if(Walk == true){
-            sprite = new Sprite(Boss1Move.getFrame());
+            sprite.setRegion(Boss1Move.getFrame());
             Boss1Move.update(dt);
         }
         else {
