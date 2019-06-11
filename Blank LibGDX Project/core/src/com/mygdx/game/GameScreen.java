@@ -28,11 +28,13 @@ public class GameScreen implements Screen {
 
     Texture mapImg = new Texture("Map.png");
     Texture Map2 = new Texture("M2.png");
+    Texture Map3 = new Texture("GreenM.png");
     //Texture levelChangeDoor = new Texture("LevelChangeDoor.png");
     Interactable levelChangeDoor;
 
     Sprite mapSprite = new Sprite(mapImg);
     Sprite mapSprite2 = new Sprite(Map2);
+    Sprite mapSprite3 = new Sprite(Map3);
     public static float mapBoundX;
     public static float mapBoundY;
 
@@ -70,12 +72,12 @@ public class GameScreen implements Screen {
                 //enemies.add(new Minotaur(new Vector2(MathUtils.random(600), MathUtils.random(400))));
             }
         }
-        else if(currentLevel == 3){
-            for(int i = 0; i < enemyAmount + 15; i++){
-                enemies.add(new Slime(new Vector2(MathUtils.random(600), MathUtils.random(400))));
-                //enemies.add(new Minotaur(new Vector2(MathUtils.random(600), MathUtils.random(400))));
-            }
-        }
+//        else if(currentLevel == 3){
+//            for(int i = 0; i < enemyAmount + 15; i++){
+//                enemies.add(new Slime(new Vector2(MathUtils.random(600), MathUtils.random(400))));
+//                //enemies.add(new Minotaur(new Vector2(MathUtils.random(600), MathUtils.random(400))));
+//            }
+//        }
         for (Enemy e:
                 enemies) {
             e.target = player;
@@ -83,14 +85,20 @@ public class GameScreen implements Screen {
 
         mapSprite2.setPosition((-mapSprite2.getWidth() / 4) + 30, -mapSprite2.getHeight() / 4);
         mapSprite2.setScale(.5f, .6f);
-        mapBoundX2 = mapSprite2.getWidth() / 2;
-        mapBoundY2 = mapSprite2.getHeight() / 2;
+//        mapBoundX2 = mapSprite2.getWidth() / 2;
+//        mapBoundY2 = mapSprite2.getHeight() / 2;
 
+        mapSprite3.setPosition((-mapSprite3.getWidth() / 4) + 30, -mapSprite3.getHeight() / 4);
+        mapSprite3.setScale(.5f, .6f);
+//        mapBoundX2 = mapSprite2.getWidth() / 2;
+//        mapBoundY2 = mapSprite2.getHeight() / 2;
+
+//        levelChangeDoor = new Interactable(new Vector2(mapBoundX, mapBoundY), 100);
+//        player = new Player(mapSprite2.getWidth() / 4, mapSprite2.getHeight() / 4);
 
         mapSprite.setPosition((-mapSprite.getWidth() / 4) + 30, -mapSprite.getHeight() / 4);
         mapSprite.setScale(.5f, .6f);
-        levelChangeDoor = new Interactable(new Vector2(mapBoundX, mapBoundY), 100);
-        player = new Player(mapSprite2.getWidth() / 4, mapSprite2.getHeight() / 4);
+
 
         mapBoundX = mapSprite.getWidth() / 2;
         mapBoundY = mapSprite.getHeight() / 2;
@@ -110,11 +118,13 @@ public class GameScreen implements Screen {
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
             currentLevel += 1;
-        }  if(currentLevel < 2){
-            mapSprite.draw(batch);
+        }  if(currentLevel == 0){
 
-        }else{
             mapSprite2.draw(batch);
+        }else if(currentLevel == 1){
+            mapSprite3.draw(batch);
+        }else{
+            mapSprite.draw(batch);
         }
 
         camera.position.x = MathUtils.lerp(camera.position.x, player.position.x, delta * 5);
