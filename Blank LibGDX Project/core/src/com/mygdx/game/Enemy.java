@@ -22,6 +22,7 @@ public class Enemy {
     int diffx = 0;
     int diffy = 0;
     float speed = 0;
+    Vector2 velocity = Vector2.Zero;
     boolean detect=false;
     Vector2 position;
     Sprite sprite;
@@ -39,7 +40,6 @@ public class Enemy {
 
 
     public Enemy(Vector2 position){
-
         this.position = position;
         Init();
     }
@@ -53,8 +53,8 @@ public class Enemy {
         sprite.setPosition(position.x, position.y);
         selfCollider = new Rectangle(position.x, position.y, 32, 32);
         originColor = sprite.getColor();
+        velocity = new Vector2(MathUtils.random(1f,3f), MathUtils.random(1f,3f));
         speed = MathUtils.random(1f,3f);
-
     }
 
     public void render(float dt, SpriteBatch batch){
@@ -66,8 +66,6 @@ public class Enemy {
                 hitFXs.removeIndex(i);
             }
         }
-
-
         update(dt);
     }
 
@@ -81,11 +79,29 @@ public class Enemy {
         }
         sprite.setPosition(position.x, position.y);
         selfCollider.setPosition(position.x, position.y);
-        takeDamageForDuration(.3f, dt);
-        AttackDuration(.3f, dt);
+        takeDamageForDuration(1f, dt);
+        AttackDuration(1.5f, dt);
         selfCollider.setPosition(position.x, position.y);
 
 
+
+        checkEnemyBound();
+    }
+
+
+    void checkEnemyBound(){
+        if(position.x <= 0){
+            position.x = 0;
+        }
+        if(position.x > GameScreen.mapBoundX){
+            position.x = GameScreen.mapBoundX;
+        }
+        if(position.y <= 0){
+            position.y = 0;
+        }
+        if(position.y > GameScreen.mapBoundY - 100){
+            position.y = GameScreen.mapBoundY - 100;
+        }
     }
 
     void takeDamageForDuration(float duration, float dt){
@@ -99,7 +115,6 @@ public class Enemy {
                 //sprite.setColor(1,1,1,1);
                 takingDamage = false;
             }
-
         }
     }
 
@@ -112,7 +127,6 @@ public class Enemy {
                 AttackColorTimer = 0;
                 Attack = false;
             }
-
         }
     }
 
@@ -122,7 +136,6 @@ public class Enemy {
         health -= damage;
         //sprite.setColor(1,0,0,1);
         takingDamage = true;
-
     }
 
     public void MoveLeft(){
@@ -132,25 +145,28 @@ public class Enemy {
     }
 
     public void EnemyTrace(float x,float y){
+        if(EnemyCheckAttack(x,y)){
+            Attack = true;
+
+        }
         //pixel的坐标有问题，player的坐标和enemy的坐标不一致
-        if(EnemyDetect(x,y) == true && detect == false) {
+        else if(EnemyDetect(x,y) == true && detect == false && Attack == false) {
             detect = true;
         }
         if(detect==true) {
-            if (Math.abs(position.x - x - diffx) >= Math.abs(position.y - y - diffy)) {
+            if (Math.abs(position.x - x ) >= Math.abs(position.y - y - diffy)) {
                 Walk = true;
-                if(Math.abs(position.x - x - diffx)<40){
-                    Attack = true;
-                    return;
-                }
-                if (position.x - x - diffx >= 0) {
-                    MoveLeft();
-                    position.x = position.x - speed;
+                position.x = position.x + velocity.x;
+                if (position.x - x >= 0) {
+                    velocity.x = -speed;
                 } else if (position.x - (x + randomStopPosition.x) < 0) {
-                    position.x = position.x + speed;
+                    velocity.x = speed;
+                }
+                else{
+                    velocity = Vector2.Zero;
                 }
             } else {
-                if (position.y - y - diffy >= 0) {
+                if (position.y - y >= 0) {
                     position.y = position.y - speed;
                 } else if (position.y - (y + randomStopPosition.y) < 0) {
                     position.y = position.y + speed;
@@ -166,5 +182,12 @@ public class Enemy {
         else{
             return false;
         }
+    }
+
+    public boolean EnemyCheckAttack(float x, float y){
+        if(Vector2.dst(position.x, position.y, x, y) < 50){
+            return true;
+        }
+        else return false;
     }
 }
