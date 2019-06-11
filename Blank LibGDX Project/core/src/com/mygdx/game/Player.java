@@ -290,7 +290,7 @@ public class Player {
         sprite.setColor(1,0,0,1);
         if(health - damage == 0){
             playerState = PlayerState.DEAD;
-            System.out.println("Game Over");
+
 
         }
     }

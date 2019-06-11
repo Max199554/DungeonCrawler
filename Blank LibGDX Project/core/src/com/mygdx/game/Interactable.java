@@ -33,7 +33,7 @@ public class Interactable {
 
    public void DetactDisToPlayer(float x, float y){
         if(Vector2.dst(position.x, position.y, x, y) < interactCircle.radius &&
-                Gdx.input.isKeyJustPressed(Input.Keys.J)){
+                Gdx.input.isKeyJustPressed(Input.Keys.F)){
             canSetScene = true;
         }
    }
