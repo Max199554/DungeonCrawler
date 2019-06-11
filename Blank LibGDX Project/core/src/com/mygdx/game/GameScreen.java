@@ -21,8 +21,10 @@ public class GameScreen implements Screen {
     Player player;
     DelayedRemovalArray<Enemy> enemies;
     DelayedRemovalArray<DestoryFX> destoryFXs = new DelayedRemovalArray<DestoryFX>();
+
+
     SpriteBatch batch;
-    int enemyAmount = 5;
+    int enemyAmount = 1;
 
     Texture mapImg = new Texture("Map.png");
     Texture Map2 = new Texture("M2.png");
@@ -139,6 +141,9 @@ public class GameScreen implements Screen {
                 destoryFXs.removeIndex(i);
             }
         }
+
+
+
         player.render(delta, batch);
 
         if(enemies.size <= 0){

@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.DelayedRemovalArray;
 
 public class Enemy {
 
@@ -35,7 +36,7 @@ public class Enemy {
     float damageColorTimer = 0;
     float AttackColorTimer = 0;
 
-
+    DelayedRemovalArray<HitFX> hitFXs = new DelayedRemovalArray<HitFX>();
     public Enemy(Vector2 position){
 
         this.position = position;
@@ -52,10 +53,19 @@ public class Enemy {
         selfCollider = new Rectangle(position.x, position.y, 32, 32);
         originColor = sprite.getColor();
         speed = MathUtils.random(1f,3f);
+
     }
 
     public void render(float dt, SpriteBatch batch){
         sprite.draw(batch);
+
+        for(int i = 0; i < hitFXs.size; i++){
+            hitFXs.get(i).render(batch);
+            hitFXs.get(i).update(dt);
+            if(hitFXs.get(i).fxAnimation.getFrameNum() == 5){
+                hitFXs.removeIndex(i);
+            }
+        }
 
         update(dt);
     }
@@ -70,9 +80,11 @@ public class Enemy {
         }
         sprite.setPosition(position.x, position.y);
         selfCollider.setPosition(position.x, position.y);
-        takeDamageForDuration(.3f, dt);
-        AttackDuration(.3f, dt);
+        takeDamageForDuration(1f, dt);
+        AttackDuration(1f, dt);
         selfCollider.setPosition(position.x, position.y);
+
+
     }
 
     void takeDamageForDuration(float duration, float dt){
@@ -105,8 +117,10 @@ public class Enemy {
 
     public void TakeDamage(int damage){
         health -= damage;
+        hitFXs.add(new HitFX(new Vector2(position.x, position.y)));
         //sprite.setColor(1,0,0,1);
         takingDamage = true;
+
     }
 
     public void MoveLeft(){
@@ -118,33 +132,27 @@ public class Enemy {
     }
 
     public void EnemyTrace(float x,float y){
+        //pixel的坐标有问题，player的坐标和enemy的坐标不一致
         if(EnemyDetect(x,y) == true && detect == false) {
             detect = true;
         }
-        if(Math.abs(position.x - x - diffx)<40 && Math.abs(position.y - y - diffx)<40){
-            if(position.y > y){
-                MoveRight();
-                Attack = true;
-            }
-            if(position.y < y){
-                MoveLeft();
-                Attack = true;
-            }
-        }
-        else{
-            Walk = true;
+
+        if(detect==true) {
+
             if (Math.abs(position.x - x - diffx) >= Math.abs(position.y - y - diffy)) {
-                if (position.x - x - diffx > 0 ) {
+                Walk = true;
+                if(Math.abs(position.x - x - diffx)<40){
+                    Attack = true;
+                    return;
+                }
+                if (position.x - x - diffx >= 0) {
                     MoveLeft();
                     position.x = position.x - speed;
-                }
-                else{
-                    MoveRight();
+                } else if (position.x - (x + randomStopPosition.x) < 0) {
                     position.x = position.x + speed;
                 }
-            }
-            else{
-                if (position.y - y - diffy > 0) {
+            } else {
+                if (position.y - y - diffy >= 0) {
                     position.y = position.y - speed;
                 } else {
                     position.y = position.y + speed;
