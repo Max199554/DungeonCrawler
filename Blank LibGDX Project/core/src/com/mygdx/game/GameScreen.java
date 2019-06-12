@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 
 public class GameScreen implements Screen {
 
+    Hud hud;
 
     int currentLevel = 0;
     OrthographicCamera camera;
@@ -57,7 +58,7 @@ public class GameScreen implements Screen {
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         enemies = new DelayedRemovalArray<Enemy>();
         batch = new SpriteBatch();
-
+        hud = new Hud(batch);
         if(currentLevel == 0){
             for(int i = 0; i < enemyAmount; i++){
                enemies.add(new Slime(new Vector2(MathUtils.random(600), MathUtils.random(400))));
@@ -66,13 +67,14 @@ public class GameScreen implements Screen {
             }
         }
         else if(currentLevel == 1){
-            for(int i = 0; i < enemyAmount ; i++){
+            for(int i = 0; i < enemyAmount + 5; i++){
                 enemies.add(new Slime(new Vector2(MathUtils.random(600), MathUtils.random(400))));
                 //enemies.add(new Minotaur(new Vector2(MathUtils.random(600), MathUtils.random(400))));
+                //enemies.add(new Boss1(new Vector2(MathUtils.random(600), MathUtils.random(400))));
             }
         }
         else if(currentLevel == 2){
-            for(int i = 0; i < enemyAmount ; i++){
+            for(int i = 0; i < 1 ; i++){
                 //enemies.add(new Minotaur(new Vector2(MathUtils.random(600), MathUtils.random(400))));
                 enemies.add(new Boss1(new Vector2(MathUtils.random(600), MathUtils.random(400))));}
         }
@@ -110,7 +112,7 @@ public class GameScreen implements Screen {
         player.enemiesToAttack = enemies;
 
         healthAmount = player.health / 10;
-        playerHealthSprite.setScale(1);
+        playerHealthSprite.setScale(1.5f);
 
         for (Enemy e:
                 enemies) {
@@ -144,10 +146,10 @@ public class GameScreen implements Screen {
         //System.out.println(player.position);
         batch.setProjectionMatrix(camera.combined);
 
-        for(int i = 0; i <= healthAmount; i++){
-            playerHealthSprite.draw(batch);
-            playerHealthSprite.setPosition(player.position.x - 32 + i * 16, player.position.y - 64);
+        for(int i = 0; i < healthAmount; i++){
 
+            playerHealthSprite.draw(batch);
+            playerHealthSprite.setPosition(camera.position.x - 700 + (i * 32), camera.position.y + 400);
         }
 
         for (Enemy e : enemies){
@@ -180,8 +182,6 @@ public class GameScreen implements Screen {
                 game.setScreen(MyGdxGame.levelClearScreen);
             }
         }
-
-
 
         batch.end();
     }

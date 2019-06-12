@@ -131,8 +131,8 @@ public class Player {
     }
 
     public void update(float dt){
-        selfBox.setPosition(position.x, position.y);
-        System.out.println(selfBox.getX() + ", " + selfBox.getY());
+        selfBox.setPosition(position.x, position.y - 32);
+        //System.out.println(selfBox.getX() + ", " + selfBox.getY());
         UpdateAnimation(dt);
         comboTimer += dt;
         attackTimerLag -= dt;
@@ -142,7 +142,6 @@ public class Player {
             for(int i = 0; i < comboSetter.length; i++){
                 if(comboTimer <= comboMaxTime && comboSetter[i] != true) {
                     comboSetter[i] = true;
-                    System.out.println(i + " " + comboSetter[i]);
                     comboTimer = 0;
                     break;
                 }
@@ -153,12 +152,9 @@ public class Player {
 
             for(int i = 0; i < comboSetter.length; i++){
                 comboSetter[i] = false;
-                System.out.println("reset" + i + " " + comboSetter[i]);
             }
             currentAttackNum = 0;
             comboTimer = 0;
-
-            System.out.println("all false");
         }
         if(attacking == true){
             playerSpeed = 50;
@@ -264,7 +260,6 @@ public class Player {
             if(attackBox.overlaps(e.selfCollider) && attacking == true){
                 e.TakeDamage(damage);
                 MyGdxGame.gameScreen.ScreenShake(25);
-                System.out.println("damage");
                 if(isFacingRight == true){
                     e.position.x += 2;
                     e.position.y += MathUtils.random(-3.0f, 2.0f);

@@ -46,10 +46,12 @@ public class Boss1 extends Enemy{
         super.Init();
         selfCollider = new Rectangle(position.x, position.y, 101, 51);
         health = 200;
+        attackDuration = 1f;
     }
 
     @Override
     public void update(float dt){
+        changeFacing();
         //sprite = new Sprite((Boss1Idle.getFrame()));
         if(Attack == true){
             sprite.setRegion(Boss1Attack.getFrame());
@@ -66,8 +68,13 @@ public class Boss1 extends Enemy{
     }
 
     @Override
-    public void MoveLeft(){
-        sprite.setScale(-1,1);
+    public void changeFacing(){
+        if(isFacingRight == true) {
+            sprite.setScale(1, 1);
+        }
+        else {
+            sprite.setScale(-1,1);
+        }
     }
 
     @Override
