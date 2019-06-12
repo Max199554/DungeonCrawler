@@ -8,8 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 public class Slime extends Enemy {
-    float attackRateTimer = 0;
-    float attackRate = 1f;
+
 
     float attackTime = 0;
 
@@ -34,6 +33,7 @@ public class Slime extends Enemy {
 
         AttackDamage = new Texture("GreenSlime-Attack.png");
         slimeAttack = new Animation(new TextureRegion(AttackDamage),11,2f);
+        attackDuration = 1.2f;
     }
 
     @Override
@@ -55,7 +55,8 @@ public class Slime extends Enemy {
 
     @Override
     public void update(float dt){
-        attackRateTimer += dt;
+        changeFacing();
+
         //sprite.setRegion(slimeWalkAndIdle.getFrame());
         if(takingDamage == true){
             sprite.setRegion(slimeTakeDamage.getFrame());
@@ -65,10 +66,8 @@ public class Slime extends Enemy {
         else if(Attack == true ){
            sprite.setRegion(slimeAttack.getFrame());
            slimeAttack.update(dt);
-
         }
         else {
-
             sprite.setRegion(slimeWalkAndIdle.getFrame());
             slimeWalkAndIdle.update(dt);
         }
@@ -97,18 +96,15 @@ public class Slime extends Enemy {
     }
 
     @Override
-    public void MoveLeft(){
-        sprite.setScale(-1,1);
+    public void changeFacing(){
+        if(isFacingRight == true) {
+            sprite.setScale(1, 1);
+        }
+        else {
+            sprite.setScale(-1,1);
+        }
     }
 
-    @Override
-    public void MoveRight(){
-        sprite.setScale(1, 1);
-    }
 
-    @Override
-    public void resetToIdleStart(){
-        slimeWalkAndIdle.setFrameNum(0);
-        sprite.setRegion(slimeWalkAndIdle.getFrame());
-    }
+
 }

@@ -51,15 +51,21 @@ public class Minotaur extends Enemy{
 
     @Override
     public void update(float dt){
+        changeFacing();
         sprite = new Sprite((MinotaurIdle.getFrame()));
         if(takingDamage == true){
-            sprite = new Sprite(MinotaurTakeDamage.getFrame());
+            sprite.setRegion(MinotaurTakeDamage.getFrame());
+            MinotaurTakeDamage.update(dt);
         }
         if(Attack == true){
-            sprite = new Sprite(MinotaurAttack.getFrame());
+            sprite.setRegion(MinotaurAttack.getFrame());
+            MinotaurAttack.update(dt);
+            if(MinotaurAttack.getFrameNum() == MinotaurAttack.getRegion().size - 1){
+                Attack = false;
+            }
         }
         if(Walk == true){
-            sprite = new Sprite(MinotaurMove.getFrame());
+            sprite.setRegion(MinotaurMove.getFrame());
         }
         else {
             MinotaurIdle.update(dt);
@@ -69,8 +75,13 @@ public class Minotaur extends Enemy{
     }
 
     @Override
-    public void MoveLeft(){
-        sprite.setScale(-1,1);
+    public void changeFacing(){
+        if(isFacingRight == true) {
+            sprite.setScale(1, 1);
+        }
+        else {
+            sprite.setScale(-1,1);
+        }
     }
 
     @Override

@@ -13,8 +13,11 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 
 public class Enemy {
 
+    float attackRateTimer = 0;
+    protected float attackRate = 2f;
+    protected float attackDuration = 1f;
     public float attackRange;
-
+    boolean isFacingRight = true;
     float stopPositionChangeRate = 3;
     Vector2 randomStopPosition;
 
@@ -41,7 +44,6 @@ public class Enemy {
 
     DelayedRemovalArray<HitFX> hitFXs = new DelayedRemovalArray<HitFX>();
     public Enemy(Vector2 position){
-
         this.position = position;
         Init();
     }
@@ -63,6 +65,8 @@ public class Enemy {
 
     public void render(float dt, SpriteBatch batch){
         sprite.draw(batch);
+        selfCollider.setPosition(position.x, position.y);
+        sprite.setPosition(position.x, position.y);
         for(int i = 0; i < hitFXs.size; i++){
             hitFXs.get(i).render(batch);
             hitFXs.get(i).update(dt);
@@ -74,29 +78,28 @@ public class Enemy {
     }
 
     public void update(float dt){
-
+        attackRateTimer += dt;
         if(randomPositionChangeTimer <= 0){
             randomStopPosition = new Vector2(MathUtils.random(-64,64), MathUtils.random(-64,64));
             randomPositionChangeTimer = stopPositionChangeRate;
         }else{
             randomPositionChangeTimer -= dt;
         }
-        sprite.setPosition(position.x, position.y);
-        selfCollider.setPosition(position.x, position.y);
+
+        //selfCollider.setPosition(position.x, position.y);
         takeDamageForDuration(1f, dt);
-        AttackDuration(1.2f, dt);
+        AttackDuration(attackDuration, dt);
         selfCollider.setPosition(position.x, position.y);
         hitBox.setPosition(position.x, position.y);
         CheckForBounds();
 
-        if(velocity.x > 0){
-            MoveRight();
-        }else if(velocity.x < 0){
-            MoveLeft();
+        if(velocity.x > 0.3f){
+            isFacingRight = true;
+        }else if(velocity.x < -0.3f){
+            isFacingRight = false;
         }
-        else{
-            MoveRight();
-        }
+        //sprite.setPosition(position.x, position.y);
+        System.out.println(Attack);
     }
 
     void takeDamageForDuration(float duration, float dt){
@@ -135,6 +138,7 @@ public class Enemy {
             }
             else{
                 AttackColorTimer = 0;
+                attackRateTimer = 0;
                 Attack = false;
                 resetToIdleStart();
             }
@@ -153,7 +157,7 @@ public class Enemy {
 
     }
 
-    public void MoveLeft(){
+    public void changeFacing(){
 
     }
 
@@ -162,52 +166,53 @@ public class Enemy {
     }
 
     public void EnemyTrace(float x,float y){
-        if(EnemyCheckAttack(x,y) == true){
+        if(EnemyCheckAttack(x,y) == true && attackRateTimer > attackRate){
             Attack = true;
-            //velocity = Vector2.Zero;
-
         }
-        //pixel的坐标有问题，player的坐标和enemy的坐标不一致
-        else if(EnemyDetect(x,y) == true && detect == false && Attack == false){
+        if(EnemyDetect(x,y) == true && detect == false){
             detect = true;
         }
         if(detect == true && Attack == false) {
+            if (Math.abs(position.x - x - diffx) >= Math.abs(position.y - y - diffy)){
                 Walk = true;
-                if (position.x - (x + randomStopPosition.x) > 0) {
+
+                if (position.x - x > 0.3f) {
                     velocity.x = -speed;
                     position.x += velocity.x;
-                } else if (position.x - (x + randomStopPosition.x) < 0) {
+                } else if (position.x - x < -0.3f) {
                     velocity.x = speed;
                     position.x += velocity.x;
                 }
+
                 else {
-                    velocity = Vector2.Zero;
-                    //position.x += velocity.x;
+                    velocity.x = 0;
                     Walk = false;
                 }
-
-                if (position.y - (y + randomStopPosition.y) > 0) {
-                    velocity.y = - speed;
-                    position.y += velocity.y;
-                } else if(position.y - (y + randomStopPosition.y) < 0){
-                    velocity.y = speed;
-                    position.y += velocity.y;
+            }else
+                {
+                    if (position.y - (y - 48) > 0) {
+                        velocity.y = - speed;
+                        position.y += velocity.y;
+                    } else if(position.y - (y - 48) < 0){
+                        velocity.y = speed;
+                        position.y += velocity.y;
+                    }
+                    else{
+                        velocity.y = 0;
+                    }
                 }
-                else{
-                    velocity = Vector2.Zero;
-                    //position.y += velocity.y;
-                }
-            }
+        }
     }
 
     public void ApplyDamage(int damage){
         //System.out.println(target);
         System.out.println(hitBox);
-        if(target != null){
+
             if(hitBox.overlaps(target.selfBox) && Attack == true ){
                 target.TakeDamge(damage);
                 MyGdxGame.gameScreen.ScreenShake(5);
-            }}
+
+        }
     }
 
     public boolean EnemyDetect(float x, float y){
@@ -220,7 +225,7 @@ public class Enemy {
     }
 
     public boolean EnemyCheckAttack(float x, float y){
-        if(Vector2.dst(position.x, position.y, x, y) < 30){
+        if(Vector2.dst(position.x, position.y, x, y) < 60){
             return true;
         }else return false;
     }
