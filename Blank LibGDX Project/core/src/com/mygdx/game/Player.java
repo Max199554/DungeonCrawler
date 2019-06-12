@@ -20,11 +20,13 @@ import sun.awt.EventQueueDelegate;
 
 public class Player {
 
+    float damage = 5;
     PlayerState playerState;
     Vector2 position;
     Sprite sprite;
     int health;
     Rectangle attackBox;
+    Rectangle selfBox;
     boolean attacking = false;
     DelayedRemovalArray<Enemy> enemiesToAttack;
     float attackRangeX = 70;
@@ -78,6 +80,8 @@ public class Player {
     }
 
     public void Init(){
+        health = 50;
+
         attacks = new ArrayList<Animation>();
 
 
@@ -85,11 +89,15 @@ public class Player {
         attackBox = new Rectangle(position.x,
                 position.y, attackRangeX, attackRangeY);
 
+
+
         idle = new Texture("PlayerIdle.png");
         idleAnimation = new Animation(new TextureRegion(idle), 4, .7f);
 
         sprite = new Sprite(idleAnimation.getFrame());
         sprite.setScale(2);
+
+        selfBox = new Rectangle(position.x, position.y, idle.getWidth() * 2, idle.getHeight() * 2);
 
         move = new Texture("PlayerMove.png");
         moveAnimation = new Animation(new TextureRegion(move), 6, .5f);
@@ -123,6 +131,8 @@ public class Player {
     }
 
     public void update(float dt){
+        selfBox.setPosition(position.x, position.y);
+        System.out.println(selfBox.getX() + ", " + selfBox.getY());
         UpdateAnimation(dt);
         comboTimer += dt;
         attackTimerLag -= dt;
@@ -216,7 +226,7 @@ public class Player {
         if(animation.getFrameNum() == frameNum){
             attackTime += dt;
             if(attackTime <= dt){
-                ApplyDamage(2);
+                ApplyDamage((int)damage);
             }
         }
         if(animation.getFrameNum() == animation.getRegion().size - 1 ){

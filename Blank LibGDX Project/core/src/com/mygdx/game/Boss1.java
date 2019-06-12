@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Boss1 extends Enemy{
@@ -28,6 +29,7 @@ public class Boss1 extends Enemy{
 
         Move = new Texture("Boss1-move.png");
         Boss1Move = new Animation(new TextureRegion(Move),14,1);
+
     }
 
     @Override
@@ -42,17 +44,19 @@ public class Boss1 extends Enemy{
         Boss1Idle = new Animation(new TextureRegion(idle), 3, MathUtils.random(.7f, .9f));
         sprite = new Sprite(Boss1Idle.getFrame());
         super.Init();
+        selfCollider = new Rectangle(position.x, position.y, 101, 51);
+        health = 200;
     }
 
     @Override
     public void update(float dt){
-        sprite = new Sprite((Boss1Idle.getFrame()));
+        //sprite = new Sprite((Boss1Idle.getFrame()));
         if(Attack == true){
-            sprite = new Sprite(Boss1Attack.getFrame());
+            sprite.setRegion(Boss1Attack.getFrame());
             Boss1Attack.update(dt);
         }
         else if(Walk == true){
-            sprite = new Sprite(Boss1Move.getFrame());
+            sprite.setRegion(Boss1Move.getFrame());
             Boss1Move.update(dt);
         }
         else {
