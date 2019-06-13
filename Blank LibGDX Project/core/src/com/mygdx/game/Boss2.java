@@ -8,30 +8,29 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class Boss1 extends Enemy{
-
+public class Boss2 extends Enemy {
 
     Texture idle;
     Animation Boss1Idle;
 
     Texture Move;
-    Animation Boss1Move;
+    Animation Boss2Move;
 
     Texture AttackDamage;
-    Animation Boss1Attack;
+    Animation Boss2Attack;
 
-    public Boss1(Vector2 position) {
+    public Boss2 (Vector2 position) {
+
         super(position);
-        AttackDamage = new Texture("Boss1-attack2.png");
-        Boss1Attack = new Animation(new TextureRegion(AttackDamage),9,1);
+        AttackDamage = new Texture("Boss2-attack.png");
+        Boss2Attack = new Animation(new TextureRegion(AttackDamage),5,1);
 
-        Move = new Texture("Boss1-move.png");
-        Boss1Move = new Animation(new TextureRegion(Move),14,1);
+        Move = new Texture("Boss2-idle.png");
+        Boss2Move = new Animation(new TextureRegion(Move),2,1);
 
         damage = 10;
     }
 
-    @Override
     public void render(float dt, SpriteBatch batch){
         super.render(dt, batch);
         this.update(dt);
@@ -39,8 +38,8 @@ public class Boss1 extends Enemy{
 
     @Override
     public void Init() {
-        idle = new Texture("Boss1-idle.png");
-        Boss1Idle = new Animation(new TextureRegion(idle), 3, MathUtils.random(.7f, .9f));
+        idle = new Texture("Boss2-idle2.png");
+        Boss1Idle = new Animation(new TextureRegion(idle), 2, MathUtils.random(.7f, .9f));
         sprite = new Sprite(Boss1Idle.getFrame());
         super.Init();
         selfCollider = new Rectangle(position.x, position.y, 200, 120);
@@ -53,13 +52,13 @@ public class Boss1 extends Enemy{
     public void update(float dt){
         changeFacing();
         if(Attack == true){
-            sprite.setRegion(Boss1Attack.getFrame());
-            Boss1Attack.update(dt);
-            attachAnimationEventAt(Boss1Attack, 6, dt);
+            sprite.setRegion(Boss2Attack.getFrame());
+            Boss2Attack.update(dt);
+            attachAnimationEventAt(Boss2Attack, 1, dt);
         }
         else if(Walk == true){
-            sprite.setRegion(Boss1Move.getFrame());
-            Boss1Move.update(dt);
+            sprite.setRegion(Boss2Move.getFrame());
+            Boss2Move.update(dt);
         }
         else {
             Boss1Idle.update(dt);
