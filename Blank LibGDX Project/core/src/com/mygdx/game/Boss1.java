@@ -30,6 +30,8 @@ public class Boss1 extends Enemy{
         Move = new Texture("Boss1-move.png");
         Boss1Move = new Animation(new TextureRegion(Move),14,1);
 
+        damage = 10;
+
     }
 
     @Override
@@ -56,6 +58,7 @@ public class Boss1 extends Enemy{
         if(Attack == true){
             sprite.setRegion(Boss1Attack.getFrame());
             Boss1Attack.update(dt);
+            attachAnimationEventAt(Boss1Attack, 6, dt);
         }
         else if(Walk == true){
             sprite.setRegion(Boss1Move.getFrame());

@@ -13,6 +13,8 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 
 public class Enemy {
 
+    public int damage = 5;
+
     float attackRateTimer = 0;
     protected float attackRate = 2f;
     protected float attackDuration = 1f;
@@ -237,7 +239,7 @@ public class Enemy {
         if(animation.getFrameNum() == frameNum){
             attackTime += dt;
             if(attackTime <= dt){
-                ApplyDamage(5);
+                ApplyDamage(damage);
             }
         }
         if(animation.getFrameNum() == animation.getRegion().size - 1 ){
