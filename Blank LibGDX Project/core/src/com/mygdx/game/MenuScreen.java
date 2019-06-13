@@ -16,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.sun.tools.javah.Util;
 
 
 public class MenuScreen implements Screen {
@@ -30,7 +29,7 @@ public class MenuScreen implements Screen {
     Drawable shellDraw;
 
     Texture StartButtonTexture = new Texture("Start.png");
-    Texture StartButtonTexturePressed = new Texture("Start.png");
+
 
     Texture ExitButtonTexture = new Texture("Exit.png");
     Texture ExitButtonTexturePressed = new Texture("Exit.png");
@@ -54,13 +53,13 @@ public class MenuScreen implements Screen {
         shellScreenimg = new Image(ShellScreenimg);
         shellScreenimg.setFillParent(true);
         //startButton = new TextButton("Play",skin,"default");
-        startButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(StartButtonTexture)), new TextureRegionDrawable(new TextureRegion(StartButtonTexturePressed)));
+        startButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(StartButtonTexture)));
 
         startButton.setWidth(200);
         startButton.setHeight(89);
 
         exitButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(ExitButtonTexture)), new TextureRegionDrawable(new TextureRegion(ExitButtonTexturePressed)));
-        exitButton = new TextButton("Exit",skin,"default");
+        //exitButton = new TextButton("Exit",skin,"default");
         exitButton.setWidth(200);
         exitButton.setHeight(89);
 
