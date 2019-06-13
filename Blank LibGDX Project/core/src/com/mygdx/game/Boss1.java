@@ -47,8 +47,8 @@ public class Boss1 extends Enemy{
         Boss1Idle = new Animation(new TextureRegion(idle), 3, MathUtils.random(.7f, .9f));
         sprite = new Sprite(Boss1Idle.getFrame());
         super.Init();
-        selfCollider = new Rectangle(position.x, position.y, 200, 100);
-        attackRange = 200;
+        selfCollider = new Rectangle(position.x, position.y, 200, 120);
+        attackRange = 300;
         health = maxHealth;
         attackDuration = 1f;
     }

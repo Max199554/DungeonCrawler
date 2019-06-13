@@ -46,6 +46,9 @@ public class Player {
     //which attack animation to trigger next
     int currentAttackNum = 0;
 
+    float dodgeDurationTimer = .5f;
+    boolean isDodge = false;
+
     boolean[] comboSetter;
     ArrayList<Animation> attacks;
 
@@ -136,7 +139,7 @@ public class Player {
         UpdateAnimation(dt);
         comboTimer += dt;
         attackTimerLag -= dt;
-        sprite.setPosition(position.x, position.y);
+        sprite.setPosition(isFacingRight ? position.x : position.x - 64, position.y);
         if(Gdx.input.isKeyJustPressed(Input.Keys.J)){
             attacking = true;
             for(int i = 0; i < comboSetter.length; i++){
@@ -148,8 +151,21 @@ public class Player {
             }
         }
 
-        if(comboTimer > comboMaxTime){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.L)){
+            isDodge = true;
+        }
+        if(isDodge == true){
+            playerSpeed = 1000;
+            dodgeDurationTimer -= dt;
+        }
 
+        if(dodgeDurationTimer < 0){
+            playerSpeed = Constant.PLAYER_SPEED;
+            dodgeDurationTimer = 0.5f;
+            isDodge = false;
+        }
+
+        if(comboTimer > comboMaxTime){
             for(int i = 0; i < comboSetter.length; i++){
                 comboSetter[i] = false;
             }
@@ -162,7 +178,6 @@ public class Player {
         }
         else{
             playerSpeed = Constant.PLAYER_SPEED;
-            //comboTimer = 0;
         }
         attackBox.setPosition(isFacingRight == true ? sprite.getX() + 10 : sprite.getX() - 10, sprite.getY() - 32);
         if(isFacingRight == false){
