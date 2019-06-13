@@ -7,12 +7,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 
 public class MenuScreen implements Screen {
@@ -25,6 +28,11 @@ public class MenuScreen implements Screen {
     Skin skin;
     Drawable shellDraw;
 
+    Texture StartButtonTexture = new Texture("Start.png");
+
+
+    Texture ExitButtonTexture = new Texture("Exit.png");
+    Texture ExitButtonTexturePressed = new Texture("Exit.png");
 
     Texture ShellScreenimg = new Texture("ShellScreen.png");
     Sprite shellSprite = new Sprite(ShellScreenimg);
@@ -44,14 +52,16 @@ public class MenuScreen implements Screen {
         shellSprite.setScale(5);
         shellScreenimg = new Image(ShellScreenimg);
         shellScreenimg.setFillParent(true);
-        startButton = new TextButton("Play",skin,"default");
+        //startButton = new TextButton("Play",skin,"default");
+        startButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(StartButtonTexture)));
+
         startButton.setWidth(200);
-        startButton.setHeight(64);
+        startButton.setHeight(89);
 
-
-        exitButton = new TextButton("Exit",skin,"default");
+        exitButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(ExitButtonTexture)), new TextureRegionDrawable(new TextureRegion(ExitButtonTexturePressed)));
+        //exitButton = new TextButton("Exit",skin,"default");
         exitButton.setWidth(200);
-        exitButton.setHeight(64);
+        exitButton.setHeight(89);
 
         startButton.setPosition(Gdx.graphics.getWidth() / 2 - startButton.getWidth() / 2 - 400,
                 Gdx.graphics.getHeight() / 2 + 64);
