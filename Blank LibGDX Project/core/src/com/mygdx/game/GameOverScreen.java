@@ -7,11 +7,15 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class GameOverScreen implements Screen {
     MyGdxGame game;
@@ -19,7 +23,10 @@ public class GameOverScreen implements Screen {
     Label deathText;
     Stage stage;
     Skin skin;
-    TextButton restart;
+    Button restart;
+
+    Texture RestartButtonTexture = new Texture("Retry.png");
+
     SpriteBatch batch;
 
     Texture gameOverScreen = new Texture("GameOverScreen.png");
@@ -32,8 +39,11 @@ public class GameOverScreen implements Screen {
 
         gameScreenImg = new Image(gameOverScreen);
         gameScreenImg.setFillParent(true);
-        restart = new TextButton("Retry", skin);
-        restart.setSize(150, 64);
+
+        //restart = new TextButton("Retry", skin);
+        restart = new ImageButton(new TextureRegionDrawable(new TextureRegion(RestartButtonTexture)));
+
+        restart.setSize(250, 164);
         restart.setPosition(Gdx.graphics.getWidth() / 2 - restart.getWidth() / 2 + 400,
                 Gdx.graphics.getHeight() / 2 - 100);
 

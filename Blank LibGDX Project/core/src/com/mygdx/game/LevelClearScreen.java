@@ -3,18 +3,23 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class LevelClearScreen implements Screen {
     SpriteBatch batch;
     public GameScreen gameScreen;
     Label finishTimeText;
     Button nextLevelButton;
+    Texture ContinueButtonTexture = new Texture("Continue.png");
     String finishTip;
     Skin skin;
     MyGdxGame game;
@@ -28,9 +33,13 @@ public class LevelClearScreen implements Screen {
         batch = new SpriteBatch();
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         stage = new Stage();
+
         nextLevelButton = new TextButton("Continue",skin,"default");
-        nextLevelButton.setWidth(100);
-        nextLevelButton.setHeight(50);
+        nextLevelButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(ContinueButtonTexture)));
+
+
+        nextLevelButton.setWidth(300);
+        nextLevelButton.setHeight(89);
         nextLevelButton.setPosition(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() / 2);
         stage.addActor(nextLevelButton);
         Gdx.input.setInputProcessor(stage);

@@ -58,7 +58,7 @@ public class MenuScreen implements Screen {
         startButton.setWidth(200);
         startButton.setHeight(89);
 
-        exitButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(ExitButtonTexture)), new TextureRegionDrawable(new TextureRegion(ExitButtonTexturePressed)));
+        exitButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(ExitButtonTexture)));
         //exitButton = new TextButton("Exit",skin,"default");
         exitButton.setWidth(200);
         exitButton.setHeight(89);
