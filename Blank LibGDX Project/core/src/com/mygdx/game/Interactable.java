@@ -14,7 +14,7 @@ public class Interactable {
     Vector2 position;
     Circle interactCircle;
     Sprite sprite;
-    Texture img = new Texture("Door.png");
+    Texture img = new Texture("Enter.png");
     Animation doorAni;
 
     public boolean canSetScene = false;
