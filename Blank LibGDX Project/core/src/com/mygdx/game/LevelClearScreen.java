@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -28,6 +29,9 @@ public class LevelClearScreen implements Screen {
         this.game = game;
     }
 
+    Texture LevelClearScreen = new Texture("ContinueMenu.png");
+    Image levelclearScreenImg;
+
     @Override
     public void show() {
         batch = new SpriteBatch();
@@ -37,10 +41,14 @@ public class LevelClearScreen implements Screen {
         nextLevelButton = new TextButton("Continue",skin,"default");
         nextLevelButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(ContinueButtonTexture)));
 
+        levelclearScreenImg = new Image(LevelClearScreen);
+        levelclearScreenImg.setFillParent(true);
 
         nextLevelButton.setWidth(300);
         nextLevelButton.setHeight(89);
-        nextLevelButton.setPosition(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() / 2);
+        nextLevelButton.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+
+        stage.addActor(levelclearScreenImg);
         stage.addActor(nextLevelButton);
         Gdx.input.setInputProcessor(stage);
     }
