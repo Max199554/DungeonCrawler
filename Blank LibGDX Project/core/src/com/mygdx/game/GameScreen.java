@@ -79,8 +79,8 @@ public class GameScreen implements Screen {
         boss1OutlineSprite.setPosition(camera.position.x, camera.position.y);
         bossHealthSprite.setPosition(camera.position.x, camera.position.y);
 
-        bossHealthSprite.setScale(10,10);
-        boss1OutlineSprite.setScale(10, 10);
+        bossHealthSprite.setScale(8,8);
+        boss1OutlineSprite.setScale(8, 8);
 
         enemies = new DelayedRemovalArray<Enemy>();
         batch = new SpriteBatch();
@@ -88,8 +88,6 @@ public class GameScreen implements Screen {
         if(currentLevel == 0){
             for(int i = 0; i < enemyAmount; i++){
                enemies.add(new Slime(new Vector2(MathUtils.random(600), MathUtils.random(400))));
-               //enemies.add(new Minotaur(new Vector2(MathUtils.random(600), MathUtils.random(400))));
-                //enemies.add(new Boss1(new Vector2(MathUtils.random(600), MathUtils.random(400))));
             }
         }
         else if(currentLevel == 1){
@@ -165,9 +163,9 @@ public class GameScreen implements Screen {
             mapSprite3.draw(batch);
         }else{
            mapSprite2.draw(batch);
-           boss1OutlineSprite.draw(batch);
            boss1OutlineSprite.setPosition(camera.position.x, camera.position.y - 400);
            bossHealthSprite.draw(batch);
+           boss1OutlineSprite.draw(batch);
            bossHealthSprite.setPosition(camera.position.x, camera.position.y - 400);
            if(enemies.size > 0)
                 bossHealthSprite.setScale((float) enemies.get(0).health / enemies.get(0).maxHealth * 10,10);
