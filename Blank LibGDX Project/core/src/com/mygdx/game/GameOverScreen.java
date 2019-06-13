@@ -24,16 +24,11 @@ public class GameOverScreen implements Screen {
 
     Texture gameOverScreen = new Texture("GameOverScreen.png");
     Image gameScreenImg;
-    
+
     @Override
     public void show() {
         stage = new Stage();
         skin = new Skin(Gdx.files.internal("uiskin.json"));
-        deathText = new Label("Game Over", skin);
-        deathText.setSize(500,500);
-        deathText.setFontScale(1.5f,1.5f);
-        deathText.setPosition(Gdx.graphics.getWidth() / 2 , Gdx.graphics.getHeight() / 2);
-        deathText.setColor(Color.WHITE);
 
         gameScreenImg = new Image(gameOverScreen);
         gameScreenImg.setFillParent(true);
@@ -43,7 +38,6 @@ public class GameOverScreen implements Screen {
                 Gdx.graphics.getHeight() / 2 - 100);
 
         stage.addActor(gameScreenImg);
-        stage.addActor(deathText);
         stage.addActor(restart);
         Gdx.input.setInputProcessor(stage);
         batch = new SpriteBatch();
