@@ -23,6 +23,7 @@ public class LevelClearScreen implements Screen {
     Texture ContinueButtonTexture = new Texture("Continue.png");
     String finishTip;
     Skin skin;
+
     MyGdxGame game;
     Stage stage;
     public LevelClearScreen(MyGdxGame game){

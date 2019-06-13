@@ -31,7 +31,16 @@ public class GameScreen implements Screen {
     Texture mapImg = new Texture("Map.png");
     Texture Map2 = new Texture("M2.png");
     Texture Map3 = new Texture("GreenM.png");
+
     Texture playerHealth = new Texture("Player_Health.png");
+
+    Texture bossHealthbar = new Texture("Boss-health.png");
+    Texture bossHealthOutline = new Texture("Boss-healthbar.png");
+    Texture boss2HealthOutline = new Texture("Boss2-healthbar.png");
+    Texture boss3HealthOutline = new Texture("Boss3-healthbar.png");
+
+
+
     //Texture levelChangeDoor = new Texture("LevelChangeDoor.png");
     Interactable levelChangeDoor;
 
@@ -39,7 +48,16 @@ public class GameScreen implements Screen {
     Sprite mapSprite2 = new Sprite(Map2);
     Sprite mapSprite3 = new Sprite(Map3);
 
+    Sprite bossHealthSprite = new Sprite(bossHealthbar);
+
+    Sprite boss1OutlineSprite = new Sprite(bossHealthOutline);
+    Sprite boss2OutlineSprite = new Sprite(boss2HealthOutline);
+    Sprite boss3OutlineSprite = new Sprite(boss3HealthOutline);
+
+
     Sprite playerHealthSprite = new Sprite(playerHealth);
+
+
 
     int healthAmount;
     public static float mapBoundX;
@@ -54,8 +72,16 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        boss1OutlineSprite.setPosition(camera.position.x, camera.position.y);
+        bossHealthSprite.setPosition(camera.position.x, camera.position.y);
+
+        bossHealthSprite.setScale(10,10);
+        boss1OutlineSprite.setScale(10, 10);
+
         enemies = new DelayedRemovalArray<Enemy>();
         batch = new SpriteBatch();
         hud = new Hud(batch);
@@ -129,6 +155,7 @@ public class GameScreen implements Screen {
 
 
         healthAmount = player.health / 10;
+
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
             currentLevel += 1;
         }  if(currentLevel == 0){
@@ -138,6 +165,12 @@ public class GameScreen implements Screen {
             mapSprite3.draw(batch);
         }else{
            mapSprite2.draw(batch);
+           boss1OutlineSprite.draw(batch);
+           boss1OutlineSprite.setPosition(camera.position.x, camera.position.y - 400);
+           bossHealthSprite.draw(batch);
+           bossHealthSprite.setPosition(camera.position.x, camera.position.y - 400);
+           if(enemies.size > 0)
+                bossHealthSprite.setScale((float) enemies.get(0).health / enemies.get(0).maxHealth * 10,10);
         }
 
         camera.position.x = MathUtils.lerp(camera.position.x, player.position.x, delta * 5);
@@ -162,6 +195,8 @@ public class GameScreen implements Screen {
                 ScreenShake(40);
             }
         }
+
+
 
         for(int i = 0; i < destoryFXs.size; i++){
             destoryFXs.get(i).render(batch);

@@ -15,6 +15,8 @@ public class Enemy {
 
     public int damage = 5;
 
+    float detectRange = 100;
+
     float attackRateTimer = 0;
     protected float attackRate = 2f;
     protected float attackDuration = 1f;
@@ -24,6 +26,7 @@ public class Enemy {
     Vector2 randomStopPosition;
 
     float randomPositionChangeTimer;
+    public int maxHealth = 200;
     int health = 10;
     int diffx = 0;
     int diffy = 0;
@@ -159,7 +162,6 @@ public class Enemy {
         hitFXs.add(new HitFX(new Vector2(position.x, position.y)));
         //sprite.setColor(1,0,0,1);
         takingDamage = true;
-
     }
 
     public void changeFacing(){
@@ -221,7 +223,7 @@ public class Enemy {
     }
 
     public boolean EnemyDetect(float x, float y){
-        if(Math.sqrt((position.x-x)*(position.x-x)+(position.y-y)*(position.y-y))<=100){
+        if(Math.sqrt((position.x-x)*(position.x-x)+(position.y-y)*(position.y-y)) <= detectRange){
             return true;
         }
         else{
