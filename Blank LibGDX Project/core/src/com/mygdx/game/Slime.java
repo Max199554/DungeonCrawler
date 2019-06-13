@@ -56,12 +56,11 @@ public class Slime extends Enemy {
     @Override
     public void update(float dt){
         changeFacing();
-
+        attackTimerLag -= dt;
         //sprite.setRegion(slimeWalkAndIdle.getFrame());
         if(takingDamage == true){
             sprite.setRegion(slimeTakeDamage.getFrame());
             slimeTakeDamage.update(dt);
-
         }
         else if(Attack == true ){
            sprite.setRegion(slimeAttack.getFrame());
@@ -74,26 +73,7 @@ public class Slime extends Enemy {
         super.update(dt);
         attachAnimationEventAt(slimeAttack, 6, dt);
     }
-    void attachAnimationEventAt(Animation animation, int frameNum, float dt){
-        if(animation.getFrameNum() == frameNum){
-            attackTime += dt;
-            if(attackTime <= dt){
-                ApplyDamage(5);
-            }
-        }
-        if(animation.getFrameNum() == animation.getRegion().size - 1 ){
-            animation.setFrameNum(0);
-            if(attackTimerLag < 0){
-                Attack = false;
-                attackTime = 0;
-                attackTimerLag = .5f;
-            }
-            else{
-                animation.setFrameNum(animation.getRegion().size - 1);
-                sprite.setRegion(animation.getFrame());
-            }
-        }
-    }
+
 
     @Override
     public void changeFacing(){

@@ -183,6 +183,9 @@ public class GameScreen implements Screen {
             }
         }
 
+        if(player.health <= 0){
+            game.setScreen(MyGdxGame.gameOverScreen);
+        }
         batch.end();
     }
 

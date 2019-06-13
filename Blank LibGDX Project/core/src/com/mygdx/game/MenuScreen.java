@@ -84,7 +84,6 @@ public class MenuScreen implements Screen {
         batch.begin();
         //shellSprite.draw(batch);
         stage.draw();
-
         if(startButton.isPressed()){
             game.setScreen(MyGdxGame.gameScreen);
         }

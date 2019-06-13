@@ -42,6 +42,9 @@ public class Enemy {
     float damageColorTimer = 0;
     float AttackColorTimer = 0;
 
+    float attackTime = 0;
+    float attackTimerLag = .5f;
+
     DelayedRemovalArray<HitFX> hitFXs = new DelayedRemovalArray<HitFX>();
     public Enemy(Vector2 position){
         this.position = position;
@@ -79,6 +82,7 @@ public class Enemy {
 
     public void update(float dt){
         attackRateTimer += dt;
+        attackTimerLag -= dt;
         if(randomPositionChangeTimer <= 0){
             randomStopPosition = new Vector2(MathUtils.random(-64,64), MathUtils.random(-64,64));
             randomPositionChangeTimer = stopPositionChangeRate;
@@ -229,7 +233,29 @@ public class Enemy {
             return true;
         }else return false;
     }
+
+    public void attachAnimationEventAt(Animation animation, int frameNum, float dt){
+        if(animation.getFrameNum() == frameNum){
+            attackTime += dt;
+            if(attackTime <= dt){
+                ApplyDamage(5);
+            }
+        }
+        if(animation.getFrameNum() == animation.getRegion().size - 1 ){
+            animation.setFrameNum(0);
+            if(attackTimerLag < 0){
+                Attack = false;
+                attackTime = 0;
+                attackTimerLag = .5f;
+            }
+            else{
+                animation.setFrameNum(animation.getRegion().size - 1);
+                sprite.setRegion(animation.getFrame());
+            }
+        }
+    }
 }
+
 
 /*
   if (Math.abs(position.x - x - diffx) >= Math.abs(position.y - y - diffy)) {
