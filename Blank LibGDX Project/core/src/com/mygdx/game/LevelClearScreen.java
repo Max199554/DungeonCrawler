@@ -17,6 +17,7 @@ public class LevelClearScreen implements Screen {
     Button nextLevelButton;
     String finishTip;
     Skin skin;
+
     MyGdxGame game;
     Stage stage;
     public LevelClearScreen(MyGdxGame game){
@@ -32,7 +33,11 @@ public class LevelClearScreen implements Screen {
         nextLevelButton.setWidth(100);
         nextLevelButton.setHeight(50);
         nextLevelButton.setPosition(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() / 2);
-        stage.addActor(nextLevelButton);
+        if(MyGdxGame.gameScreen.currentLevel < 3){
+            stage.addActor(nextLevelButton);
+        }else{
+
+        }
         Gdx.input.setInputProcessor(stage);
     }
 
