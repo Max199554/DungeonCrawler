@@ -23,6 +23,7 @@ public class MyGdxGame extends Game implements ApplicationListener {
 		gameScreen = new GameScreen(this);
 		menuScreen = new MenuScreen(this);
 		levelClearScreen = new LevelClearScreen(this);
+		gameOverScreen = new GameOverScreen(this);
 		setScreen(menuScreen);
 	}
 

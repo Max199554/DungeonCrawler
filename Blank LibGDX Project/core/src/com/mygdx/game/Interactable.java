@@ -14,7 +14,7 @@ public class Interactable {
     Vector2 position;
     Circle interactCircle;
     Sprite sprite;
-    Texture img = new Texture("Door.png");
+    Texture img = new Texture("Enter.png");
     Animation doorAni;
 
     public boolean canSetScene = false;
@@ -27,13 +27,13 @@ public class Interactable {
         interactCircle = new Circle(position, interactRadius);
         interactCircle.setPosition(position);
 
-        doorAni = new Animation(new TextureRegion(img), 7, 1f);
+        //doorAni = new Animation(new TextureRegion(img), 7, 1f);
     }
 
     public void render(SpriteBatch batch){
         sprite.draw(batch);
-        sprite.setRegion(doorAni.getFrame());
-        doorAni.update(Gdx.graphics.getDeltaTime());
+        sprite.setRegion(img);
+        //doorAni.update(Gdx.graphics.getDeltaTime());
     }
 
    public void DetactDisToPlayer(float x, float y){

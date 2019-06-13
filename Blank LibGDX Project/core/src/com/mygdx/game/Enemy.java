@@ -63,7 +63,6 @@ public class Enemy {
         speed = MathUtils.random(1f,3f);
         hitBox = new Rectangle(position.x, position.y, attackRange, attackRange);
         //velocity = new Vector2(speed, speed);
-
     }
 
     public void render(float dt, SpriteBatch batch){
