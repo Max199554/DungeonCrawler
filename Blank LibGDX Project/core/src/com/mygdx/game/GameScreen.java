@@ -100,10 +100,10 @@ public class GameScreen implements Screen {
         else if(currentLevel == 2){
             for(int i = 0; i < 1 ; i++){
                 //enemies.add(new Minotaur(new Vector2(MathUtils.random(600), MathUtils.random(400))));
-                //enemies.add(new Boss1(new Vector2(MathUtils.random(600), MathUtils.random(400))));}
-            enemies.add(new Boss3(new Vector2(MathUtils.random(600), MathUtils.random(400))));}
-
-    }
+                enemies.add(new Boss1(new Vector2(MathUtils.random(600), MathUtils.random(400))));
+                //enemies.add(new Boss3(new Vector2(MathUtils.random(600), MathUtils.random(400))));
+            }
+        }
 //        else if(currentLevel == 3){
 //            for(int i = 0; i < enemyAmount + 15; i++){
 //                enemies.add(new Slime(new Vector2(MathUtils.random(600), MathUtils.random(400))));

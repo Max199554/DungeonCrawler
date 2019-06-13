@@ -21,7 +21,7 @@ public class Boss3 extends Enemy {
 
     public Boss3(Vector2 position) {
         super(position);
-        AttackDamage = new Texture("Boss3-attack.png");
+        AttackDamage = new Texture("Boss3-Attack.png");
         Boss3Attack = new Animation(new TextureRegion(AttackDamage),12,1);
 
         Move = new Texture("Boss3-idle.png");
