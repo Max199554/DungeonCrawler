@@ -5,6 +5,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -14,12 +15,16 @@ import java.util.logging.Level;
 
 public class MyGdxGame extends Game implements ApplicationListener {
 
+
+
 	public static GameScreen gameScreen;
 	public static MenuScreen menuScreen;
 	public static LevelClearScreen levelClearScreen;
 	public static GameOverScreen gameOverScreen;
+
 	@Override
 	public void create() {
+		//bgMusic.loop();
 		gameScreen = new GameScreen(this);
 		menuScreen = new MenuScreen(this);
 		levelClearScreen = new LevelClearScreen(this);

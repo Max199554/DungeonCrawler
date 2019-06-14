@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -36,14 +37,18 @@ public class MenuScreen implements Screen {
 
     Texture ShellScreenimg = new Texture("ShellScreen.png");
     Sprite shellSprite = new Sprite(ShellScreenimg);
+    Sound bgMusic = Gdx.audio.newSound(Gdx.files.internal("BgMusic.wav" ));
 
     Image shellScreenimg;
     public MenuScreen(MyGdxGame game){
         this.game = game;
+
     }
 
     @Override
     public void show() {
+        bgMusic.play(.8f);
+        bgMusic.loop();
         batch = new SpriteBatch();
         stage = new Stage();
         skin = new Skin(Gdx.files.internal("uiskin.json"));

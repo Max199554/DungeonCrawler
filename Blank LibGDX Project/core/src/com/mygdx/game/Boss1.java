@@ -12,6 +12,7 @@ public class Boss1 extends Enemy{
     Texture idle;
     Animation Boss1Idle;
 
+
     Texture Move;
     Animation Boss1Move;
 
@@ -23,8 +24,8 @@ public class Boss1 extends Enemy{
 
     int randomAttack;
 
-
     public Boss1(Vector2 position) {
+
 
         super(position);
         AttackDamage = new Texture("Boss1-attack2.png");
@@ -51,7 +52,7 @@ public class Boss1 extends Enemy{
         Boss1Idle = new Animation(new TextureRegion(idle), 3, MathUtils.random(.7f, .9f));
         sprite = new Sprite(Boss1Idle.getFrame());
         super.Init();
-        selfCollider = new Rectangle(position.x, position.y, 200, 250);
+        selfCollider = new Rectangle(position.x, position.y - sprite.getHeight() / 2, 200, 250);
         attackRange = 300;
         health = maxHealth;
         attackDuration = 1f;
@@ -62,6 +63,7 @@ public class Boss1 extends Enemy{
     @Override
     public void update(float dt){
         changeFacing();
+        fxSpawnOffset.x = isFacingRight ? -sprite.getWidth() : sprite.getWidth();
         if(Attack == true){
             if(randomAttack == 0 ){
                 sprite.setRegion(Boss1Attack.getFrame());
@@ -82,20 +84,23 @@ public class Boss1 extends Enemy{
             Boss1Idle.update(dt);
         }
         super.update(dt);
+        sprite.setPosition(isFacingRight == true ? position.x: position.x - sprite.getWidth() * 2, position.y);
+        selfCollider.setPosition(position.x, position.y);
+
     }
 
     @Override
     public void changeFacing(){
         if(isFacingRight == true) {
-            sprite.setScale(2, 2);
+            sprite.setScale(4, 4);
         }
         else {
-            sprite.setScale(-2,2);
+            sprite.setScale(-4,4);
         }
     }
 
     @Override
     public void MoveRight(){
-        sprite.setScale(2, 2);
+        sprite.setScale(4, 4);
     }
 }
