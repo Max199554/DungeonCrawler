@@ -100,7 +100,7 @@ public class Player {
         sprite = new Sprite(idleAnimation.getFrame());
         sprite.setScale(2);
 
-        selfBox = new Rectangle(position.x, position.y, idle.getWidth() * 2, idle.getHeight() * 2);
+        selfBox = new Rectangle(position.x, position.y, idle.getWidth(), idle.getHeight());
 
         move = new Texture("PlayerMove.png");
         moveAnimation = new Animation(new TextureRegion(move), 6, .5f);
@@ -130,7 +130,6 @@ public class Player {
     public void render(float dt, SpriteBatch batch){
         sprite.draw(batch);
         update(dt);
-        sprite.setColor(1,1,1,1);
     }
 
     public void update(float dt){
@@ -150,18 +149,15 @@ public class Player {
                 }
             }
         }
-
+        System.out.println("Dodge: " + isDodge);
         if(Gdx.input.isKeyJustPressed(Input.Keys.L)){
             isDodge = true;
-        }
-        if(isDodge == true){
-            playerSpeed = 1000;
-            dodgeDurationTimer -= dt;
+
         }
 
-        if(dodgeDurationTimer < 0){
+        if(dodgeDurationTimer <= 0){
             playerSpeed = Constant.PLAYER_SPEED;
-            dodgeDurationTimer = 0.5f;
+            dodgeDurationTimer = 0.2f;
             isDodge = false;
         }
 
@@ -176,9 +172,16 @@ public class Player {
             playerSpeed = 50;
             comboTimer = 0;
         }
+        else if(isDodge == true){
+            playerSpeed = 700;
+            dodgeDurationTimer -= dt;
+            sprite.setColor(.5f, .5f,.5f, .5f);
+        }
         else{
             playerSpeed = Constant.PLAYER_SPEED;
+            sprite.setColor(1,1,1,1);
         }
+
         attackBox.setPosition(isFacingRight == true ? sprite.getX() + 10 : sprite.getX() - 10, sprite.getY() - 32);
         if(isFacingRight == false){
             sprite.setScale(-2, 2);
