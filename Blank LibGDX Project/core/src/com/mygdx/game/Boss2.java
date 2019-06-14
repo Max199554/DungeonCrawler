@@ -19,6 +19,14 @@ public class Boss2 extends Enemy {
     Texture AttackDamage;
     Animation Boss2Attack;
 
+    Texture AttackDamage1;
+    Animation Boss2Attack1;
+
+    Texture AttackDamage2;
+    Animation Boss2Attack2;
+
+    int randomAttack;
+
     public Boss2 (Vector2 position) {
 
         super(position);
@@ -27,6 +35,12 @@ public class Boss2 extends Enemy {
 
         Move = new Texture("Boss2-idle.png");
         Boss2Move = new Animation(new TextureRegion(Move),2,1);
+
+        AttackDamage1 = new Texture("Boss2-attack2.png");
+        Boss2Attack1 = new Animation(new TextureRegion(AttackDamage1), 6,1);
+
+        AttackDamage2 = new Texture("Boss2-attack3.png");
+        Boss2Attack2 = new Animation(new TextureRegion(AttackDamage2), 6,1);
 
         damage = 10;
     }
@@ -46,15 +60,29 @@ public class Boss2 extends Enemy {
         attackRange = 300;
         health = maxHealth;
         attackDuration = 1f;
+
+        randomAttack = MathUtils.random(0,3);
     }
 
     @Override
     public void update(float dt){
         changeFacing();
         if(Attack == true){
-            sprite.setRegion(Boss2Attack.getFrame());
-            Boss2Attack.update(dt);
-            attachAnimationEventAt(Boss2Attack, 1, dt);
+            if(randomAttack==0){
+                sprite.setRegion(Boss2Attack.getFrame());
+                Boss2Attack.update(dt);
+                attachAnimationEventAt(Boss2Attack, 1, dt);
+            }
+            else if(randomAttack==1){
+                sprite.setRegion(Boss2Attack1.getFrame());
+                Boss2Attack1.update(dt);
+                attachAnimationEventAt(Boss2Attack1, 2, dt);
+            }
+            else{
+                sprite.setRegion(Boss2Attack2.getFrame());
+                Boss2Attack2.update(dt);
+                attachAnimationEventAt(Boss2Attack2, 3, dt);
+            }
         }
         else if(Walk == true){
             sprite.setRegion(Boss2Move.getFrame());
