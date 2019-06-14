@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -41,7 +42,7 @@ public class GameScreen implements Screen {
     Texture boss2HealthOutline = new Texture("Boss2-healthbar.png");
     Texture boss3HealthOutline = new Texture("Boss3-healthbar.png");
 
-
+    Sound enemyExplodeSound = Gdx.audio.newSound(Gdx.files.internal("EnemyExplode.wav" ));
 
     //Texture levelChangeDoor = new Texture("LevelChangeDoor.png");
     Interactable levelChangeDoor;
@@ -235,6 +236,7 @@ public class GameScreen implements Screen {
             e.EnemyTrace(player.position.x, player.position.y);
             if(e.health <= 0){
                 destoryFXs.add(new DestoryFX(e.position));
+                enemyExplodeSound.play();
                 enemies.removeValue(e, false);
                 ScreenShake(40);
             }

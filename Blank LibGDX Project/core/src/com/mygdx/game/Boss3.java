@@ -31,7 +31,7 @@ public class Boss3 extends Enemy {
         Boss3Attack = new Animation(new TextureRegion(AttackDamage),12,1);
 
         AttackDamage1 = new Texture("Boss3-Attack2.png");
-        Boss3Attack1 = new Animation(new TextureRegion(AttackDamage),10,1);
+        Boss3Attack1 = new Animation(new TextureRegion(AttackDamage1),10,1);
 
         Move = new Texture("Boss3-idle.png");
         Boss3Move = new Animation(new TextureRegion(Move),5,1);

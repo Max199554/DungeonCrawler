@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -33,6 +34,7 @@ public class Enemy {
     float speed = 0;
     Vector2 velocity = Vector2.Zero;
 
+    Vector2 fxSpawnOffset = Vector2.Zero;
     boolean detect=false;
     Vector2 position;
     Sprite sprite;
@@ -49,6 +51,8 @@ public class Enemy {
 
     float attackTime = 0;
     float attackTimerLag = .5f;
+
+    Sound enemyHitSound = Gdx.audio.newSound(Gdx.files.internal("EnemyHit.wav" ));
 
     DelayedRemovalArray<HitFX> hitFXs = new DelayedRemovalArray<HitFX>();
     public Enemy(Vector2 position){
@@ -158,8 +162,9 @@ public class Enemy {
     }
 
     public void TakeDamage(int damage){
+        enemyHitSound.play();
         health -= damage;
-        hitFXs.add(new HitFX(new Vector2(position.x, position.y)));
+        hitFXs.add(new HitFX(new Vector2(position.x + fxSpawnOffset.x, position.y + fxSpawnOffset.y)));
         //sprite.setColor(1,0,0,1);
         takingDamage = true;
     }
