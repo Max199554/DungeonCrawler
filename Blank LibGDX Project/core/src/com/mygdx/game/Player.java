@@ -69,6 +69,18 @@ public class Player {
 
     float attackTimerLag = .5f;
 
+//    Texture buttonSquareTexture = new Texture("buttonSquare_blue.png");
+//    Texture buttonSquareDownTexture = new Texture("buttonSquare_beige_pressed.png");
+//    Texture buttonLongTexture = new Texture("buttonLong_blue.png");
+//    Texture buttonLongDownTexture = new Texture("buttonLong_beige_pressed.png");
+//    float buttonSize = h * 0.2f;
+//    //UI Buttons
+//    Button moveLeftButton = new Button(0.0f, buttonSize, buttonSize, buttonSize, buttonSquareTexture, buttonSquareDownTexture);
+//    Button moveRightButton = new Button(buttonSize*2, buttonSize, buttonSize, buttonSize, buttonSquareTexture, buttonSquareDownTexture);
+//    Button  moveDownButton = new Button(buttonSize, 0.0f, buttonSize, buttonSize, buttonSquareTexture, buttonSquareDownTexture);
+//    Button  moveUpButton = new Button(buttonSize, buttonSize*2, buttonSize, buttonSize, buttonSquareTexture, buttonSquareDownTexture);
+//    Button restartButton = new Button(w/2 - buttonSize*2, h * 0.2f, buttonSize*4, buttonSize, buttonLongTexture, buttonLongDownTexture);
+
     public Player(Vector2 position){
         this.position = position;
         Init();
