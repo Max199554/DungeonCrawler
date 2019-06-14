@@ -28,6 +28,7 @@ public class GameScreen implements Screen {
 
 
     SpriteBatch batch;
+    SpriteBatch uiBatch;
     int enemyAmount = 5;
 
     Texture mapImg = new Texture("Map.png");
@@ -63,11 +64,13 @@ public class GameScreen implements Screen {
    Texture buttonSquareTexture = new Texture("buttonSquare_blue.png");
    Texture buttonSquareDownTexture = new Texture("buttonSquare_beige_pressed.png");
 
+//   Texture buttonattactTexture
     Button moveLeftButton;
     Button moveRightButton;
     Button moveDownButton;
     Button moveUpButton;
-    Button restartButton;
+    Button attactButton;
+    Button dashButton;
 
 
     int healthAmount;
@@ -80,7 +83,9 @@ public class GameScreen implements Screen {
         this.game = game;
     }
 
+    public enum GameState { PLAYING, COMPLETE };
 
+    GameState gameState = GameState.PLAYING;
     @Override
     public void show() {
 
@@ -88,16 +93,19 @@ public class GameScreen implements Screen {
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
 
+        uiBatch = new SpriteBatch();
         //button
-//        float w = Gdx.graphics.getWidth();
+        float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
         float buttonSize = h * 0.1f;
         moveLeftButton = new Button(0.0f, buttonSize, buttonSize, buttonSize, buttonSquareTexture, buttonSquareDownTexture);
         moveRightButton = new Button(buttonSize*2, buttonSize, buttonSize, buttonSize, buttonSquareTexture,buttonSquareDownTexture);
         moveDownButton = new Button(buttonSize, 0.0f, buttonSize, buttonSize, buttonSquareTexture, buttonSquareDownTexture);
         moveUpButton = new Button(buttonSize, buttonSize*2, buttonSize, buttonSize, buttonSquareTexture,buttonSquareDownTexture);
-//        restartButton = new Button(w/2 - buttonSize*2, h * 0.2f, buttonSize*4, buttonSize, buttonLongTexture, buttonLongDownTexture);
+        attactButton = new Button(w - buttonSize*2, buttonSize, buttonSize, buttonSize, buttonSquareTexture, buttonSquareDownTexture);
+        dashButton = new Button(w - buttonSize*4, buttonSize, buttonSize, buttonSize, buttonSquareTexture, buttonSquareDownTexture);
 
+        gameState = GameState.PLAYING;
 
         boss1OutlineSprite.setPosition(camera.position.x, camera.position.y);
         bossHealthSprite.setPosition(camera.position.x, camera.position.y);
@@ -259,11 +267,26 @@ public class GameScreen implements Screen {
         if(player.health <= 0){
             game.setScreen(MyGdxGame.gameOverScreen);
         }
-        moveLeftButton.draw(batch);
-        moveRightButton.draw(batch);
-        moveDownButton.draw(batch);
-        moveUpButton.draw(batch);
         batch.end();
+
+
+        uiBatch.begin();
+        switch(gameState) {
+            //if gameState is Running: Draw Controls
+            case PLAYING:
+                moveLeftButton.draw(uiBatch);
+                moveRightButton.draw(uiBatch);
+                moveDownButton.draw(uiBatch);
+                moveUpButton.draw(uiBatch);
+                attactButton.draw(uiBatch);
+                dashButton.draw(uiBatch);
+                break;
+            //if gameState is Complete: Draw Restart button
+//            case COMPLETE:
+//                restartButton.draw(uiBatch);
+//                break;
+        }
+        uiBatch.end();
 
     }
 
@@ -296,4 +319,6 @@ public class GameScreen implements Screen {
     public void dispose() {
 
     }
+
+
 }
