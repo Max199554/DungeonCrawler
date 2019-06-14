@@ -20,6 +20,7 @@ public class GameScreen implements Screen {
 
     int currentLevel = 0;
     OrthographicCamera camera;
+
     MyGdxGame game;
     Player player;
     DelayedRemovalArray<Enemy> enemies;
@@ -58,6 +59,15 @@ public class GameScreen implements Screen {
 
     Sprite playerHealthSprite = new Sprite(playerHealth);
 
+   //button
+   Texture buttonSquareTexture = new Texture("buttonSquare_blue.png");
+   Texture buttonSquareDownTexture = new Texture("buttonSquare_beige_pressed.png");
+
+    Button moveLeftButton;
+    Button moveRightButton;
+    Button moveDownButton;
+    Button moveUpButton;
+    Button restartButton;
 
 
     int healthAmount;
@@ -76,6 +86,18 @@ public class GameScreen implements Screen {
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+
+        //button
+//        float w = Gdx.graphics.getWidth();
+        float h = Gdx.graphics.getHeight();
+        float buttonSize = h * 0.1f;
+        moveLeftButton = new Button(0.0f, buttonSize, buttonSize, buttonSize, buttonSquareTexture, buttonSquareDownTexture);
+        moveRightButton = new Button(buttonSize*2, buttonSize, buttonSize, buttonSize, buttonSquareTexture,buttonSquareDownTexture);
+        moveDownButton = new Button(buttonSize, 0.0f, buttonSize, buttonSize, buttonSquareTexture, buttonSquareDownTexture);
+        moveUpButton = new Button(buttonSize, buttonSize*2, buttonSize, buttonSize, buttonSquareTexture,buttonSquareDownTexture);
+//        restartButton = new Button(w/2 - buttonSize*2, h * 0.2f, buttonSize*4, buttonSize, buttonLongTexture, buttonLongDownTexture);
+
 
         boss1OutlineSprite.setPosition(camera.position.x, camera.position.y);
         bossHealthSprite.setPosition(camera.position.x, camera.position.y);
@@ -237,7 +259,12 @@ public class GameScreen implements Screen {
         if(player.health <= 0){
             game.setScreen(MyGdxGame.gameOverScreen);
         }
+        moveLeftButton.draw(batch);
+        moveRightButton.draw(batch);
+        moveDownButton.draw(batch);
+        moveUpButton.draw(batch);
         batch.end();
+
     }
 
     public void ScreenShake(float amount){

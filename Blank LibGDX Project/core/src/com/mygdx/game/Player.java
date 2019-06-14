@@ -73,8 +73,11 @@ public class Player {
 
     float attackTimerLag = .5f;
 
+
+
     Sound sowrdSwingSound1;
     Sound sowrdSwingSound2;
+
     public Player(Vector2 position){
         this.position = position;
         Init();
