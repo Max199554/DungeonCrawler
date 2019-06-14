@@ -190,7 +190,6 @@ public class Enemy {
                     velocity.x = speed;
                     position.x += velocity.x;
                 }
-
                 else {
                     velocity.x = 0;
                     Walk = false;

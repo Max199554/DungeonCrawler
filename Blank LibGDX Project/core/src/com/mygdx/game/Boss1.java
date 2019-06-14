@@ -9,8 +9,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Boss1 extends Enemy{
-
-
     Texture idle;
     Animation Boss1Idle;
 
@@ -43,10 +41,10 @@ public class Boss1 extends Enemy{
         Boss1Idle = new Animation(new TextureRegion(idle), 3, MathUtils.random(.7f, .9f));
         sprite = new Sprite(Boss1Idle.getFrame());
         super.Init();
-        selfCollider = new Rectangle(position.x, position.y, 200, 120);
+        selfCollider = new Rectangle(position.x, position.y, 200, 250);
         attackRange = 300;
         health = maxHealth;
-        attackDuration = 1f;
+        attackDuration = 1.2f;
     }
 
     @Override
