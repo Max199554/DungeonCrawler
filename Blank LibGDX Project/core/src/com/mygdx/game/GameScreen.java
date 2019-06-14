@@ -228,7 +228,7 @@ public class GameScreen implements Screen {
             e.EnemyTrace(player.position.x, player.position.y);
             if(e.health <= 0){
                 destoryFXs.add(new DestoryFX(e.position));
-                enemyExplodeSound.play();
+                enemyExplodeSound.play(.5f);
                 enemies.removeValue(e, false);
                 ScreenShake(40);
             }
