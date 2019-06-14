@@ -83,6 +83,7 @@ public class Boss2 extends Enemy {
                 Boss2Attack2.update(dt);
                 attachAnimationEventAt(Boss2Attack2, 3, dt);
             }
+
         }
         else if(Walk == true){
             sprite.setRegion(Boss2Move.getFrame());
