@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -72,6 +73,8 @@ public class Player {
 
     float attackTimerLag = .5f;
 
+    Sound sowrdSwingSound1;
+    Sound sowrdSwingSound2;
     public Player(Vector2 position){
         this.position = position;
         Init();
@@ -83,6 +86,9 @@ public class Player {
     }
 
     public void Init(){
+        sowrdSwingSound1 = Gdx.audio.newSound(Gdx.files.internal("FS_CARTOON_AIR_WOP_02.wav" ));
+        sowrdSwingSound2 = Gdx.audio.newSound(Gdx.files.internal("FS_CARTOON_AIR_WOP_03.wav" ));
+
         health = 70;
 
         attacks = new ArrayList<Animation>();
@@ -230,6 +236,7 @@ public class Player {
             attachAnimationEventAt(attack2Animation, 2, dt);
             attachAnimationEventAt(attack3Animation, 3, dt);
             attachAnimationEventAt(attack4Animation, 2, dt);
+
         }
         else{
             playerState = playerState.IDLE;
@@ -241,6 +248,7 @@ public class Player {
             attackTime += dt;
             if(attackTime <= dt){
                 ApplyDamage((int)damage);
+                playWopSound();
             }
         }
         if(animation.getFrameNum() == animation.getRegion().size - 1 ){
@@ -270,6 +278,14 @@ public class Player {
         if(position.y > GameScreen.mapBoundY){
             position.y = GameScreen.mapBoundY;
         }
+    }
+
+    public void playWopSound(){
+        int soundToPlay = MathUtils.random(0, 2);
+        if(soundToPlay == 1)
+            sowrdSwingSound1.play();
+        else
+            sowrdSwingSound2.play();
     }
 
     public void ApplyDamage(int damage){
