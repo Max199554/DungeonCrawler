@@ -8,33 +8,33 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class Boss1 extends Enemy{
+public class Boss3 extends Enemy {
+
     Texture idle;
     Animation Boss1Idle;
 
     Texture Move;
-    Animation Boss1Move;
+    Animation Boss3Move;
 
     Texture AttackDamage;
-    Animation Boss1Attack;
+    Animation Boss3Attack;
 
     Texture AttackDamage1;
-    Animation Boss1Attack1;
+    Animation Boss3Attack1;
 
     int randomAttack;
 
-
-    public Boss1(Vector2 position) {
+    public Boss3(Vector2 position) {
 
         super(position);
-        AttackDamage = new Texture("Boss1-attack2.png");
-        Boss1Attack = new Animation(new TextureRegion(AttackDamage),9,1);
+        AttackDamage = new Texture("Boss3-Attack.png");
+        Boss3Attack = new Animation(new TextureRegion(AttackDamage),12,1);
 
-        Move = new Texture("Boss1-move.png");
-        Boss1Move = new Animation(new TextureRegion(Move),14,1);
+        AttackDamage1 = new Texture("Boss3-Attack2.png");
+        Boss3Attack1 = new Animation(new TextureRegion(AttackDamage),10,1);
 
-        AttackDamage1 = new Texture("Boss1-attack1.png");
-        Boss1Attack1 = new Animation(new TextureRegion(AttackDamage1), 29,1);
+        Move = new Texture("Boss3-idle.png");
+        Boss3Move = new Animation(new TextureRegion(Move),5,1);
 
         damage = 10;
     }
@@ -47,11 +47,11 @@ public class Boss1 extends Enemy{
 
     @Override
     public void Init() {
-        idle = new Texture("Boss1-idle.png");
-        Boss1Idle = new Animation(new TextureRegion(idle), 3, MathUtils.random(.7f, .9f));
+        idle = new Texture("Boss3-idle.png");
+        Boss1Idle = new Animation(new TextureRegion(idle), 5, MathUtils.random(.7f, .9f));
         sprite = new Sprite(Boss1Idle.getFrame());
         super.Init();
-        selfCollider = new Rectangle(position.x, position.y, 200, 250);
+        selfCollider = new Rectangle(position.x, position.y, 200, 120);
         attackRange = 300;
         health = maxHealth;
         attackDuration = 1f;
@@ -63,20 +63,20 @@ public class Boss1 extends Enemy{
     public void update(float dt){
         changeFacing();
         if(Attack == true){
-            if(randomAttack == 0 ){
-                sprite.setRegion(Boss1Attack.getFrame());
-                Boss1Attack.update(dt);
-                attachAnimationEventAt(Boss1Attack, 6, dt);
+            if(randomAttack ==0){
+                sprite.setRegion(Boss3Attack.getFrame());
+                Boss3Attack.update(dt);
+                attachAnimationEventAt(Boss3Attack, 6, dt);
             }
-            else{
-                sprite.setRegion(Boss1Attack1.getFrame());
-                Boss1Attack1.update(dt);
-                attachAnimationEventAt(Boss1Attack1, 8, dt);
+            else {
+                sprite.setRegion(Boss3Attack1.getFrame());
+                Boss3Attack1.update(dt);
+                attachAnimationEventAt(Boss3Attack1, 2, dt);
             }
         }
         else if(Walk == true){
-            sprite.setRegion(Boss1Move.getFrame());
-            Boss1Move.update(dt);
+            sprite.setRegion(Boss3Move.getFrame());
+            Boss3Move.update(dt);
         }
         else {
             Boss1Idle.update(dt);
@@ -87,15 +87,16 @@ public class Boss1 extends Enemy{
     @Override
     public void changeFacing(){
         if(isFacingRight == true) {
-            sprite.setScale(2, 2);
+            sprite.setScale(3, 3);
         }
         else {
-            sprite.setScale(-2,2);
+            sprite.setScale(-3,3);
         }
     }
 
     @Override
     public void MoveRight(){
-        sprite.setScale(2, 2);
+        sprite.setScale(3, 3);
     }
+
 }

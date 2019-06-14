@@ -34,6 +34,7 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void show() {
+        MyGdxGame.gameScreen.currentLevel = 0;
         stage = new Stage();
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 

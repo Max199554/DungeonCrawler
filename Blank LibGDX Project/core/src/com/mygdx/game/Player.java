@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -46,6 +47,9 @@ public class Player {
     //which attack animation to trigger next
     int currentAttackNum = 0;
 
+    float dodgeDurationTimer = .5f;
+    boolean isDodge = false;
+
     boolean[] comboSetter;
     ArrayList<Animation> attacks;
 
@@ -69,17 +73,10 @@ public class Player {
 
     float attackTimerLag = .5f;
 
-//    Texture buttonSquareTexture = new Texture("buttonSquare_blue.png");
-//    Texture buttonSquareDownTexture = new Texture("buttonSquare_beige_pressed.png");
-//    Texture buttonLongTexture = new Texture("buttonLong_blue.png");
-//    Texture buttonLongDownTexture = new Texture("buttonLong_beige_pressed.png");
-//    float buttonSize = h * 0.2f;
-//    //UI Buttons
-//    Button moveLeftButton = new Button(0.0f, buttonSize, buttonSize, buttonSize, buttonSquareTexture, buttonSquareDownTexture);
-//    Button moveRightButton = new Button(buttonSize*2, buttonSize, buttonSize, buttonSize, buttonSquareTexture, buttonSquareDownTexture);
-//    Button  moveDownButton = new Button(buttonSize, 0.0f, buttonSize, buttonSize, buttonSquareTexture, buttonSquareDownTexture);
-//    Button  moveUpButton = new Button(buttonSize, buttonSize*2, buttonSize, buttonSize, buttonSquareTexture, buttonSquareDownTexture);
-//    Button restartButton = new Button(w/2 - buttonSize*2, h * 0.2f, buttonSize*4, buttonSize, buttonLongTexture, buttonLongDownTexture);
+
+
+    Sound sowrdSwingSound1;
+    Sound sowrdSwingSound2;
 
     public Player(Vector2 position){
         this.position = position;
@@ -92,6 +89,9 @@ public class Player {
     }
 
     public void Init(){
+        sowrdSwingSound1 = Gdx.audio.newSound(Gdx.files.internal("FS_CARTOON_AIR_WOP_02.wav" ));
+        sowrdSwingSound2 = Gdx.audio.newSound(Gdx.files.internal("FS_CARTOON_AIR_WOP_03.wav" ));
+
         health = 70;
 
         attacks = new ArrayList<Animation>();
@@ -109,7 +109,7 @@ public class Player {
         sprite = new Sprite(idleAnimation.getFrame());
         sprite.setScale(2);
 
-        selfBox = new Rectangle(position.x, position.y, idle.getWidth() * 2, idle.getHeight() * 2);
+        selfBox = new Rectangle(position.x, position.y, idle.getWidth(), idle.getHeight());
 
         move = new Texture("PlayerMove.png");
         moveAnimation = new Animation(new TextureRegion(move), 6, .5f);
@@ -139,7 +139,6 @@ public class Player {
     public void render(float dt, SpriteBatch batch){
         sprite.draw(batch);
         update(dt);
-        sprite.setColor(1,1,1,1);
     }
 
     public void update(float dt){
@@ -148,7 +147,7 @@ public class Player {
         UpdateAnimation(dt);
         comboTimer += dt;
         attackTimerLag -= dt;
-        sprite.setPosition(position.x, position.y);
+        sprite.setPosition(isFacingRight ? position.x : position.x - 64, position.y);
         if(Gdx.input.isKeyJustPressed(Input.Keys.J)){
             attacking = true;
             for(int i = 0; i < comboSetter.length; i++){
@@ -159,9 +158,19 @@ public class Player {
                 }
             }
         }
+        System.out.println("Dodge: " + isDodge);
+        if(Gdx.input.isKeyJustPressed(Input.Keys.L)){
+            isDodge = true;
+
+        }
+
+        if(dodgeDurationTimer <= 0){
+            playerSpeed = Constant.PLAYER_SPEED;
+            dodgeDurationTimer = 0.2f;
+            isDodge = false;
+        }
 
         if(comboTimer > comboMaxTime){
-
             for(int i = 0; i < comboSetter.length; i++){
                 comboSetter[i] = false;
             }
@@ -172,10 +181,16 @@ public class Player {
             playerSpeed = 50;
             comboTimer = 0;
         }
+        else if(isDodge == true){
+            playerSpeed = 700;
+            dodgeDurationTimer -= dt;
+            sprite.setColor(.5f, .5f,.5f, .5f);
+        }
         else{
             playerSpeed = Constant.PLAYER_SPEED;
-            //comboTimer = 0;
+            sprite.setColor(1,1,1,1);
         }
+
         attackBox.setPosition(isFacingRight == true ? sprite.getX() + 10 : sprite.getX() - 10, sprite.getY() - 32);
         if(isFacingRight == false){
             sprite.setScale(-2, 2);
@@ -224,6 +239,7 @@ public class Player {
             attachAnimationEventAt(attack2Animation, 2, dt);
             attachAnimationEventAt(attack3Animation, 3, dt);
             attachAnimationEventAt(attack4Animation, 2, dt);
+
         }
         else{
             playerState = playerState.IDLE;
@@ -235,6 +251,7 @@ public class Player {
             attackTime += dt;
             if(attackTime <= dt){
                 ApplyDamage((int)damage);
+                playWopSound();
             }
         }
         if(animation.getFrameNum() == animation.getRegion().size - 1 ){
@@ -264,6 +281,14 @@ public class Player {
         if(position.y > GameScreen.mapBoundY){
             position.y = GameScreen.mapBoundY;
         }
+    }
+
+    public void playWopSound(){
+        int soundToPlay = MathUtils.random(0, 2);
+        if(soundToPlay == 1)
+            sowrdSwingSound1.play();
+        else
+            sowrdSwingSound2.play();
     }
 
     public void ApplyDamage(int damage){

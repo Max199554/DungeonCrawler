@@ -33,6 +33,9 @@ public class LevelClearScreen implements Screen {
     Texture LevelClearScreen = new Texture("ContinueMenu.png");
     Image levelclearScreenImg;
 
+    Texture winTexture = new Texture("WinScreen.png");
+    Image winScreenImg;
+
     @Override
     public void show() {
         batch = new SpriteBatch();
@@ -45,12 +48,21 @@ public class LevelClearScreen implements Screen {
         levelclearScreenImg = new Image(LevelClearScreen);
         levelclearScreenImg.setFillParent(true);
 
+        winScreenImg = new Image(winTexture);
+        winScreenImg.setFillParent(true);
+
         nextLevelButton.setWidth(300);
         nextLevelButton.setHeight(89);
         nextLevelButton.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 
-        stage.addActor(levelclearScreenImg);
-        stage.addActor(nextLevelButton);
+
+        if(MyGdxGame.gameScreen.currentLevel < 5){
+            stage.addActor(levelclearScreenImg);
+            stage.addActor(nextLevelButton);
+        }
+        else{
+            stage.addActor(winScreenImg);
+        }
         Gdx.input.setInputProcessor(stage);
     }
 
