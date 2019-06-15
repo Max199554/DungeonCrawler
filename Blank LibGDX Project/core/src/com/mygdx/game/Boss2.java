@@ -64,6 +64,7 @@ public class Boss2 extends Enemy {
         health = maxHealth;
         attackDuration = 1.3f;
 
+        detectRange = 1000;
         randomAttack = MathUtils.random(0,3);
     }
 

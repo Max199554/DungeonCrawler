@@ -40,6 +40,7 @@ public class Boss3 extends Enemy {
 
         damage = 10;
         attackRange = 400;
+        detectRange = 1000;
     }
 
     @Override
