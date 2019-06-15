@@ -335,6 +335,36 @@ public class GameScreen implements Screen {
         else if(!moveRightButton.isDown){
             player.isMovingRight = false;
         }
+        if(moveLeftButton.isDown == true){
+            player.isMovingLeft = true;
+        }
+        else if(!moveLeftButton.isDown){
+            player.isMovingLeft = false;
+        }
+        if(moveUpButton.isDown == true){
+            player.isMovingUp = true;
+        }
+        else if(!moveUpButton.isDown){
+            player.isMovingUp = false;
+        }
+        if(moveDownButton.isDown == true){
+            player.isMovingDown = true;
+        }
+        else if(!moveDownButton.isDown){
+            player.isMovingDown = false;
+        }
+        if(attactButton.isDown == true){
+            player.buttonAttack = true;
+        }
+        else if(!attactButton.isDown){
+            player.buttonAttack = false;
+        }
+        if(dashButton.isDown == true){
+            player.buttonDodge = true;
+        }
+        else if(!dashButton.isDown){
+            player.buttonDodge = false;
+        }
     }
 
     @Override
