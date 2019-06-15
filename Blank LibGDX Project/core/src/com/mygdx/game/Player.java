@@ -249,6 +249,7 @@ public class Player {
         }
     }
 
+    //attach a function on certain animation frame
     void attachAnimationEventAt(Animation animation, int frameNum, float dt){
         if(animation.getFrameNum() == frameNum){
             attackTime += dt;
@@ -294,6 +295,7 @@ public class Player {
             sowrdSwingSound2.play();
     }
 
+    //damage the enemy
     public void ApplyDamage(int damage){
         for (Enemy e: enemiesToAttack) {
             if(attackBox.overlaps(e.selfCollider) && attacking == true){

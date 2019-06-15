@@ -107,6 +107,7 @@ public class GameScreen implements Screen {
 
         gameState = GameState.PLAYING;
 
+        //adjust the boss health bar and image base on level
         boss1OutlineSprite.setPosition(camera.position.x, camera.position.y);
         bossHealthSprite.setPosition(camera.position.x, camera.position.y);
 
@@ -119,11 +120,12 @@ public class GameScreen implements Screen {
         enemies = new DelayedRemovalArray<Enemy>();
         batch = new SpriteBatch();
         hud = new Hud(batch);
+
+        //load enemy base on current level
         if(currentLevel == 0){
-            for(int i = 0; i < enemyAmount; i++){
-               enemies.add(new Slime(new Vector2(MathUtils.random(600), MathUtils.random(400))));
+            for(int i = 0; i < enemyAmount; i++) {
+                enemies.add(new Slime(new Vector2(MathUtils.random(600), MathUtils.random(400))));
             }
-           // enemies.add(new Boss2(new Vector2(MathUtils.random(600), MathUtils.random(400))));
         }
         else if(currentLevel == 1){
             enemies.add(new Boss1(new Vector2(MathUtils.random(600), MathUtils.random(400))));
@@ -148,7 +150,7 @@ public class GameScreen implements Screen {
             enemies.add(new Boss3(new Vector2(MathUtils.random(600), MathUtils.random(400))));
         }
 
-
+        //adjust map position
         mapSprite2.setPosition((-mapSprite2.getWidth() / 4) + 30, -mapSprite2.getHeight() / 4);
         mapSprite2.setScale(.5f, .6f);
 
@@ -174,7 +176,6 @@ public class GameScreen implements Screen {
                 enemies) {
             e.target = player;
         }
-
     }
 
     @Override
@@ -244,7 +245,6 @@ public class GameScreen implements Screen {
         }
 
 
-
         for(int i = 0; i < destoryFXs.size; i++){
             destoryFXs.get(i).render(batch);
             destoryFXs.get(i).update(delta);
@@ -252,8 +252,6 @@ public class GameScreen implements Screen {
                 destoryFXs.removeIndex(i);
             }
         }
-
-
 
         player.render(delta, batch);
 
@@ -283,9 +281,6 @@ public class GameScreen implements Screen {
                 dashButton.draw(uiBatch);
                 break;
             //if gameState is Complete: Draw Restart button
-//            case COMPLETE:
-//                restartButton.draw(uiBatch);
-//                break;
         }
         uiBatch.end();
         //check
@@ -302,7 +297,6 @@ public class GameScreen implements Screen {
 
         if (Gdx.input.isKeyPressed(Input.Keys.A) || moveLeftButton.isDown) {
             moveLeftButton.isDown = true;
-
         } else if (Gdx.input.isKeyPressed(Input.Keys.D) || moveRightButton.isDown) {
             moveRightButton.isDown = true;
 
@@ -311,8 +305,8 @@ public class GameScreen implements Screen {
 
         } else if (Gdx.input.isKeyPressed(Input.Keys.W) || moveUpButton.isDown) {
             moveUpButton.isDown = true;
-
         }
+
         if(attactButton.isDown){
             attactButton.isDown = true;
         }

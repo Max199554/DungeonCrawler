@@ -72,6 +72,7 @@ public class Boss3 extends Enemy {
             randomAttack = MathUtils.random(0, 3);
             randomCountTimer = 0;
         }
+        //choose which attack base on the random number
         if(Attack == true){
             if(randomAttack ==0){
                 sprite.setRegion(Boss3Attack.getFrame());

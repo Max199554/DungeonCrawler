@@ -71,7 +71,6 @@ public class Enemy {
         originColor = sprite.getColor();
         speed = MathUtils.random(1f,3f);
         hitBox = new Rectangle(position.x, position.y, attackRange, attackRange);
-        //velocity = new Vector2(speed, speed);
     }
 
     public void render(float dt, SpriteBatch batch){
@@ -98,7 +97,6 @@ public class Enemy {
             randomPositionChangeTimer -= dt;
         }
 
-        //selfCollider.setPosition(position.x, position.y);
         takeDamageForDuration(1f, dt);
         AttackDuration(attackDuration, dt);
         selfCollider.setPosition(position.x, position.y);
@@ -113,7 +111,6 @@ public class Enemy {
         else{
             Walk = false;
         }
-        //sprite.setPosition(position.x, position.y);
         System.out.println(Attack);
     }
 
@@ -121,16 +118,15 @@ public class Enemy {
         if(takingDamage == true){
             damageColorTimer += dt;
             if(damageColorTimer <= duration){
-                //sprite.setColor(1,0,0,1);
             }
             else{
                 damageColorTimer = 0;
-                //sprite.setColor(1,1,1,1);
                 takingDamage = false;
             }
         }
     }
 
+    //
     void CheckForBounds(){
         if(position.x <= 0){
             position.x = 0;
@@ -146,6 +142,7 @@ public class Enemy {
         }
     }
 
+    //during this period, attack animation will be played
     void AttackDuration(float duration, float dt){
         if(Attack == true){
             AttackColorTimer += dt;
@@ -180,6 +177,7 @@ public class Enemy {
 
     }
 
+    //for the enemy to follow player and attack player in certain range
     public void EnemyTrace(float x,float y){
         if(EnemyCheckAttack(x,y) == true && attackRateTimer > attackRate){
             Attack = true;
