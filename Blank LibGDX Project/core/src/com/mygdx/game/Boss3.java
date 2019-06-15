@@ -54,13 +54,14 @@ public class Boss3 extends Enemy {
         idle = new Texture("Boss3-idle.png");
         Boss1Idle = new Animation(new TextureRegion(idle), 5, MathUtils.random(.7f, .9f));
         sprite = new Sprite(Boss1Idle.getFrame());
+        attackRange = 300;
+        maxHealth = 150;
         super.Init();
         selfCollider = new Rectangle(position.x, position.y, 200, 120);
-        attackRange = 300;
         health = maxHealth;
         attackDuration = 1f;
-
         randomAttack = MathUtils.random(0,2);
+
     }
 
     @Override

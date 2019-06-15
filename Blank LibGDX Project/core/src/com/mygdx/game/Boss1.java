@@ -22,11 +22,13 @@ public class Boss1 extends Enemy{
     Animation Boss1Attack1;
 
     int randomAttack;
+    float randomCountTimer;
+    float randomChangeRate = 3;
 
     public Boss1(Vector2 position) {
         super(position);
         AttackDamage = new Texture("Boss1-attack2.png");
-        Boss1Attack = new Animation(new TextureRegion(AttackDamage),9,1);
+        Boss1Attack = new Animation(new TextureRegion(AttackDamage),10,1);
 
         Move = new Texture("Boss1-move.png");
         Boss1Move = new Animation(new TextureRegion(Move),14,1);
@@ -49,19 +51,25 @@ public class Boss1 extends Enemy{
         idle = new Texture("Boss1-idle.png");
         Boss1Idle = new Animation(new TextureRegion(idle), 3, MathUtils.random(.7f, .9f));
         sprite = new Sprite(Boss1Idle.getFrame());
+        attackRange = 600;
+        maxHealth = 160;
         super.Init();
         selfCollider = new Rectangle(position.x, position.y - sprite.getHeight() / 2, 200, 250);
-        attackRange = 300;
         health = maxHealth;
         attackDuration = 1f;
-
         randomAttack = MathUtils.random(0,2);
+
     }
 
     @Override
     public void update(float dt){
         changeFacing();
-        fxSpawnOffset.x = isFacingRight ? -sprite.getWidth() : sprite.getWidth();
+
+        randomCountTimer += dt;
+        if(randomCountTimer >= randomChangeRate){
+            randomAttack = MathUtils.random(0, 3);
+            randomCountTimer = 0;
+        }
         if(Attack == true){
             if(randomAttack == 0 ){
                 sprite.setRegion(Boss1Attack.getFrame());
@@ -82,8 +90,8 @@ public class Boss1 extends Enemy{
             Boss1Idle.update(dt);
         }
         super.update(dt);
-        sprite.setPosition(isFacingRight == true ? position.x : position.x - sprite.getWidth() * 2, position.y);
-        selfCollider.setPosition(position.x, position.y);
+        sprite.setPosition(position.x, position.y);
+        selfCollider.setPosition(position.x, position.y - sprite.getHeight());
     }
 
     @Override

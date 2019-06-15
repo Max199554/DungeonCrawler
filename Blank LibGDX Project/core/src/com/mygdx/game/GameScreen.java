@@ -123,7 +123,7 @@ public class GameScreen implements Screen {
             for(int i = 0; i < enemyAmount; i++){
                enemies.add(new Slime(new Vector2(MathUtils.random(600), MathUtils.random(400))));
             }
-            //enemies.add(new Boss3(new Vector2(MathUtils.random(600), MathUtils.random(400))));
+           // enemies.add(new Boss2(new Vector2(MathUtils.random(600), MathUtils.random(400))));
         }
         else if(currentLevel == 1){
             enemies.add(new Boss1(new Vector2(MathUtils.random(600), MathUtils.random(400))));

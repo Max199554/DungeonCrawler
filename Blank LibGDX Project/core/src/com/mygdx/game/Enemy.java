@@ -110,6 +110,9 @@ public class Enemy {
         }else if(velocity.x < -0.3f){
             isFacingRight = false;
         }
+        else{
+            Walk = false;
+        }
         //sprite.setPosition(position.x, position.y);
         System.out.println(Attack);
     }
@@ -188,7 +191,7 @@ public class Enemy {
             if (Math.abs(position.x - x - diffx) >= Math.abs(position.y - y - diffy)){
                 Walk = true;
 
-                if (position.x - x > 0.3f) {
+                if (position.x - (x - randomStopPosition.x) > 0.3f) {
                     velocity.x = -speed;
                     position.x += velocity.x;
                 } else if (position.x - x < -0.3f) {
@@ -201,7 +204,7 @@ public class Enemy {
                 }
             }else
                 {
-                    if (position.y - (y - 48) > 0) {
+                    if (position.y - (y - randomStopPosition.y) > 0) {
                         velocity.y = - speed;
                         position.y += velocity.y;
                     } else if(position.y - (y - 48) < 0){
@@ -221,7 +224,7 @@ public class Enemy {
 
             if(hitBox.overlaps(target.selfBox) && Attack == true ){
                 target.TakeDamge(damage);
-                MyGdxGame.gameScreen.ScreenShake(5);
+                MyGdxGame.gameScreen.ScreenShake(10);
 
         }
     }
@@ -236,7 +239,7 @@ public class Enemy {
     }
 
     public boolean EnemyCheckAttack(float x, float y){
-        if(Vector2.dst(position.x, position.y, x, y) < 60){
+        if(Vector2.dst(position.x, position.y, x, y) < 100){
             return true;
         }else return false;
     }

@@ -40,10 +40,10 @@ public class Boss2 extends Enemy {
         Boss2Move = new Animation(new TextureRegion(Move),2,1);
 
         AttackDamage1 = new Texture("Boss2-attack2.png");
-        Boss2Attack1 = new Animation(new TextureRegion(AttackDamage1), 6,1);
+        Boss2Attack1 = new Animation(new TextureRegion(AttackDamage1), 6,1f);
 
         AttackDamage2 = new Texture("Boss2-attack3.png");
-        Boss2Attack2 = new Animation(new TextureRegion(AttackDamage2), 6,1);
+        Boss2Attack2 = new Animation(new TextureRegion(AttackDamage2), 6,1f);
 
         damage = 10;
     }
@@ -58,14 +58,16 @@ public class Boss2 extends Enemy {
         idle = new Texture("Boss2-idle2.png");
         Boss1Idle = new Animation(new TextureRegion(idle), 2, MathUtils.random(.7f, .9f));
         sprite = new Sprite(Boss1Idle.getFrame());
+        attackRange = 2000;
+        detectRange = 1000;
+        maxHealth = 70;
         super.Init();
         selfCollider = new Rectangle(position.x, position.y, 200, 120);
-        attackRange = 300;
+
         health = maxHealth;
         attackDuration = 1.3f;
-
-        detectRange = 1000;
         randomAttack = MathUtils.random(0,3);
+
     }
 
     @Override
@@ -102,15 +104,18 @@ public class Boss2 extends Enemy {
             Boss1Idle.update(dt);
         }
         super.update(dt);
+        sprite.setPosition(isFacingRight == true ? position.x : position.x - sprite.getWidth(), position.y);
+        selfCollider.setPosition(position.x - sprite.getWidth() / 2, position.y - sprite.getHeight() * 2);
+
     }
 
     @Override
     public void changeFacing(){
         if(isFacingRight == true) {
-            sprite.setScale(2, 2);
+            sprite.setScale(4, 4);
         }
         else {
-            sprite.setScale(-2,2);
+            sprite.setScale(-4,4);
         }
     }
 

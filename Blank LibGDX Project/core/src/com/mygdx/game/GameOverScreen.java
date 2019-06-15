@@ -62,6 +62,7 @@ public class GameOverScreen implements Screen {
 
         stage.draw();
         if(restart.isPressed()){
+            MyGdxGame.menuScreen.bgMusic.stop();
             game.setScreen(MyGdxGame.menuScreen);
         }
         batch.end();
