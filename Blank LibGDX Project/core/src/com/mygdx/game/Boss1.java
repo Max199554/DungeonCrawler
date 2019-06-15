@@ -32,9 +32,10 @@ public class Boss1 extends Enemy{
         Boss1Move = new Animation(new TextureRegion(Move),14,1);
 
         AttackDamage1 = new Texture("Boss1-attack1.png");
-        Boss1Attack1 = new Animation(new TextureRegion(AttackDamage1), 29,1);
+        Boss1Attack1 = new Animation(new TextureRegion(AttackDamage1), 29,2);
 
         damage = 10;
+        detectRange = 1000;
     }
 
     @Override
