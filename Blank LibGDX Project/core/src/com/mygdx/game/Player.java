@@ -149,7 +149,6 @@ public class Player {
 
     public void update(float dt){
         selfBox.setPosition(position.x, position.y - 32);
-        //System.out.println(selfBox.getX() + ", " + selfBox.getY());
         UpdateAnimation(dt);
         comboTimer += dt;
         attackTimerLag -= dt;
@@ -164,7 +163,6 @@ public class Player {
                 }
             }
         }
-        System.out.println("Dodge: " + isDodge);
         if(Gdx.input.isKeyJustPressed(Input.Keys.L) || buttonDodge == true){
             isDodge = true;
 
@@ -245,7 +243,6 @@ public class Player {
             attachAnimationEventAt(attack2Animation, 2, dt);
             attachAnimationEventAt(attack3Animation, 3, dt);
             attachAnimationEventAt(attack4Animation, 2, dt);
-
         }
         else{
             playerState = playerState.IDLE;
@@ -298,7 +295,6 @@ public class Player {
     }
 
     public void ApplyDamage(int damage){
-        //attackTime = 0;
         for (Enemy e: enemiesToAttack) {
             if(attackBox.overlaps(e.selfCollider) && attacking == true){
                 e.TakeDamage(damage);
@@ -320,11 +316,6 @@ public class Player {
             currentAttackNum = 0;
         sprite = new Sprite(attacks.get(currentAttackNum).getFrame());
         attacks.get(currentAttackNum).update(deltaTime);
-        //attack1Animation.update(deltaTime);
-        /*if(comboSetter[currentAttackNum] == true)
-            attacks.get(currentAttackNum).update(deltaTime);
-        else
-            */
 
         if(comboSetter[currentAttackNum] == true &&
          attacks.get(currentAttackNum).getFrameNum() == attacks.get(currentAttackNum).getRegion().size - 1 ){

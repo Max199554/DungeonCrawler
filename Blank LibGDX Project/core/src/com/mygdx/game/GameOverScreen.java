@@ -41,11 +41,10 @@ public class GameOverScreen implements Screen {
         gameScreenImg = new Image(gameOverScreen);
         gameScreenImg.setFillParent(true);
 
-        //restart = new TextButton("Retry", skin);
         restart = new ImageButton(new TextureRegionDrawable(new TextureRegion(RestartButtonTexture)));
 
         restart.setSize(250, 164);
-        restart.setPosition(Gdx.graphics.getWidth() / 2 - restart.getWidth() / 2 + 400,
+        restart.setPosition(Gdx.graphics.getWidth() / 2 - restart.getWidth() / 2 + 200,
                 Gdx.graphics.getHeight() / 2 - 100);
 
         stage.addActor(gameScreenImg);

@@ -68,10 +68,10 @@ public class MenuScreen implements Screen {
         exitButton.setWidth(200);
         exitButton.setHeight(89);
 
-        startButton.setPosition(Gdx.graphics.getWidth() / 2 - startButton.getWidth() / 2 - 400,
+        startButton.setPosition(Gdx.graphics.getWidth() / 2 - startButton.getWidth() / 2 - 200,
                 Gdx.graphics.getHeight() / 2 + 64);
 
-        exitButton.setPosition(Gdx.graphics.getWidth() / 2 - startButton.getWidth() / 2 - 400,
+        exitButton.setPosition(Gdx.graphics.getWidth() / 2 - startButton.getWidth() / 2 - 200,
                 Gdx.graphics.getHeight() / 2 - 64);
 
 

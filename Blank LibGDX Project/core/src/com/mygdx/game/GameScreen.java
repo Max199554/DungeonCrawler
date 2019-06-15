@@ -31,9 +31,9 @@ public class GameScreen implements Screen {
     SpriteBatch uiBatch;
     int enemyAmount = 5;
 
-    Texture mapImg = new Texture("Map.png");
-    Texture Map2 = new Texture("M2.png");
-    Texture Map3 = new Texture("GreenM.png");
+    Texture mapImg = new Texture("Map.PNG");
+    Texture Map2 = new Texture("M2.PNG");
+    Texture Map3 = new Texture("GreenM.PNG");
 
     Texture playerHealth = new Texture("Player_Health.png");
 
@@ -110,12 +110,12 @@ public class GameScreen implements Screen {
         boss1OutlineSprite.setPosition(camera.position.x, camera.position.y);
         bossHealthSprite.setPosition(camera.position.x, camera.position.y);
 
-        bossHealthSprite.setScale(8,8);
-        boss1OutlineSprite.setScale(8, 8);
+        bossHealthSprite.setScale(4,4);
+        boss1OutlineSprite.setScale(4, 4);
 
-        boss2OutlineSprite.setScale(8, 8);
+        boss2OutlineSprite.setScale(4, 4);
 
-        boss3OutlineSprite.setScale(8, 8);
+        boss3OutlineSprite.setScale(4, 4);
         enemies = new DelayedRemovalArray<Enemy>();
         batch = new SpriteBatch();
         hud = new Hud(batch);
@@ -192,10 +192,10 @@ public class GameScreen implements Screen {
             if(currentLevel == 1){
                 bossHealthSprite.draw(batch);
                 boss1OutlineSprite.draw(batch);
-                boss1OutlineSprite.setPosition(camera.position.x, camera.position.y - 400);
-                bossHealthSprite.setPosition(camera.position.x, camera.position.y - 400);
+                boss1OutlineSprite.setPosition(camera.position.x, camera.position.y - 200);
+                bossHealthSprite.setPosition(camera.position.x, camera.position.y - 200);
                 if(enemies.size > 0)
-                    bossHealthSprite.setScale((float) enemies.get(0).health / enemies.get(0).maxHealth * 10,10);
+                    bossHealthSprite.setScale((float) enemies.get(0).health / enemies.get(0).maxHealth * 5,4);
             }
         }
          else if(currentLevel == 2 || currentLevel == 3){
@@ -203,20 +203,20 @@ public class GameScreen implements Screen {
              if(currentLevel == 3){
                  bossHealthSprite.draw(batch);
                  boss2OutlineSprite.draw(batch);
-                 boss2OutlineSprite.setPosition(camera.position.x, camera.position.y - 400);
-                 bossHealthSprite.setPosition(camera.position.x, camera.position.y - 400);
+                 boss2OutlineSprite.setPosition(camera.position.x, camera.position.y - 200);
+                 bossHealthSprite.setPosition(camera.position.x, camera.position.y - 200);
                  if(enemies.size > 0)
-                    bossHealthSprite.setScale((float) enemies.get(0).health / enemies.get(0).maxHealth * 10,10);
+                    bossHealthSprite.setScale((float) enemies.get(0).health / enemies.get(0).maxHealth * 5,4);
              }
         }else{
            mapSprite2.draw(batch);
            if(currentLevel == 5){
-               boss3OutlineSprite.setPosition(camera.position.x, camera.position.y - 400);
+               boss3OutlineSprite.setPosition(camera.position.x, camera.position.y - 200);
                bossHealthSprite.draw(batch);
                boss3OutlineSprite.draw(batch);
-               bossHealthSprite.setPosition(camera.position.x, camera.position.y - 400);
+               bossHealthSprite.setPosition(camera.position.x, camera.position.y - 200);
                if(enemies.size > 0)
-                    bossHealthSprite.setScale((float) enemies.get(0).health / enemies.get(0).maxHealth * 10,10);
+                    bossHealthSprite.setScale((float) enemies.get(0).health / enemies.get(0).maxHealth * 5,4);
            }
         }
 
@@ -227,9 +227,8 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
 
         for(int i = 0; i < healthAmount; i++){
-
             playerHealthSprite.draw(batch);
-            playerHealthSprite.setPosition(camera.position.x - 700 + (i * 32), camera.position.y + 400);
+            playerHealthSprite.setPosition(camera.position.x - 300 + (i * 32), camera.position.y + 150);
         }
 
         for (Enemy e : enemies){
