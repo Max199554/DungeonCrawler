@@ -334,12 +334,13 @@ public class Player {
     }
 
     public void TakeDamge(int damage){
-        health -= damage;
-        sprite.setColor(1,0,0,1);
-        if(health - damage == 0){
-            playerState = PlayerState.DEAD;
+        if(isDodge == false){
+            health -= damage;
+            sprite.setColor(1,0,0,1);
+            if(health - damage == 0){
+                playerState = PlayerState.DEAD;
 
-
+            }
         }
     }
 
