@@ -47,7 +47,7 @@ public class MenuScreen implements Screen {
 
     @Override
     public void show() {
-        bgMusic.play(.8f);
+        bgMusic.play(.5f);
         bgMusic.loop();
         batch = new SpriteBatch();
         stage = new Stage();

@@ -12,7 +12,6 @@ public class Boss1 extends Enemy{
     Texture idle;
     Animation Boss1Idle;
 
-
     Texture Move;
     Animation Boss1Move;
 
@@ -25,8 +24,6 @@ public class Boss1 extends Enemy{
     int randomAttack;
 
     public Boss1(Vector2 position) {
-
-
         super(position);
         AttackDamage = new Texture("Boss1-attack2.png");
         Boss1Attack = new Animation(new TextureRegion(AttackDamage),9,1);
@@ -84,9 +81,8 @@ public class Boss1 extends Enemy{
             Boss1Idle.update(dt);
         }
         super.update(dt);
-        sprite.setPosition(isFacingRight == true ? position.x: position.x - sprite.getWidth() * 2, position.y);
+        sprite.setPosition(isFacingRight == true ? position.x : position.x - sprite.getWidth() * 2, position.y);
         selfCollider.setPosition(position.x, position.y);
-
     }
 
     @Override
