@@ -289,7 +289,37 @@ public class GameScreen implements Screen {
 //                break;
         }
         uiBatch.end();
+        //check
+        boolean checkTouch = Gdx.input.isTouched();
+        int touchX = Gdx.input.getX();
+        int touchY = Gdx.input.getY();
 
+        moveLeftButton.update(checkTouch, touchX, touchY);
+        moveRightButton.update(checkTouch, touchX, touchY);
+        moveDownButton.update(checkTouch, touchX, touchY);
+        moveUpButton.update(checkTouch, touchX, touchY);
+        attactButton.update(checkTouch, touchX, touchY);
+        dashButton.update(checkTouch, touchX, touchY);
+
+        if (Gdx.input.isKeyPressed(Input.Keys.A) || moveLeftButton.isDown) {
+            moveLeftButton.isDown = true;
+
+        } else if (Gdx.input.isKeyPressed(Input.Keys.D) || moveRightButton.isDown) {
+            moveRightButton.isDown = true;
+
+        } else if (Gdx.input.isKeyPressed(Input.Keys.S) || moveDownButton.isDown) {
+            moveDownButton.isDown = true;
+
+        } else if (Gdx.input.isKeyPressed(Input.Keys.W) || moveUpButton.isDown) {
+            moveUpButton.isDown = true;
+
+        }
+        if(attactButton.isDown){
+            attactButton.isDown = true;
+        }
+        if(dashButton.isDown){
+            dashButton.isDown = true;
+        }
     }
 
     public void ScreenShake(float amount){
