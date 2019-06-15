@@ -38,7 +38,7 @@ public class Button {
     }
 
     public void draw(SpriteBatch batch) {
-        if (! isDown) {
+        if (!isDown) {
             batch.draw(textureUp, x, y, w, h);
         } else {
             batch.draw(textureDown, x, y, w, h);

@@ -25,6 +25,9 @@ public class Boss2 extends Enemy {
     Texture AttackDamage2;
     Animation Boss2Attack2;
 
+    float randomCountTimer;
+    float randomChangeRate = 5;
+
     int randomAttack;
 
     public Boss2 (Vector2 position) {
@@ -59,13 +62,18 @@ public class Boss2 extends Enemy {
         selfCollider = new Rectangle(position.x, position.y, 200, 120);
         attackRange = 300;
         health = maxHealth;
-        attackDuration = 1f;
+        attackDuration = 1.3f;
 
         randomAttack = MathUtils.random(0,3);
     }
 
     @Override
     public void update(float dt){
+        randomCountTimer += dt;
+        if(randomCountTimer >= randomChangeRate){
+            randomAttack = MathUtils.random(0, 3);
+            randomCountTimer = 0;
+        }
         changeFacing();
         if(Attack == true){
             if(randomAttack==0){

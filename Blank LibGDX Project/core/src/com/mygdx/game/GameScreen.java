@@ -120,9 +120,10 @@ public class GameScreen implements Screen {
         batch = new SpriteBatch();
         hud = new Hud(batch);
         if(currentLevel == 0){
-            for(int i = 0; i < enemyAmount; i++){
+            /*for(int i = 0; i < enemyAmount; i++){
                enemies.add(new Slime(new Vector2(MathUtils.random(600), MathUtils.random(400))));
-            }
+            }*/
+            enemies.add(new Boss3(new Vector2(MathUtils.random(600), MathUtils.random(400))));
         }
         else if(currentLevel == 1){
             enemies.add(new Boss1(new Vector2(MathUtils.random(600), MathUtils.random(400))));
@@ -182,6 +183,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
 
+        ButtonControl();
 
         healthAmount = player.health / 10;
 
@@ -287,12 +289,52 @@ public class GameScreen implements Screen {
 //                break;
         }
         uiBatch.end();
+        //check
+        boolean checkTouch = Gdx.input.isTouched();
+        int touchX = Gdx.input.getX();
+        int touchY = Gdx.input.getY();
 
+        moveLeftButton.update(checkTouch, touchX, touchY);
+        moveRightButton.update(checkTouch, touchX, touchY);
+        moveDownButton.update(checkTouch, touchX, touchY);
+        moveUpButton.update(checkTouch, touchX, touchY);
+        attactButton.update(checkTouch, touchX, touchY);
+        dashButton.update(checkTouch, touchX, touchY);
+
+        if (Gdx.input.isKeyPressed(Input.Keys.A) || moveLeftButton.isDown) {
+            moveLeftButton.isDown = true;
+
+        } else if (Gdx.input.isKeyPressed(Input.Keys.D) || moveRightButton.isDown) {
+            moveRightButton.isDown = true;
+
+        } else if (Gdx.input.isKeyPressed(Input.Keys.S) || moveDownButton.isDown) {
+            moveDownButton.isDown = true;
+
+        } else if (Gdx.input.isKeyPressed(Input.Keys.W) || moveUpButton.isDown) {
+            moveUpButton.isDown = true;
+
+        }
+        if(attactButton.isDown){
+            attactButton.isDown = true;
+        }
+        if(dashButton.isDown){
+            dashButton.isDown = true;
+        }
     }
 
     public void ScreenShake(float amount){
         camera.position.x += MathUtils.random(-1.0f, 1.0f) * amount;
         camera.position.y += MathUtils.random(-1.0f, 1.0f) * amount;
+    }
+
+
+    public void ButtonControl(){
+        if(moveRightButton.isDown == true){
+            player.isMovingRight = true;
+        }
+        else if(!moveRightButton.isDown){
+            player.isMovingRight = false;
+        }
     }
 
     @Override

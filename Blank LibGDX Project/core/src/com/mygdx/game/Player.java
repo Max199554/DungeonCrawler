@@ -73,7 +73,13 @@ public class Player {
 
     float attackTimerLag = .5f;
 
+    boolean isMovingLeft;
+    boolean isMovingRight;
+    boolean isMovingUp;
+    boolean isMovingDown;
 
+    boolean buttonAttack;
+    boolean buttonDodge;
 
     Sound sowrdSwingSound1;
     Sound sowrdSwingSound2;
@@ -148,7 +154,7 @@ public class Player {
         comboTimer += dt;
         attackTimerLag -= dt;
         sprite.setPosition(isFacingRight ? position.x : position.x - 64, position.y);
-        if(Gdx.input.isKeyJustPressed(Input.Keys.J)){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.J) || buttonAttack == true){
             attacking = true;
             for(int i = 0; i < comboSetter.length; i++){
                 if(comboTimer <= comboMaxTime && comboSetter[i] != true) {
@@ -159,7 +165,7 @@ public class Player {
             }
         }
         System.out.println("Dodge: " + isDodge);
-        if(Gdx.input.isKeyJustPressed(Input.Keys.L)){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.L) || buttonDodge == true){
             isDodge = true;
 
         }
@@ -201,21 +207,21 @@ public class Player {
 
         playerState = PlayerState.IDLE;
 
-        if(Gdx.input.isKeyPressed(Input.Keys.A)){
+        if(Gdx.input.isKeyPressed(Input.Keys.A) || isMovingLeft == true){
             position.x -= playerSpeed * dt;
             isFacingRight = false;
             playerState = PlayerState.WALKING;
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.D)){
+        if(Gdx.input.isKeyPressed(Input.Keys.D) || isMovingRight == true){
             position.x += playerSpeed * dt;
             isFacingRight = true;
             playerState = PlayerState.WALKING;
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.S)){
+        if(Gdx.input.isKeyPressed(Input.Keys.S) || isMovingDown == true){
             position.y -= playerSpeed * dt;
             playerState = PlayerState.WALKING;
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.W)){
+        if(Gdx.input.isKeyPressed(Input.Keys.W) || isMovingUp == true){
             position.y += playerSpeed * dt;
             playerState = PlayerState.WALKING;
         }

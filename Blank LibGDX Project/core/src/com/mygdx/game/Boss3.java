@@ -23,6 +23,8 @@ public class Boss3 extends Enemy {
     Animation Boss3Attack1;
 
     int randomAttack;
+    float randomCountTimer;
+    float randomChangeRate = 3;
 
     public Boss3(Vector2 position) {
 
@@ -37,6 +39,7 @@ public class Boss3 extends Enemy {
         Boss3Move = new Animation(new TextureRegion(Move),5,1);
 
         damage = 10;
+        attackRange = 400;
     }
 
     @Override
@@ -62,6 +65,11 @@ public class Boss3 extends Enemy {
     @Override
     public void update(float dt){
         changeFacing();
+        randomCountTimer += dt;
+        if(randomCountTimer >= randomChangeRate){
+            randomAttack = MathUtils.random(0, 3);
+            randomCountTimer = 0;
+        }
         if(Attack == true){
             if(randomAttack ==0){
                 sprite.setRegion(Boss3Attack.getFrame());
