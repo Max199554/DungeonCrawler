@@ -15,6 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
+import java.awt.Menu;
+
 public class LevelClearScreen implements Screen {
     SpriteBatch batch;
     public GameScreen gameScreen;
@@ -23,12 +25,15 @@ public class LevelClearScreen implements Screen {
     Texture ContinueButtonTexture = new Texture("Continue.png");
     String finishTip;
     Skin skin;
+    Button MenuButton;
 
     MyGdxGame game;
     Stage stage;
     public LevelClearScreen(MyGdxGame game){
         this.game = game;
     }
+
+    Texture MenuButtonTexture = new Texture("Menu.png");
 
     Texture LevelClearScreen = new Texture("ContinueMenu.png");
     Image levelclearScreenImg;
@@ -51,6 +56,15 @@ public class LevelClearScreen implements Screen {
         winScreenImg = new Image(winTexture);
         winScreenImg.setFillParent(true);
 
+        MenuButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(MenuButtonTexture)));
+
+        MenuButton.setWidth(100);
+        MenuButton.setHeight(45);
+
+        MenuButton.setPosition(Gdx.graphics.getWidth() / 2 - MenuButton.getWidth() / 2 +340,
+                Gdx.graphics.getHeight() / 2+ 150);
+
+
         nextLevelButton.setWidth(300);
         nextLevelButton.setHeight(89);
         nextLevelButton.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
@@ -62,6 +76,7 @@ public class LevelClearScreen implements Screen {
         }
         else{
             stage.addActor(winScreenImg);
+            stage.addActor(MenuButton);
         }
         Gdx.input.setInputProcessor(stage);
     }
@@ -75,6 +90,10 @@ public class LevelClearScreen implements Screen {
         if(nextLevelButton.isPressed()){
             MyGdxGame.gameScreen.currentLevel += 1;
             game.setScreen(MyGdxGame.gameScreen);
+        }
+        else if(MenuButton.isPressed()){
+            MyGdxGame.gameScreen.currentLevel = 0;
+            game.setScreen(MyGdxGame.menuScreen);
         }
         batch.end();
     }
