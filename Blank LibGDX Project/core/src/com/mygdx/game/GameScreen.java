@@ -307,10 +307,10 @@ public class GameScreen implements Screen {
             moveUpButton.isDown = true;
         }
 
-        if(attactButton.isDown){
+        if(Gdx.input.isKeyPressed(Input.Keys.J) || attactButton.isDown){
             attactButton.isDown = true;
         }
-        if(dashButton.isDown){
+        if(Gdx.input.isKeyPressed(Input.Keys.L) || dashButton.isDown){
             dashButton.isDown = true;
         }
     }
