@@ -183,7 +183,6 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0.1f,.1f,.1f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-
         ButtonControl();
 
         healthAmount = player.health / 10;
@@ -229,7 +228,7 @@ public class GameScreen implements Screen {
 
         for(int i = 0; i < healthAmount; i++){
             playerHealthSprite.draw(batch);
-            playerHealthSprite.setPosition(camera.position.x - 300 + (i * 32), camera.position.y + 150);
+            playerHealthSprite.setPosition(camera.position.x - 400 + (i * 32), camera.position.y + 200);
         }
 
         for (Enemy e : enemies){
@@ -243,7 +242,6 @@ public class GameScreen implements Screen {
                 ScreenShake(40);
             }
         }
-
 
         for(int i = 0; i < destoryFXs.size; i++){
             destoryFXs.get(i).render(batch);

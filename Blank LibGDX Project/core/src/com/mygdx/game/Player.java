@@ -107,8 +107,6 @@ public class Player {
         attackBox = new Rectangle(position.x,
                 position.y, attackRangeX, attackRangeY);
 
-
-
         idle = new Texture("PlayerIdle.png");
         idleAnimation = new Animation(new TextureRegion(idle), 4, .7f);
 
@@ -223,7 +221,6 @@ public class Player {
             position.y += playerSpeed * dt;
             playerState = PlayerState.WALKING;
         }
-
         CheckForBounds();
     }
 
@@ -332,7 +329,6 @@ public class Player {
             sprite.setColor(1,0,0,1);
             if(health - damage == 0){
                 playerState = PlayerState.DEAD;
-
             }
         }
     }
